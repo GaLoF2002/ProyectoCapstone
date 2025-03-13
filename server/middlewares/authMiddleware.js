@@ -1,23 +1,34 @@
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 export const authMiddleware = async (req, res, next) => {
-    const token = req.header("Authorization");
-    if (!token) {
-        return res.status(401).json({ error: "Acceso denegado. No hay token." });
-    }
     try {
-        const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
-        req.user = await User.findById(decoded.id).select("-password");
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ msg: "No autorizado, token no encontrado" });
+        }
+
+        const token = authHeader.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(401).json({ msg: "No autorizado, usuario no encontrado" });
+        }
+
+        req.user = user;
         next();
     } catch (error) {
-        res.status(401).json({ error: "Token inválido." });
+        console.error("Error en authMiddleware:", error);
+        res.status(401).json({ msg: "No autorizado, token inválido" });
     }
 };
 
 export const adminMiddleware = (req, res, next) => {
-    if (!req.user || req.user.role !== "admin") {
-        return res.status(403).json({ error: "Acceso denegado. No eres administrador." });
+    if (req.user && req.user.role === "admin") {
+        next();
+    } else {
+        res.status(403).json({ msg: "Acceso denegado, se requieren permisos de administrador" });
     }
-    next();
 };

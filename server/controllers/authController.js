@@ -7,13 +7,10 @@ export const register = async (req, res) => {
     const { name, email, password, phone, role } = req.body;
 
     try {
-        // Verificar si el usuario ya existe
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ error: "El usuario ya existe" });
         }
-
-        // Encriptar la contraseña
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -48,7 +45,7 @@ export const login = async (req, res) => {
         const token = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: '1d' } // Expira en 1 día
+            { expiresIn: '7d' } // Expira en 7 día
         );
 
         res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });

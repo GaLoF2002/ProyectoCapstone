@@ -15,7 +15,7 @@ export const crearVendedor = async (req, res) => {
                         name,
                         email,
                         password: hashedPassword,
-                        phone, // 📌 Guardar el celular del vendedor
+                        phone,
                         role: "vendedor"
                 });
 
@@ -40,7 +40,6 @@ export const obtenerVendedores = async (req, res) => {
 export const actualizarVendedor = async (req, res) => {
         const { id } = req.params;
         const { name, email } = req.body;
-
         try {
                 const seller = await User.findById(id);
                 if (!seller) {

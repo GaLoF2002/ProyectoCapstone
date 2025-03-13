@@ -13,9 +13,14 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await login({ email, password });
-            loginUser(response.data.user);
-            const role = response.data.user.role;
 
+            // Guardar el nuevo token en localStorage
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+
+            loginUser(response.data.user);
+
+            const role = response.data.user.role;
             if (role === "admin") {
                 navigate("/admin");
             } else if (role === "vendedor") {
