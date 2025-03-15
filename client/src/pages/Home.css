@@ -1,0 +1,66 @@
+/* Contenedor principal */
+.container {
+    text-align: center;
+    padding: 2rem;
+    align-items: center;
+}
+
+/* Estilos de los títulos */
+h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+/* Estilo del botón */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1.25em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #adff2f;
+}
+
+/* Estilos generales del cuerpo */
+body {
+    background-color: #d0d3d4;
+    justify-content: center;
+}
+
+/* Contenedor de la imagen y el texto */
+.home-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Estilo para el texto */
+.home-text {
+    max-width: 600px;
+    padding: 3rem;
+    justify-content: center;
+    font-size: small;
+    text-align: center;
+}
+
+/* Estilo para la imagen */
+.home-image img {
+    width: 600px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-image img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

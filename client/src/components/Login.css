@@ -1,0 +1,95 @@
+/* Contenedor principal */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #d3d3d3;
+}
+
+/* Contenedor de la imagen con bordes redondeados */
+.login-background {
+    width: 80%;
+    height: 70vh;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../assets/edificio-Login.jpg") no-repeat center center;
+    background-size: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuste del cuadro de login */
+.login-box {
+    background: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 35%;
+    max-width: 650px;
+}
+
+/* Estilos de los textos */
+.login-box h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.login-box p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.login-box label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    color: #333;
+}
+
+/* Estilo del botón */
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    background-color: #5a67d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-box button:hover {
+    background-color: #4c51bf;
+}
+
+.login-box label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    display: block;
+}
+
+.input-container {
+    margin-bottom: 15px;
+}

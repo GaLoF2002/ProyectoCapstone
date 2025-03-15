@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import SellerDashboard from './pages/VendedorDashboard';
-import Home from './pages/Home';
+import Home from './pages/Home.jsx';
 
 function App() {
     return (
