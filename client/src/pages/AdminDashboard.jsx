@@ -40,7 +40,6 @@ const AdminDashboard = () => {
         }
     };
 
-    // Mostrar una pantalla de carga mientras se verifica el usuario
     if (loading) {
         return <p>Cargando...</p>;
     }
