@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { getSellers, createSeller } from '../services/adminService';
+import './AdminDashboard.css'; // Importación del CSS
 
 const AdminDashboard = () => {
     const { user } = useContext(AuthContext);
@@ -10,7 +11,6 @@ const AdminDashboard = () => {
     const [newSeller, setNewSeller] = useState({ name: '', email: '', password: '', phone: '' });
     const [loading, setLoading] = useState(true);
 
-    // Cargar vendedores solo si el usuario es admin
     useEffect(() => {
         if (user && user.role === "admin") {
             fetchSellers();
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
             await createSeller(newSeller);
             alert("Vendedor creado correctamente");
             setShowForm(false);
-            fetchSellers(); // Recargar la lista de vendedores
+            fetchSellers();
             setNewSeller({ name: '', email: '', password: '', phone: '' });
         } catch (error) {
             alert("Error al crear el vendedor");
@@ -44,58 +44,63 @@ const AdminDashboard = () => {
         return <p>Cargando...</p>;
     }
 
-    // Si no es admin, redirigir
     if (!user || user.role !== "admin") {
         return <Navigate to="/" />;
     }
 
     return (
-        <div>
-            <h1>Panel de Administrador</h1>
-            <button onClick={() => setShowForm(!showForm)}>
+        <div className="admin-dashboard">
+            <h1>Panel del Administrador</h1>
+            <button className="toggle-form-button" onClick={() => setShowForm(!showForm)}>
                 {showForm ? "Cerrar Formulario" : "Crear Vendedor"}
             </button>
 
             {showForm && (
-                <form onSubmit={handleCreateSeller}>
-                    <input
-                        type="text"
-                        placeholder="Nombre"
-                        value={newSeller.name}
-                        onChange={(e) => setNewSeller({ ...newSeller, name: e.target.value })}
-                        required
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={newSeller.email}
-                        onChange={(e) => setNewSeller({ ...newSeller, email: e.target.value })}
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Contraseña"
-                        value={newSeller.password}
-                        onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Celular"
-                        value={newSeller.phone}
-                        onChange={(e) => setNewSeller({ ...newSeller, phone: e.target.value })}
-                        required
-                    />
-                    <button type="submit">Guardar</button>
-                </form>
-            )}
+                <div className="admin-content">
+                    <div className="register-form-container">
+                        <form className="register-form" onSubmit={handleCreateSeller}>
+                            <label className="a">Nombre</label>
+                            <input
+                                type="text"
+                                value={newSeller.name}
+                                onChange={(e) => setNewSeller({ ...newSeller, name: e.target.value })}
+                                required
+                            />
+                            <label className="a">Email</label>
+                            <input
+                                type="email"
+                                value={newSeller.email}
+                                onChange={(e) => setNewSeller({ ...newSeller, email: e.target.value })}
+                                required
+                            />
+                            <label className="a">Contraseña</label>
+                            <input
+                                type="password"
+                                value={newSeller.password}
+                                onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })}
+                                required
+                            />
+                            <label className="a">Celular</label>
+                            <input
+                                type="text"
+                                value={newSeller.phone}
+                                onChange={(e) => setNewSeller({ ...newSeller, phone: e.target.value })}
+                                required
+                            />
+                            <button type="submit">Guardar</button>
+                        </form>
+                    </div>
 
-            <h2>Lista de Vendedores</h2>
-            <ul>
-                {sellers.map((seller) => (
-                    <li key={seller._id}>{seller.name} - {seller.email} - {seller.phone}</li>
-                ))}
-            </ul>
+                    <div className="sellers-list">
+                        <h2>Lista de Vendedores</h2>
+                        <ul>
+                            {sellers.map((seller) => (
+                                <li key={seller._id}>{seller.name} - {seller.email} - {seller.phone}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

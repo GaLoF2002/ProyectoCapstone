@@ -1,0 +1,62 @@
+/* Estilos generales del dashboard del cliente */
+.cliente-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.cliente-background {
+    position: absolute;
+    width: 80%;
+    height: 70%;
+    object-fit: cover;
+    opacity: 0.9;
+    border-radius: 30px;
+}
+
+/* Contenedor del contenido */
+.cliente-content {
+    background: rgba(255, 255, 255, 1);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    z-index: 1;
+}
+
+/* Título */
+.cliente-content h1 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+/* Texto de bienvenida */
+.cliente-content p {
+    color: #555;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Botón de perfil */
+.cliente-content button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.cliente-content button:hover {
+    background-color: #0056b3;
+}
