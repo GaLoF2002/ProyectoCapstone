@@ -29,4 +29,4 @@ export const AuthProvider = ({ children }) => {  // ✅ Exportando AuthProvider 
     );
 };
 
-export { AuthContext }; // ✅ Exportamos AuthContext correctamente
+export { AuthContext };

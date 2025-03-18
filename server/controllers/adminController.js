@@ -18,7 +18,6 @@ export const crearVendedor = async (req, res) => {
                         phone,
                         role: "vendedor"
                 });
-
                 await seller.save();
                 res.status(201).json({ message: "Vendedor creado correctamente" });
         } catch (error) {
