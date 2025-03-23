@@ -22,3 +22,20 @@ export const createSeller = async (sellerData) => {
         }
     });
 };
+
+export const updateSeller = async (id, sellerData) => {
+    const token = localStorage.getItem("token");
+    return await axios.put(`${API_URL}/update-sellers/${id}`, sellerData, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+};
+
+export const deleteSeller = async (id) => {
+    const token = localStorage.getItem("token");
+    return await axios.delete(`${API_URL}/delete-sellers/${id}`, {
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+};
