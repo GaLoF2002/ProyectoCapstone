@@ -1,22 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { getSellers, createSeller } from '../services/adminService';
-import './AdminDashboard.css'; // Importación del CSS
+import { getSellers, createSeller, updateSeller, deleteSeller } from '../services/adminService';
+
 
 const AdminDashboard = () => {
     const { user } = useContext(AuthContext);
     const [sellers, setSellers] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [editSeller, setEditSeller] = useState(null);
     const [newSeller, setNewSeller] = useState({ name: '', email: '', password: '', phone: '' });
-    const [loading, setLoading] = useState(true);
+
+    if (!user || user.role !== "admin") {
+        return <Navigate to="/" />;
+    }
 
     useEffect(() => {
-        if (user && user.role === "admin") {
-            fetchSellers();
-        }
-        setLoading(false);
-    }, [user]);
+        fetchSellers();
+    }, []);
 
     const fetchSellers = async () => {
         try {
@@ -40,68 +41,95 @@ const AdminDashboard = () => {
         }
     };
 
-    if (loading) {
-        return <p>Cargando...</p>;
-    }
+    const handleEditSeller = (seller) => {
+        setEditSeller(seller);
+        setShowForm(true);
+    };
 
-    if (!user || user.role !== "admin") {
-        return <Navigate to="/" />;
-    }
+    const handleUpdateSeller = async (e) => {
+        e.preventDefault();
+        try {
+            await updateSeller(editSeller._id, editSeller);
+            alert("Vendedor actualizado correctamente");
+            setShowForm(false);
+            fetchSellers(); // Recargar lista de vendedores
+            setEditSeller(null);
+        } catch (error) {
+            alert("Error al actualizar el vendedor");
+        }
+    };
+
+    const handleDeleteSeller = async (id) => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este vendedor?")) {
+            try {
+                await deleteSeller(id);
+                alert("Vendedor eliminado correctamente");
+                fetchSellers(); // Recargar lista de vendedores
+            } catch (error) {
+                alert("Error al eliminar el vendedor");
+            }
+        }
+    };
 
     return (
-        <div className="admin-dashboard">
-            <h1>Panel del Administrador</h1>
-            <button className="toggle-form-button" onClick={() => setShowForm(!showForm)}>
+        <div>
+            <h1>Panel de Administrador</h1>
+            <button onClick={() => {
+                setShowForm(!showForm);
+                setEditSeller(null);
+            }}>
                 {showForm ? "Cerrar Formulario" : "Crear Vendedor"}
             </button>
 
             {showForm && (
-                <div className="admin-content">
-                    <div className="register-form-container">
-                        <form className="register-form" onSubmit={handleCreateSeller}>
-                            <label className="a">Nombre</label>
-                            <input
-                                type="text"
-                                value={newSeller.name}
-                                onChange={(e) => setNewSeller({ ...newSeller, name: e.target.value })}
-                                required
-                            />
-                            <label className="a">Email</label>
-                            <input
-                                type="email"
-                                value={newSeller.email}
-                                onChange={(e) => setNewSeller({ ...newSeller, email: e.target.value })}
-                                required
-                            />
-                            <label className="a">Contraseña</label>
-                            <input
-                                type="password"
-                                value={newSeller.password}
-                                onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })}
-                                required
-                            />
-                            <label className="a">Celular</label>
-                            <input
-                                type="text"
-                                value={newSeller.phone}
-                                onChange={(e) => setNewSeller({ ...newSeller, phone: e.target.value })}
-                                required
-                            />
-                            <button type="submit">Guardar</button>
-                        </form>
-                    </div>
-
-                    <div className="sellers-list">
-                        <h2>Lista de Vendedores</h2>
-                        <ul>
-                            {sellers.map((seller) => (
-                                <li key={seller._id}>{seller.name} - {seller.email} - {seller.phone}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
+                <form onSubmit={editSeller ? handleUpdateSeller : handleCreateSeller}>
+                    <input type="text" placeholder="Nombre" value={editSeller ? editSeller.name : newSeller.name}
+                           onChange={(e) => {
+                               editSeller
+                                   ? setEditSeller({...editSeller, name: e.target.value})
+                                   : setNewSeller({...newSeller, name: e.target.value});
+                           }} required/>
+                    <input type="email" placeholder="Email" value={editSeller ? editSeller.email : newSeller.email}
+                           onChange={(e) => {
+                               editSeller
+                                   ? setEditSeller({...editSeller, email: e.target.value})
+                                   : setNewSeller({...newSeller, email: e.target.value});
+                           }} required/>
+                    {!editSeller && (
+                        <input type="password" placeholder="Contraseña" value={newSeller.password}
+                               onChange={(e) => setNewSeller({...newSeller, password: e.target.value})} required/>
+                    )}
+                    <input type="text" placeholder="Celular" value={editSeller ? editSeller.phone : newSeller.phone}
+                           onChange={(e) => {
+                               editSeller
+                                   ? setEditSeller({...editSeller, phone: e.target.value})
+                                   : setNewSeller({...newSeller, phone: e.target.value});
+                           }} required/>
+                    {/* Campo opcional para cambiar la contraseña */}
+                    <input type="password" placeholder="Nueva Contraseña (Opcional)"
+                           onChange={(e) => {
+                               editSeller
+                                   ? setEditSeller({...editSeller, password: e.target.value})
+                                   : setNewSeller({...newSeller, password: e.target.value});
+                           }}/>
+                    <button type="submit">{editSeller ? "Actualizar Vendedor" : "Guardar"}</button>
+                </form>
             )}
+
+            <h2>Lista de Vendedores</h2>
+            <ul>
+                {sellers.map((seller) => (
+                    <li key={seller._id}>
+                        {seller.name} - {seller.email} - {seller.phone}
+                        <button onClick={() => handleEditSeller(seller)}>✏️ Editar</button>
+                        <button onClick={() => handleDeleteSeller(seller._id)}>🗑️ Eliminar</button>
+                    </li>
+                ))}
+            </ul>
+
+
         </div>
+
     );
 };
 
