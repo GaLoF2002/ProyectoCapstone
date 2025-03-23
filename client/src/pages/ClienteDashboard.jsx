@@ -5,7 +5,7 @@ import edificioImagen from '../assets/edificio-clienteDashboard.jpg'; // Importa
 import './ClienteDashboard.css';
 
 const ClienteDashboard = () => {
-    const { user,logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate(); // ✅ Definir el hook de navegación
 
     if (!user || user.role !== "cliente") {
@@ -18,12 +18,15 @@ const ClienteDashboard = () => {
     };
 
     return (
-        <div>
-            <h1>Panel de Cliente</h1>
-            <p>Bienvenido al sistema de ventas.</p>
+        <div className="cliente-dashboard"> {/* Añadido la clase cliente-dashboard */}
+            <img src={edificioImagen} alt="Fondo Cliente" className="cliente-background" /> {/* Añadido la clase cliente-background */}
+            <div className="cliente-content"> {/* Añadido la clase cliente-content */}
+                <h1>Panel de Cliente</h1>
+                <p>Bienvenido al sistema de ventas.</p>
 
-            <button onClick={() => navigate("/perfil")}>Mi Perfil</button>
-            <button onClick={handleLogout}>Cerrar Sesión</button>
+                <button onClick={() => navigate("/perfil")}>Mi Perfil</button>
+                <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
         </div>
     );
 };
