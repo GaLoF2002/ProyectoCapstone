@@ -2,16 +2,21 @@ import axios from 'axios';
 
 const API_URL = "http://localhost:5000/api/admin";
 
-export const getSellers = async () => {
+export const getSellers = async (search = "", sort = "asc") => {
     const token = localStorage.getItem("token");
     console.log("Token enviado:", token);
 
     return await axios.get(`${API_URL}/sellers`, {
         headers: {
             "Authorization": `Bearer ${token}`
+        },
+        params: {
+            search,
+            sort
         }
     });
 };
+
 
 export const createSeller = async (sellerData) => {
     const token = localStorage.getItem("token");
