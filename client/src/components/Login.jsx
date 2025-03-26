@@ -13,7 +13,7 @@ const Login = () => {
     useEffect(() => {
         // Solo se ejecuta si el usuario viene al login DESDE el dashboard (o estando logueado)
         if (user && location.pathname === "/login") {
-            const confirmLogout = window.confirm("Ya iniciaste sesión. ¿Deseas cerrar sesión?");
+            const confirmLogout = window.confirm("Ya iniciaste sesión.  ¿Deseas cerrar sesión?");
             if (confirmLogout) {
                 logout(); // Borra token y usuario
                 // Se queda en login
