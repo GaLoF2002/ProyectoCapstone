@@ -1,15 +1,27 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
+dotenv.config(); // ✅ Asegura que se carguen las variables en este archivo
 
-dotenv.config(); // Carga las variables de entorno desde el archivo .env
 
-// Configurar el transporte de correo
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: 'gmail',
     auth: {
-        user: process.env.GMAIL_USER, // Tu correo Gmail
-        pass: process.env.GMAIL_PASS, // La contraseña de aplicación de Gmail
-    },
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS
+    }
 });
 
-export default transporter;
+// Verifica si las variables de entorno se cargaron
+console.log(">>> GMAIL_USER:", process.env.GMAIL_USER);
+console.log(">>> GMAIL_PASS:", process.env.GMAIL_PASS); // solo para pruebas locales
+
+export const sendEmail = async (to, subject, html) => {
+    await transporter.sendMail({
+        from: `"Tu App" <${process.env.GMAIL_USER}>`,
+        to,
+        subject,
+        html
+    });
+
+    console.log(`✅ Correo enviado a: ${to}`);
+};

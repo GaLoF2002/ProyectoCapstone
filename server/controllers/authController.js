@@ -1,6 +1,8 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import {sendEmail} from '../config/emailConfig.js';
 
 
 export const register = async (req, res) => {
@@ -49,3 +51,65 @@ export const login = async (req, res) => {
         res.status(500).json({ error: "Error en el inicio de sesión" });
     }
 };
+
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(200).json({ msg: "Si el email existe, se ha enviado un correo." });
+        }
+
+        const token = crypto.randomBytes(20).toString("hex");
+
+        // ✅ SOLO actualiza campos existentes (sin crear usuario)
+        user.resetToken = token;
+        user.resetTokenExpires = Date.now() + 3600000; // 1 hora
+        await user.save({ validateBeforeSave: false }); // 👈 evita validar campos como phone o role
+
+        const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+        const html = `
+            <p>Has solicitado restablecer tu contraseña</p>
+            <p>Haz clic en el siguiente enlace:</p>
+            <a href="${resetUrl}">Restablecer contraseña</a>
+        `;
+
+        await sendEmail(user.email, "Recuperar contraseña", html);
+        res.status(200).json({ msg: "Si el email existe, se ha enviado un correo." });
+
+    } catch (error) {
+        console.error("Error en forgotPassword:", error);
+        res.status(500).json({ error: "Error al procesar la solicitud" });
+    }
+};
+
+
+
+export const resetPassword = async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    try {
+        const user = await User.findOne({
+            resetToken: token,
+            resetTokenExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ msg: "Token inválido o expirado" });
+        }
+
+        user.password = await bcrypt.hash(password, 10);
+        user.resetToken = null;
+        user.resetTokenExpires = null;
+
+        await user.save();
+        res.json({ msg: "Contraseña actualizada correctamente" });
+    } catch (error) {
+        res.status(500).json({ error: "Error al actualizar la contraseña" });
+    }
+};
+
+

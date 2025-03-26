@@ -28,8 +28,20 @@ export const crearVendedor = async (req, res) => {
 
 
 export const obtenerVendedores = async (req, res) => {
+        const { search = "", sort = "asc" } = req.query;
+
         try {
-                const sellers = await User.find({ role: "vendedor" }).select("-password");
+                const query = {
+                        role: "vendedor",
+                        name: { $regex: search, $options: "i" }  // búsqueda insensible a mayúsculas/minúsculas
+                };
+
+                const sortOption = sort === "desc" ? -1 : 1;
+
+                const sellers = await User.find(query)
+                    .select("-password")
+                    .sort({ name: sortOption });
+
                 res.json(sellers);
         } catch (error) {
                 res.status(500).json({ error: "Error al obtener los vendedores" });
@@ -53,8 +65,7 @@ export const actualizarVendedor = async (req, res) => {
 
                 // Si se envía una nueva contraseña, se hashea antes de guardarla
                 if (password) {
-                        const hashedPassword = await bcrypt.hash(password, 10);
-                        seller.password = hashedPassword;
+                        seller.password = await bcrypt.hash(password, 10);
                 }
 
                 await seller.save();
@@ -78,3 +89,7 @@ export const eliminarVendedor = async (req, res) => {
                 res.status(500).json({ error: "Error al eliminar el vendedor" });
         }
 };
+
+
+
+

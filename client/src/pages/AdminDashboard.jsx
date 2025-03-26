@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { getSellers, createSeller, updateSeller, deleteSeller } from '../services/adminService';
@@ -10,18 +10,16 @@ const AdminDashboard = () => {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editSeller, setEditSeller] = useState(null);
     const [newSeller, setNewSeller] = useState({ name: '', email: '', password: '', phone: '' });
-
-    if (!user || user.role !== "admin") {
-        return <Navigate to="/" />;
-    }
+    const [search, setSearch] = useState("");
+    const [sortOrder, setSortOrder] = useState("asc");
 
     useEffect(() => {
         fetchSellers();
-    }, []);
+    }, [search, sortOrder]);
 
     const fetchSellers = async () => {
         try {
-            const response = await getSellers();
+            const response = await getSellers(search, sortOrder);
             setSellers(response.data);
         } catch (error) {
             alert("Error al obtener la lista de vendedores");
@@ -43,7 +41,7 @@ const AdminDashboard = () => {
 
     const handleEditSeller = (seller) => {
         setEditSeller(seller);
-        setShowCreateForm(false); // Ocultar formulario de creación
+        setShowCreateForm(false);
     };
 
     const handleCloseForms = () => {
@@ -75,9 +73,14 @@ const AdminDashboard = () => {
         }
     };
 
+    if (!user || user.role !== "admin") {
+        return <Navigate to="/" />;
+    }
+
     return (
         <div className="admin-dashboard">
             <h1>Panel de Administrador</h1>
+
             <div className="button-group">
                 <button className="toggle-form-button" onClick={() => {
                     if (showCreateForm || editSeller) {
@@ -91,6 +94,21 @@ const AdminDashboard = () => {
             </div>
 
             <div className="admin-content">
+                {/* Filtros de búsqueda y orden */}
+                <div className="filters">
+                    <input
+                        type="text"
+                        placeholder="Buscar vendedor por nombre"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+                        <option value="asc">A-Z</option>
+                        <option value="desc">Z-A</option>
+                    </select>
+                </div>
+
+                {/* Lista de vendedores */}
                 <div className="sellers-list">
                     <h2>Lista de Vendedores</h2>
                     <ul>
@@ -104,41 +122,37 @@ const AdminDashboard = () => {
                     </ul>
                 </div>
 
-                {/* Formulario de Creación */}
+                {/* Formulario de creación */}
                 {showCreateForm && (
                     <div className="register-form-container">
                         <h2>Crear Vendedor</h2>
                         <form className="register-form" onSubmit={handleCreateSeller}>
-                                <a className={"formInputLabel"}>Nombre</a>
-                            <input type="text"  value={newSeller.name}
-                                   onChange={(e) => setNewSeller({ ...newSeller, name: e.target.value })} required />
-                            <a>Email</a>
-                            <input type="email" value={newSeller.email}
-                                   onChange={(e) => setNewSeller({ ...newSeller, email: e.target.value })} required />
-                            <a>Contraseña</a>
-                            <input type="password" value={newSeller.password}
-                                   onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })} required />
-                            <a>Celular</a>
-                            <input type="text" value={newSeller.phone}
-                                   onChange={(e) => setNewSeller({ ...newSeller, phone: e.target.value })} required />
+                            <label>Nombre</label>
+                            <input type="text" value={newSeller.name} onChange={(e) => setNewSeller({ ...newSeller, name: e.target.value })} required />
+
+                            <label>Email</label>
+                            <input type="email" value={newSeller.email} onChange={(e) => setNewSeller({ ...newSeller, email: e.target.value })} required />
+
+                            <label>Contraseña</label>
+                            <input type="password" value={newSeller.password} onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })} required />
+
+                            <label>Celular</label>
+                            <input type="text" value={newSeller.phone} onChange={(e) => setNewSeller({ ...newSeller, phone: e.target.value })} required />
+
                             <button type="submit">Guardar</button>
                         </form>
                     </div>
                 )}
 
-                {/* Formulario de Edición */}
+                {/* Formulario de edición */}
                 {editSeller && (
                     <div className="register-form-container">
                         <h2>Editar Vendedor</h2>
                         <form className="register-form" onSubmit={handleUpdateSeller}>
-                            <input type="text" placeholder="Nombre" value={editSeller.name}
-                                   onChange={(e) => setEditSeller({ ...editSeller, name: e.target.value })} required />
-                            <input type="email" placeholder="Email" value={editSeller.email}
-                                   onChange={(e) => setEditSeller({ ...editSeller, email: e.target.value })} required />
-                            <input type="text" placeholder="Celular" value={editSeller.phone}
-                                   onChange={(e) => setEditSeller({ ...editSeller, phone: e.target.value })} required />
-                            <input type="password" placeholder="Nueva Contraseña (Opcional)"
-                                   onChange={(e) => setEditSeller({ ...editSeller, password: e.target.value })} />
+                            <input type="text" placeholder="Nombre" value={editSeller.name} onChange={(e) => setEditSeller({ ...editSeller, name: e.target.value })} required />
+                            <input type="email" placeholder="Email" value={editSeller.email} onChange={(e) => setEditSeller({ ...editSeller, email: e.target.value })} required />
+                            <input type="text" placeholder="Celular" value={editSeller.phone} onChange={(e) => setEditSeller({ ...editSeller, phone: e.target.value })} required />
+                            <input type="password" placeholder="Nueva Contraseña (Opcional)" onChange={(e) => setEditSeller({ ...editSeller, password: e.target.value })} />
                             <button type="submit">Actualizar Vendedor</button>
                         </form>
                     </div>

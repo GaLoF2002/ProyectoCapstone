@@ -1,14 +1,27 @@
-import { useState, useContext } from "react";
+import {useState, useContext, useEffect} from "react";
 import { login } from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "./Login.css"; // Importar estilos
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login: loginUser } = useContext(AuthContext);
+    const {user,logout, login: loginUser } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Solo se ejecuta si el usuario viene al login DESDE el dashboard (o estando logueado)
+        if (user && location.pathname === "/login") {
+            const confirmLogout = window.confirm("Ya iniciaste sesión.  ¿Deseas cerrar sesión?");
+            if (confirmLogout) {
+                logout(); // Borra token y usuario
+                // Se queda en login
+            } else {
+                navigate(`/${user.role}`); // Redirige de vuelta a su dashboard
+            }
+        }
+    }, [location.pathname]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -39,7 +52,7 @@ const Login = () => {
         <div className="login-container">
             <div className="login-background">
                 <div className="login-box">
-                    <h2 style={{ color: "black" }}>Iniciar Sesión</h2>
+                    <h2 style={{color: "black"}}>Iniciar Sesión</h2>
                     <form onSubmit={handleLogin}>
                         <div className="input-container">
                             <label htmlFor="email">Correo Electrónico</label>
@@ -61,6 +74,9 @@ const Login = () => {
                         </div>
                         <button type="submit">Ingresar</button>
                     </form>
+                    <p style={{cursor: "pointer", color: "blue"}} onClick={() => navigate("/forgot-password")}>
+                        ¿Olvidaste tu contraseña?
+                    </p>
                 </div>
             </div>
         </div>
