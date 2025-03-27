@@ -1,14 +1,44 @@
-/* Contenedor principal */
+/* 🔹 Asegurar que html y body ocupan toda la pantalla */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 🔹 El root ocupa todo el viewport */
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 🔹 Contenedor principal que ocupa toda la pantalla */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el contenido ocupe toda la pantalla */
+}
+
+/* 🔹 Contenedor del contenido que crece y empuja el footer abajo */
+.content-wrap {
+    flex-grow: 1; /* Esto hace que el contenido ocupe el espacio disponible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🔹 Contenedor principal del login */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100vw;
+    width: 100%;
     background-color: #d3d3d3;
 }
 
-/* Contenedor de la imagen con bordes redondeados */
+/* 🔹 Contenedor de la imagen con bordes redondeados */
 .login-background {
     width: 80%;
     height: 70vh;
@@ -22,7 +52,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Ajuste del cuadro de login */
+/* 🔹 Ajuste del cuadro de login */
 .login-box {
     background: white;
     padding: 50px;
@@ -33,7 +63,7 @@
     max-width: 650px;
 }
 
-/* Estilos de los textos */
+/* 🔹 Estilos de los textos */
 .login-box h2 {
     font-size: 26px;
     margin-bottom: 10px;
@@ -44,13 +74,16 @@
 .login-box p {
     font-size: 14px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
+/* 🔹 Inputs y etiquetas */
 .login-box label {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;
+    display: block;
 }
 
 .login-box input {
@@ -61,10 +94,15 @@
     border-radius: 5px;
     font-size: 16px;
     background-color: white;
-    color: #1a1a1a;
+    color: black;
 }
 
-/* Estilo del botón */
+/* 🔹 Contenedor de los inputs */
+.input-container {
+    margin-bottom: 15px;
+}
+
+/* 🔹 Estilo del botón */
 .login-box button {
     width: 100%;
     padding: 14px;
@@ -81,14 +119,29 @@
     background-color: #4c51bf;
 }
 
-.login-box label {
-    font-size: 16px;
+/* Estilo normal del enlace de "Olvidaste tu contraseña" */
+.forgot-password {
+    margin-top: 15px;
+    color: black;
+    cursor: pointer;
     font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-    display: block;
+    text-decoration: none; /* Asegura que no tenga subrayado por defecto */
+    text-align: center;
 }
 
-.input-container {
-    margin-bottom: 15px;
+/* Evita el subrayado cuando el mouse está encima */
+.forgot-password:hover {
+    text-decoration: none; /* No aparece subrayado al pasar el cursor */
+    color: #4c51bf; /* Puedes cambiar el color si deseas */
+}
+
+
+/* 🔹 Pie de página pegado abajo */
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    margin-top: auto; /* Permite que el footer se mantenga abajo */
 }

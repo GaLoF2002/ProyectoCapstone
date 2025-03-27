@@ -1,6 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { resetearContrasena } from "../services/authService";
+import Footer from "../components/Footer.jsx";
+import imagenEdificio from '../assets/edificio-resetPass.jpg';
+import "./ResetPassword.css";
 
 const ResetPassword = () => {
     const { token } = useParams();
@@ -14,7 +17,6 @@ const ResetPassword = () => {
             const res = await resetearContrasena(token, password);
             setMessage(res.data.msg || "Contraseña actualizada correctamente");
 
-            // Redirigir al login después de 3 segundos
             setTimeout(() => {
                 navigate("/login");
             }, 3000);
@@ -24,19 +26,25 @@ const ResetPassword = () => {
     };
 
     return (
-        <div>
-            <h2>Restablecer Contraseña</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="password"
-                    placeholder="Nueva contraseña"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Guardar</button>
-            </form>
-            {message && <p>{message}</p>}
+        <div className="reset-password-container">
+            <div className="reset-password-form">
+                <h2>Restablecer Contraseña</h2>
+                <h3 className="new-password-instructions">
+                    Ingresa tu nueva contraseña.
+                </h3>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Guardar</button>
+                </form>
+                {message && <p className="message">{message}</p>}
+            </div>
+            <div className="forgot-password-background" style={{backgroundImage: `url(${imagenEdificio})`}}></div>
+            <Footer />
         </div>
     );
 };
