@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import React, { useState, useEffect } from "react";
 import { getSellers, createSeller, updateSeller, deleteSeller } from "../services/adminService";
 import "./AdminDashboard.css";
@@ -9,6 +12,13 @@ const AdminDashboard = () => {
     const [sortOrder, setSortOrder] = useState("asc");
     const [newSeller, setNewSeller] = useState({ name: "", email: "", phone: "", password: "" });
     const [editSeller, setEditSeller] = useState(null);
+    const { logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout(); // Llama a la función logout del contexto
+        navigate("/login"); // Redirige al login después de cerrar sesión
+    };
 
     useEffect(() => {
         if (activeSection === "sellers") {
@@ -77,6 +87,10 @@ const AdminDashboard = () => {
                     <li>
                         <button onClick={() => setActiveSection("sellers")}>📋 Vendedores</button>
                     </li>
+                    <li>
+                        <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
+                    </li>
+
                 </ul>
             </nav>
 

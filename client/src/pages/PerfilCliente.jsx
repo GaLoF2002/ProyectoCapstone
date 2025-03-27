@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { obtenerPerfilCliente, actualizarPerfil } from "../services/userService";
-import edificioImagen from "../assets/edificio-PerfilCliente.jpg"; // Importación de la imagen
 import "./PerfilCliente.css";
 
 const Perfil = () => {
@@ -47,7 +46,6 @@ const Perfil = () => {
 
     return (
         <div className="perfil-container">
-            <img src={edificioImagen} alt="Edificio" className="perfil-background" />
             <div className="perfil-box">
                 <h2>Mi Perfil</h2>
 
@@ -85,10 +83,6 @@ const Perfil = () => {
                     />
                     <button type="submit">Guardar Cambios</button>
                 </form>
-
-                <button className="perfil-back-button" onClick={() => navigate("/cliente")}>
-                    Regresar al Dashboard
-                </button>
 
                 {message && <p className={message.includes("Error") ? "perfil-error" : "perfil-message"}>{message}</p>}
             </div>

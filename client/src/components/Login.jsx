@@ -12,18 +12,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation(); // Se usa correctamente location
 
-    useEffect(() => {
-        // Solo se ejecuta si el usuario viene al login DESDE el dashboard (o estando logueado)
-        if (user && location.pathname === "/login") {
-            const confirmLogout = window.confirm("Ya iniciaste sesión.  ¿Deseas cerrar sesión?");
-            if (confirmLogout) {
-                logout(); // Borra token y usuario
-                // Se queda en login
-            } else {
-                navigate(/${user.role}); // Redirige de vuelta a su dashboard
-            }
-        }
-    }, [location.pathname]);
+
 
     const handleLogin = async (e) => {
         e.preventDefault();

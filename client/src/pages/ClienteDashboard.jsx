@@ -1,32 +1,52 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import edificioImagen from '../assets/edificio-clienteDashboard.jpg'; // Importación de la imagen
+import {FiUser, FiLogOut, FiHome} from 'react-icons/fi';
 import './ClienteDashboard.css';
+import Footer from "../components/Footer.jsx";
+import Perfil from './PerfilCliente';
 
 const ClienteDashboard = () => {
     const { user, logout } = useContext(AuthContext);
-    const navigate = useNavigate(); // ✅ Definir el hook de navegación
+    const navigate = useNavigate();
+    const [mostrarPerfil, setMostrarPerfil] = useState(false);
 
     if (!user || user.role !== "cliente") {
         return <Navigate to="/login" />;
     }
 
     const handleLogout = () => {
-        logout(); // Llama a la función logout del contexto
-        navigate("/login"); // Redirige al login después de cerrar sesión
+        logout();
+        navigate("/login");
     };
 
     return (
-        <div className="cliente-dashboard"> {/* Añadido la clase cliente-dashboard */}
-            <img src={edificioImagen} alt="Fondo Cliente" className="cliente-background" /> {/* Añadido la clase cliente-background */}
-            <div className="cliente-content"> {/* Añadido la clase cliente-content */}
-                <h1>Panel de Cliente</h1>
-                <p>Bienvenido al sistema de ventas.</p>
+        <div className="dashboard-container">
+            <aside className="sidebar">
+                <h2>Cliente</h2>
+                <ul>
+                    <li onClick={() => setMostrarPerfil(true)}> <FiUser /> Mi Perfil</li>
+                    <li onClick={() => { setMostrarPerfil(false); navigate("/propiedades"); }}> <FiHome /> Propiedades</li>
+                    <li onClick={handleLogout} className="logout"> <FiLogOut /> Cerrar Sesión</li>
+                </ul>
+            </aside>
 
-                <button onClick={() => navigate("/perfil")}>Mi Perfil</button>
-                <button onClick={handleLogout}>Cerrar Sesión</button>
+            <div className="main-container">
+                {mostrarPerfil ? (
+                    <div className="perfil-section active">
+                        <Perfil />
+                    </div>
+                ) : (
+                    <main className="dashboard-content">
+                        <div className="content-box">
+                            <h1>Bienvenido, {user.name}!</h1>
+                            <p>Explora propiedades y administra tu cuenta fácilmente.</p>
+                        </div>
+                    </main>
+                )}
             </div>
+
+            <Footer />
         </div>
     );
 };

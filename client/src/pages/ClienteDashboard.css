@@ -1,62 +1,135 @@
-/* Estilos generales del dashboard del cliente */
-.cliente-dashboard {
+/* Contenedor principal */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #4a6572, #62727b);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #1f2d3d;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
     height: 100vh;
-    width: 100vw;
-    position: relative;
 }
 
-.cliente-background {
-    position: absolute;
-    width: 80%;
-    height: 70%;
-    object-fit: cover;
-    opacity: 0.9;
-    border-radius: 30px;
-}
-
-/* Contenedor del contenido */
-.cliente-content {
-    background: rgba(255, 255, 255, 1);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 500px;
-    width: 90%;
-    z-index: 1;
-}
-
-/* Título */
-.cliente-content h1 {
-    color: #333;
-    font-size: 28px;
-    margin-bottom: 15px;
-}
-
-/* Texto de bienvenida */
-.cliente-content p {
-    color: #555;
-    font-size: 18px;
+.sidebar h2 {
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* Botón de perfil */
-.cliente-content button {
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
 }
 
-.cliente-content button:hover {
-    background-color: #0056b3;
+.sidebar ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s ease, transform 0.2s;
+    border-radius: 5px;
+}
+
+.sidebar ul li:hover {
+    background: #3a506b;
+    transform: scale(1.05);
+}
+
+.icon {
+    font-size: 20px;
+}
+
+.logout {
+    margin-top: auto;
+    background: #e74c3c;
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    width: 235px;
+    text-align: center;
+}
+
+.logout:hover {
+    background: #c0392b;
+}
+
+/* Contenedor del contenido y perfil */
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Contenido principal */
+.dashboard-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.content-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    backdrop-filter: blur(10px);
+}
+
+.content-box h1 {
+    font-size: 26px;
+    color: #ecf0f1;
+    margin-bottom: 10px;
+}
+
+.content-box p {
+    font-size: 18px;
+    color: #bdc3c7;
+}
+
+/* Sección del perfil */
+.perfil-section {
+    display: none;
+    flex: 1;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    color: white;
+    text-align: center;
+}
+
+.perfil-section.active {
+    display: block;
+}
+
+/* Footer */
+.footer {
+    background-color: #1f2d3d;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
