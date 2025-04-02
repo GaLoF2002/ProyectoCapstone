@@ -9,6 +9,9 @@ import ClienteDashboard from "./pages/ClienteDashboard";
 import Perfil from "./pages/PerfilCliente.jsx";
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Propiedades from './pages/Propiedades';
+import CrearPropiedad from './pages/CrearPropiedad';
+
 import React from "react";
 
 function App() {
@@ -25,6 +28,8 @@ function App() {
                     <Route path="/perfil" element={<Perfil/>} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password/:token" element={<ResetPassword />} />
+                    <Route path="/propiedades" element={<Propiedades />} />
+                    <Route path="/crear-propiedad" element={<CrearPropiedad />} />
                 </Routes>
             </Router>
         </AuthProvider>
