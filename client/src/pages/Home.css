@@ -19,7 +19,8 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 2rem;
+    margin-bottom: 100px;
 }
 
 /* Estilo para el texto */

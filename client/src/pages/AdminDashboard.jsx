@@ -163,7 +163,9 @@ const AdminDashboard = () => {
                 )}
 
                 {activeSection === "propiedades" && (
-                    <Propiedades setActiveSection={setActiveSection} />
+                    <div className="propiedades-section">
+                        <Propiedades setActiveSection={setActiveSection} />
+                    </div>
                 )}
 
                 {activeSection === "crear-propiedad" && (

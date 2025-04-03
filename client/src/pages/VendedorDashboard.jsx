@@ -28,7 +28,6 @@ const VendedorDashboard = () => {
                     <li onClick={() => setActiveSection("home")} className={activeSection === "home" ? "active" : ""}>🏠 Home</li>
                     <li onClick={() => setActiveSection("perfil")} className={activeSection === "perfil" ? "active" : ""}>👤 Perfil</li>
                     <li onClick={() => setActiveSection("propiedades")} className={activeSection === "propiedades" ? "active" : ""}>🏢 Administrar Propiedades</li>
-                    <li onClick={() => setActiveSection("crear-propiedad")} className={activeSection === "crear-propiedad" ? "active" : ""}>➕ Nueva Propiedad</li>
                     <li onClick={handleLogout} className="logout">🚪 Cerrar Sesión</li>
                 </ul>
             </aside>
@@ -57,8 +56,6 @@ const VendedorDashboard = () => {
                     </div>
                 )}
             </main>
-
-            <Footer />
         </div>
     );
 };

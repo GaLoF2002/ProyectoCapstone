@@ -1,0 +1,139 @@
+/* Estilos generales (sin cambios en los tamaños) */
+.crear-propiedad-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Contenedor del formulario con altura máxima */
+.crear-propiedad-form-container {
+    width: 80%;
+    background: white;
+    padding: 20px; /* Reducido un poco */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Menos espacio entre elementos */
+    max-height: 790px; /* Altura máxima */
+}
+
+/* Título (sin cambios) */
+.crear-propiedad-form-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+/* Formulario con grid */
+.crear-propiedad-form {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Hace que la segunda columna sea más ancha */
+    gap: 20px; /* Más espacio entre columnas */
+    width: 100%;
+    padding: 0 15px;
+    grid-template-rows: auto auto auto 1fr auto;
+    height: 100%;
+}
+
+/* Columnas del formulario */
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espacio reducido */
+    width: 550px;
+}
+
+/* Segunda columna con más separación */
+.form-column:nth-child(2) {
+    margin-left: 25px; /* Aumenta la separación de la segunda columna */
+}
+
+/* Campo completo para descripción e imágenes */
+.form-full {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 900px;
+}
+
+/* Etiquetas */
+.crear-propiedad-form label {
+    font-size: 14px; /* Reducido de 16px a 14px */
+    font-weight: bold;
+    color: #333;
+}
+
+/* Inputs y Selects ajustados */
+.input-box {
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: 10px; /* Reducido de 12px */
+    font-size: 14px; /* Reducido de 16px */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Efecto al enfocar (sin cambios) */
+.input-box:focus {
+    border-color: #007bff;
+}
+
+/* Botón de Guardar */
+.crear-propiedad-form button {
+    width: 100%;
+    background-color: #5a67d8;
+    color: white;
+    padding: 8px; /* Reducido */
+    border: none;
+    border-radius: 5px;
+    font-size: 14px; /* Reducido */
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Botón de Guardar Hover */
+.crear-propiedad-form button:hover {
+    background-color: #434190;
+}
+
+/* Botón de Cancelar */
+.crear-propiedad-form button:last-child {
+    background-color: #ccc;
+    margin-top: 8px; /* Menos espacio */
+}
+
+.crear-propiedad-form button:last-child:hover {
+    background-color: #999;
+}
+
+/* Grupo de botones */
+.button-group {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Responsividad */
+@media screen and (max-width: 900px) {
+    .crear-propiedad-container {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .crear-propiedad-form-container {
+        width: 90%;
+        max-height: 800px; /* Menor en pantallas pequeñas */
+    }
+
+    .crear-propiedad-form {
+        grid-template-columns: 1fr;
+    }
+}

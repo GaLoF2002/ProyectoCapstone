@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { crearPropiedad } from "../services/propiedadService";
+import "./CrearPropiedad.css";
 
 const CrearPropiedad = ({ setActiveSection }) => {
     const [form, setForm] = useState({
@@ -40,33 +41,66 @@ const CrearPropiedad = ({ setActiveSection }) => {
     };
 
     return (
-        <div>
-            <h2>Crear Nueva Propiedad</h2>
-            <form onSubmit={handleSubmit}>
-                <input name="titulo" placeholder="Título" onChange={handleChange} required />
-                <textarea name="descripcion" placeholder="Descripción" onChange={handleChange} />
-                <input name="precio" type="number" placeholder="Precio" onChange={handleChange} required />
-                <input name="ubicacion" placeholder="Ubicación" onChange={handleChange} required />
-                <input name="metrosCuadrados" type="number" placeholder="Metros cuadrados" onChange={handleChange} required />
-                <input name="parqueaderos" type="number" placeholder="Parqueaderos" onChange={handleChange} required />
-                <input name="habitaciones" type="number" placeholder="Habitaciones" onChange={handleChange} required />
-                <input name="banos" type="number" placeholder="Baños" onChange={handleChange} required />
-                <select name="tipo" onChange={handleChange} required>
-                    <option value="casa">Casa</option>
-                    <option value="departamento">Departamento</option>
-                    <option value="terreno">Terreno</option>
-                </select>
-                <select name="estado" onChange={handleChange}>
-                    <option value="disponible">Disponible</option>
-                    <option value="reservado">Reservado</option>
-                    <option value="vendido">Vendido</option>
-                </select>
-                <input name="imagenes" placeholder="URL de imágenes separadas por coma" onChange={(e) => setForm({ ...form, imagenes: e.target.value.split(",") })} />
-                <input name="caracteristicas" placeholder="Características separadas por coma" onChange={handleCaracteristicas} />
+        <div className="crear-propiedad-container">
+            <div className="crear-propiedad-form-container">
+                <h2>Crear Nueva Propiedad</h2>
+                <form className="crear-propiedad-form" onSubmit={handleSubmit}>
+                    <div className="form-column">
+                        <label>Título</label>
+                        <input name="titulo" className="input-box" onChange={handleChange} required />
 
-                <button type="submit">Guardar</button>
-                <button type="button" onClick={() => setActiveSection("propiedades")}>Cancelar</button>
-            </form>
+                        <label>Precio</label>
+                        <input name="precio" type="number" className="input-box" onChange={handleChange} required />
+
+                        <label>Ubicación</label>
+                        <input name="ubicacion" className="input-box" onChange={handleChange} required />
+
+                        <label>Metros cuadrados</label>
+                        <input name="metrosCuadrados" type="number" className="input-box" onChange={handleChange} required />
+                    </div>
+
+                    <div className="form-column">
+                        <label>Parqueaderos</label>
+                        <input name="parqueaderos" type="number" className="input-box" onChange={handleChange} required />
+
+                        <label>Habitaciones</label>
+                        <input name="habitaciones" type="number" className="input-box" onChange={handleChange} required />
+
+                        <label>Baños</label>
+                        <input name="banos" type="number" className="input-box" onChange={handleChange} required />
+
+                        <label>Tipo</label>
+                        <select name="tipo" className="input-box" onChange={handleChange} required>
+                            <option value="casa">Casa</option>
+                            <option value="departamento">Departamento</option>
+                            <option value="terreno">Terreno</option>
+                        </select>
+                    </div>
+
+                    <div className="form-full">
+                        <label>Estado</label>
+                        <select name="estado" className="input-box" onChange={handleChange}>
+                            <option value="disponible">Disponible</option>
+                            <option value="reservado">Reservado</option>
+                            <option value="vendido">Vendido</option>
+                        </select>
+
+                        <label>Características</label>
+                        <input name="caracteristicas" className="input-box" onChange={handleCaracteristicas} />
+
+                        <label>Descripción</label>
+                        <textarea name="descripcion" className="input-box" onChange={handleChange} />
+
+                        <label>URL de imágenes</label>
+                        <input name="imagenes" className="input-box" onChange={(e) => setForm({ ...form, imagenes: e.target.value.split(",") })} />
+                    </div>
+
+                    <div className="button-group">
+                        <button type="submit">Guardar</button>
+                        <button type="button" onClick={() => setActiveSection("propiedades")}>Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

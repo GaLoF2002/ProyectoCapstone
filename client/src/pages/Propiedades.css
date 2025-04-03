@@ -1,0 +1,87 @@
+/* Contenedor principal */
+.propiedades-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Contenedor del título y botón */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.header-container h2 {
+    font-size: 24px;
+    color: #1a1a1a;
+}
+
+.header-container button {
+    background-color: #5a67d8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.header-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Lista de propiedades */
+.prop-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    gap: 15px;
+    color: #1a1a1a;
+    text-align: start;
+}
+
+/* Tarjeta de propiedad */
+.prop-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Controles de paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.paginacion button {
+    background-color: #5a67d8;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.paginacion button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.paginacion span {
+    font-size: 16px;
+    font-weight: bold;
+}

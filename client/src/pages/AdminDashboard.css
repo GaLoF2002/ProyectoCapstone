@@ -281,6 +281,41 @@
     background-color: #999;
 }
 
+/* Contenedor de la sección de Propiedades */
+.propiedades-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center; /* Centrar verticalmente si hay suficiente altura */
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Estilo para el h2 */
+.propiedades-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Botón de Añadir Nueva Propiedad */
+.add-property-button {
+    background-color: #5a67d8;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.add-property-button:hover {
+    background-color: #434190;
+}
+
+
 /* Responsividad */
 @media screen and (max-width: 900px) {
     .dashboard-container {
