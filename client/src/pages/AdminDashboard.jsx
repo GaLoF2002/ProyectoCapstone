@@ -4,6 +4,8 @@ import { AuthContext } from '../context/AuthContext';
 import React, { useState, useEffect } from "react";
 import { getSellers, createSeller, updateSeller, deleteSeller } from "../services/adminService";
 import "./AdminDashboard.css";
+import Propiedades from "../pages/Propiedades.jsx";
+import CrearPropiedad from "../pages/CrearPropiedad";
 
 const AdminDashboard = () => {
     const [activeSection, setActiveSection] = useState("home");
@@ -88,6 +90,11 @@ const AdminDashboard = () => {
                         <button onClick={() => setActiveSection("sellers")}>📋 Vendedores</button>
                     </li>
                     <li>
+                        <button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button>
+                    </li>
+
+
+                    <li>
                         <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
                     </li>
 
@@ -102,6 +109,7 @@ const AdminDashboard = () => {
                         <p>Selecciona una opción del menú para comenzar.</p>
                     </div>
                 )}
+
 
                 {activeSection === "sellers" && (
                     <div className="sellers-section">
@@ -153,6 +161,15 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 )}
+
+                {activeSection === "propiedades" && (
+                    <Propiedades setActiveSection={setActiveSection} />
+                )}
+
+                {activeSection === "crear-propiedad" && (
+                    <CrearPropiedad setActiveSection={setActiveSection} />
+                )}
+
             </div>
         </div>
     );
