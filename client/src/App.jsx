@@ -13,6 +13,7 @@ import Propiedades from './pages/Propiedades';
 import CrearPropiedad from './pages/CrearPropiedad';
 
 import React from "react";
+import PropiedadIndividual from "./pages/PropiedadIndividual.jsx";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/propiedades" element={<Propiedades />} />
                     <Route path="/crear-propiedad" element={<CrearPropiedad />} />
+                    <Route path="/propiedades/:id" element={<PropiedadIndividual />} />
                 </Routes>
             </Router>
         </AuthProvider>

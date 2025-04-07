@@ -3,13 +3,17 @@ import Propiedad from '../models/Propiedad.js';
 // Crear una propiedad
 export const crearPropiedad = async (req, res) => {
     try {
-        // ✅ Verificación de rol antes de permitir la creación
+        // Verificar roles permitidos
         if (req.user.role !== 'admin' && req.user.role !== 'vendedor') {
             return res.status(403).json({ msg: 'No tienes permisos para crear propiedades' });
         }
 
+        // Extraer las rutas de las imágenes subidas
+        const imagenes = req.files ? req.files.map(file => file.path) : [];
+
         const nuevaPropiedad = new Propiedad({
             ...req.body,
+            imagenes,
             creadoPor: req.user._id
         });
 

@@ -6,6 +6,8 @@ import { getSellers, createSeller, updateSeller, deleteSeller } from "../service
 import "./AdminDashboard.css";
 import Propiedades from "../pages/Propiedades.jsx";
 import CrearPropiedad from "../pages/CrearPropiedad";
+import PropiedadIndividual from "../pages/PropiedadIndividual";
+
 
 const AdminDashboard = () => {
     const [activeSection, setActiveSection] = useState("home");
@@ -16,6 +18,10 @@ const AdminDashboard = () => {
     const [editSeller, setEditSeller] = useState(null);
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
+
+
+
 
     const handleLogout = () => {
         logout(); // Llama a la función logout del contexto
@@ -163,14 +169,27 @@ const AdminDashboard = () => {
                 )}
 
                 {activeSection === "propiedades" && (
-                    <div className="propiedades-section">
-                        <Propiedades setActiveSection={setActiveSection} />
-                    </div>
+                    <Propiedades
+                        setActiveSection={setActiveSection}
+                        setPropiedadSeleccionada={setPropiedadSeleccionada}
+                    />
                 )}
+
 
                 {activeSection === "crear-propiedad" && (
                     <CrearPropiedad setActiveSection={setActiveSection} />
                 )}
+
+                {activeSection === "ver-propiedad" && propiedadSeleccionada && (
+                    <PropiedadIndividual
+                        propiedadId={propiedadSeleccionada}
+                        setActiveSection={setActiveSection}
+                    />
+                )}
+
+
+
+
 
             </div>
         </div>
