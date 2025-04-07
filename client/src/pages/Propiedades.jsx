@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { getPropiedades } from "../services/propiedadService";
 import "./Propiedades.css";
 
-const Propiedades = ({ setActiveSection }) => {
+const Propiedades = ({ setActiveSection, setPropiedadSeleccionada }) => {
     const [propiedades, setPropiedades] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
-    const propiedadesPorPagina = 3; // Máximo 3 por página
+    const propiedadesPorPagina = 3;
 
     useEffect(() => {
         const fetchPropiedades = async () => {
@@ -19,12 +19,10 @@ const Propiedades = ({ setActiveSection }) => {
         fetchPropiedades();
     }, []);
 
-    // Calcular el índice de inicio y fin para la paginación
     const indiceInicio = (paginaActual - 1) * propiedadesPorPagina;
     const indiceFin = indiceInicio + propiedadesPorPagina;
     const propiedadesPaginadas = propiedades.slice(indiceInicio, indiceFin);
 
-    // Funciones para cambiar de página
     const paginaAnterior = () => {
         if (paginaActual > 1) setPaginaActual(paginaActual - 1);
     };
@@ -35,7 +33,6 @@ const Propiedades = ({ setActiveSection }) => {
 
     return (
         <div className="propiedades-container">
-            {/* Contenedor superior con título y botón */}
             <div className="header-container">
                 <h2>Listado de Propiedades</h2>
                 <button onClick={() => setActiveSection("crear-propiedad")}>
@@ -43,7 +40,6 @@ const Propiedades = ({ setActiveSection }) => {
                 </button>
             </div>
 
-            {/* Lista de propiedades paginadas */}
             <div className="prop-list">
                 {propiedadesPaginadas.map((p) => (
                     <div key={p._id} className="prop-card">
@@ -51,11 +47,16 @@ const Propiedades = ({ setActiveSection }) => {
                         <p>{p.ubicacion}</p>
                         <p>Precio: ${p.precio}</p>
                         <p>Estado: {p.estado}</p>
+                        <button onClick={() => {
+                            setPropiedadSeleccionada(p._id);
+                            setActiveSection("ver-propiedad");
+                        }}>
+                            👁️ Ver más
+                        </button>
                     </div>
                 ))}
             </div>
 
-            {/* Controles de paginación (se muestran solo si hay más de 3 propiedades) */}
             {propiedades.length > propiedadesPorPagina && (
                 <div className="paginacion">
                     <button onClick={paginaAnterior} disabled={paginaActual === 1}>

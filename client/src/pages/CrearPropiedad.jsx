@@ -30,8 +30,24 @@ const CrearPropiedad = ({ setActiveSection }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            await crearPropiedad(form);
+            const formData = new FormData();
+
+            // Agrega cada campo del formulario
+            for (let key in form) {
+                if (key === "imagenes") {
+                    form.imagenes.forEach((file) => {
+                        formData.append("imagenes", file); // nombre debe coincidir con el campo backend
+                    });
+                } else if (Array.isArray(form[key])) {
+                    form[key].forEach((item) => formData.append(key, item));
+                } else {
+                    formData.append(key, form[key]);
+                }
+            }
+
+            await crearPropiedad(formData); // aquí ya no mandas JSON plano, sino FormData
             alert("Propiedad creada correctamente");
             setActiveSection("propiedades");
         } catch (error) {
@@ -39,6 +55,7 @@ const CrearPropiedad = ({ setActiveSection }) => {
             alert("Error al crear propiedad");
         }
     };
+
 
     return (
         <div className="crear-propiedad-container">
@@ -91,10 +108,14 @@ const CrearPropiedad = ({ setActiveSection }) => {
                         <label>Descripción</label>
                         <textarea name="descripcion" className="input-box" onChange={handleChange} />
 
-                        <label>URL de imágenes</label>
-                        <input name="imagenes" className="input-box" onChange={(e) => setForm({ ...form, imagenes: e.target.value.split(",") })} />
+                        <label>Imágenes (máx. 10)</label>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={(e) => setForm({ ...form, imagenes: Array.from(e.target.files) })}
+                        />
                     </div>
-
                     <div className="button-group">
                         <button type="submit">Guardar</button>
                         <button type="button" onClick={() => setActiveSection("propiedades")}>Cancelar</button>

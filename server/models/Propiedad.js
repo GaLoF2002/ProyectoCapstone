@@ -1,4 +1,3 @@
-// models/Propiedad.js
 import mongoose from "mongoose";
 
 const propiedadSchema = new mongoose.Schema({
@@ -12,7 +11,10 @@ const propiedadSchema = new mongoose.Schema({
     banos: { type: Number, required: true },
     tipo: { type: String, enum: ["casa", "departamento", "terreno"], required: true },
     estado: { type: String, enum: ["disponible", "reservado", "vendido"], default: "disponible" },
-    imagenes: [{ type: String }],
+    imagenes: {
+        type: [String],
+        validate: [array => array.length <= 10, "Máximo 10 imágenes permitidas"]
+    },
     caracteristicas: [{ type: String }],
     creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 }, {
