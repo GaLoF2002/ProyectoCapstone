@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getPropiedades } from "../services/propiedadService";
+import { useNavigate } from "react-router-dom";
 import "./Propiedades.css";
 
 const Propiedades = ({ setActiveSection, setPropiedadSeleccionada }) => {
     const [propiedades, setPropiedades] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
     const propiedadesPorPagina = 3;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPropiedades = async () => {
@@ -43,16 +45,29 @@ const Propiedades = ({ setActiveSection, setPropiedadSeleccionada }) => {
             <div className="prop-list">
                 {propiedadesPaginadas.map((p) => (
                     <div key={p._id} className="prop-card">
-                        <h3>{p.titulo}</h3>
-                        <p>{p.ubicacion}</p>
-                        <p>Precio: ${p.precio}</p>
-                        <p>Estado: {p.estado}</p>
-                        <button onClick={() => {
-                            setPropiedadSeleccionada(p._id);
-                            setActiveSection("ver-propiedad");
-                        }}>
-                            👁️ Ver más
-                        </button>
+                        <div className="prop-card-content">
+                            {p.imagenes && p.imagenes.length > 0 && (
+                                <img
+                                    src={`http://localhost:5000/${p.imagenes[0]}`}
+                                    alt="Imagen de la propiedad"
+                                    className="propiedad-img-lateral"
+                                    onClick={() => navigate(`/imagen/${p._id}`)}
+                                    style={{ cursor: "pointer" }}
+                                />
+                            )}
+                            <div className="prop-info">
+                                <h3>{p.titulo}</h3>
+                                <p>{p.ubicacion}</p>
+                                <p>Precio: ${p.precio}</p>
+                                <p>Estado: {p.estado}</p>
+                                <button onClick={() => {
+                                    setPropiedadSeleccionada(p._id);
+                                    setActiveSection("ver-propiedad");
+                                }}>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>

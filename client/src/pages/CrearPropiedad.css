@@ -1,4 +1,4 @@
-/* Estilos generales (sin cambios en los tamaños) */
+/* Contenedor principal */
 .crear-propiedad-container {
     display: flex;
     justify-content: center;
@@ -6,20 +6,20 @@
     width: 100%;
 }
 
-/* Contenedor del formulario con altura máxima */
+/* Contenedor del formulario */
 .crear-propiedad-form-container {
     width: 80%;
     background: white;
-    padding: 20px; /* Reducido un poco */
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Menos espacio entre elementos */
-    max-height: 790px; /* Altura máxima */
+    gap: 15px;
+    max-height: 820px;
 }
 
-/* Título (sin cambios) */
+/* Título */
 .crear-propiedad-form-container h2 {
     text-align: center;
     margin-bottom: 15px;
@@ -29,28 +29,27 @@
 /* Formulario con grid */
 .crear-propiedad-form {
     display: grid;
-    grid-template-columns: 1fr 1.2fr; /* Hace que la segunda columna sea más ancha */
-    gap: 20px; /* Más espacio entre columnas */
+    grid-template-columns: 1fr 1.2fr;
+    gap: 20px;
     width: 100%;
     padding: 0 15px;
     grid-template-rows: auto auto auto 1fr auto;
     height: 100%;
 }
 
-/* Columnas del formulario */
+/* Columnas */
 .form-column {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Espacio reducido */
-    width: 550px;
+    gap: 8px;
+    width: 300px;
 }
 
-/* Segunda columna con más separación */
 .form-column:nth-child(2) {
-    margin-left: 25px; /* Aumenta la separación de la segunda columna */
+    margin-left: 25px;
 }
 
-/* Campo completo para descripción e imágenes */
+/* Campos de ancho completo */
 .form-full {
     grid-column: 1 / -1;
     display: flex;
@@ -61,50 +60,57 @@
 
 /* Etiquetas */
 .crear-propiedad-form label {
-    font-size: 14px; /* Reducido de 16px a 14px */
+    font-size: 14px;
     font-weight: bold;
     color: #333;
 }
 
-/* Inputs y Selects ajustados */
+/* Inputs y selects */
 .input-box {
-    width: 100%;
+    width: 400px;
     background-color: white;
     color: black;
-    padding: 10px; /* Reducido de 12px */
-    font-size: 14px; /* Reducido de 16px */
+    padding: 10px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
 }
 
-/* Efecto al enfocar (sin cambios) */
+.input-long{
+    background-color: white;
+    color: black;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
 .input-box:focus {
     border-color: #007bff;
 }
 
-/* Botón de Guardar */
+/* Botones */
 .crear-propiedad-form button {
     width: 100%;
     background-color: #5a67d8;
     color: white;
-    padding: 8px; /* Reducido */
+    padding: 8px;
     border: none;
     border-radius: 5px;
-    font-size: 14px; /* Reducido */
+    font-size: 14px;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
-/* Botón de Guardar Hover */
 .crear-propiedad-form button:hover {
     background-color: #434190;
 }
 
-/* Botón de Cancelar */
 .crear-propiedad-form button:last-child {
     background-color: #ccc;
-    margin-top: 8px; /* Menos espacio */
+    margin-top: 8px;
 }
 
 .crear-propiedad-form button:last-child:hover {
@@ -116,8 +122,69 @@
     grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
     width: 100%;
+}
+
+/* Estilos para la subida de imágenes */
+.file-upload-container {
+    display: inline-flex; /* Cambiado de flex */
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+    flex-direction: row;
+}
+
+.file-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap; /* Evita que el texto se rompa */
+}
+
+.choose-files {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    width: 105px; /* Asegura que el input ocupe todo el ancho disponible */
+}
+
+.choose-files::-webkit-file-upload-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.choose-files::-webkit-file-upload-button:hover {
+    background-color: #0056b3;
+}
+
+.preview-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    width: auto; /* El contenedor crecerá con las imágenes */
+}
+
+.preview-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 8px; /* Espacio a la derecha de cada imagen */
+    flex-shrink: 0; /* Evita que las imágenes se encojan */
+}
+
+/* Eliminamos el margin-right del último elemento para evitar espacio extra */
+.preview-container .preview-image:last-child {
+    margin-right: 0;
 }
 
 /* Responsividad */
@@ -130,10 +197,27 @@
 
     .crear-propiedad-form-container {
         width: 90%;
-        max-height: 800px; /* Menor en pantallas pequeñas */
+        max-height: 800px;
     }
 
     .crear-propiedad-form {
         grid-template-columns: 1fr;
+    }
+
+    .form-column {
+        width: 100%;
+    }
+
+    .form-column:nth-child(2) {
+        margin-left: 0;
+    }
+
+    .file-upload-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .preview-container {
+        max-width: 100%;
     }
 }

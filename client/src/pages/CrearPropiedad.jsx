@@ -28,6 +28,8 @@ const CrearPropiedad = ({ setActiveSection }) => {
         setForm({ ...form, caracteristicas: value });
     };
 
+    const [imagePreviews, setImagePreviews] = useState([]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -103,18 +105,39 @@ const CrearPropiedad = ({ setActiveSection }) => {
                         </select>
 
                         <label>Características</label>
-                        <input name="caracteristicas" className="input-box" onChange={handleCaracteristicas} />
+                        <input name="caracteristicas" className="input-long" onChange={handleCaracteristicas} />
 
                         <label>Descripción</label>
-                        <textarea name="descripcion" className="input-box" onChange={handleChange} />
+                        <textarea name="descripcion" className="input-long" onChange={handleChange} />
 
-                        <label>Imágenes (máx. 10)</label>
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            onChange={(e) => setForm({ ...form, imagenes: Array.from(e.target.files) })}
-                        />
+                        <div className="file-upload-container">
+                            <label className="file-label">Imágenes (máx. 10)</label>
+                            <input
+                                className="choose-files"
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={(e) => {
+                                    const files = Array.from(e.target.files);
+
+                                    if (files.length > 10) {
+                                        alert("Solo puedes subir un máximo de 10 imágenes.");
+                                        return;
+                                    }
+
+                                    setForm({ ...form, imagenes: files });
+
+                                    const previews = files.map(file => URL.createObjectURL(file));
+                                    setImagePreviews(previews);
+                                }}
+                            />
+                            <div className="preview-container">
+                                {imagePreviews.map((src, index) => (
+                                    <img key={index} src={src} alt={`Preview ${index}`} className="preview-image" />
+                                ))}
+                            </div>
+                        </div>
+
                     </div>
                     <div className="button-group">
                         <button type="submit">Guardar</button>
