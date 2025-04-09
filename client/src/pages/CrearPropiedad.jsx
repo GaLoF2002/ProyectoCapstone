@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { crearPropiedad } from "../services/propiedadService";
+import { useEffect, useState } from "react";
+import { crearPropiedad, actualizarPropiedad } from "../services/propiedadService";
 import "./CrearPropiedad.css";
 
-const CrearPropiedad = ({ setActiveSection }) => {
+const CrearPropiedad = ({ setActiveSection, modoEdicion = false, propiedadEditando = null }) => {
     const [form, setForm] = useState({
         titulo: "",
         descripcion: "",
@@ -18,6 +18,32 @@ const CrearPropiedad = ({ setActiveSection }) => {
         caracteristicas: []
     });
 
+    const [imagePreviews, setImagePreviews] = useState([]);
+
+    useEffect(() => {
+        if (modoEdicion && propiedadEditando) {
+            const {
+                titulo, descripcion, precio, ubicacion, metrosCuadrados,
+                parqueaderos, habitaciones, banos, tipo, estado, caracteristicas
+            } = propiedadEditando;
+
+            setForm({
+                titulo,
+                descripcion,
+                precio,
+                ubicacion,
+                metrosCuadrados,
+                parqueaderos,
+                habitaciones,
+                banos,
+                tipo,
+                estado,
+                imagenes: [],
+                caracteristicas: caracteristicas || []
+            });
+        }
+    }, [modoEdicion, propiedadEditando]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
@@ -28,19 +54,16 @@ const CrearPropiedad = ({ setActiveSection }) => {
         setForm({ ...form, caracteristicas: value });
     };
 
-    const [imagePreviews, setImagePreviews] = useState([]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const formData = new FormData();
 
-            // Agrega cada campo del formulario
             for (let key in form) {
                 if (key === "imagenes") {
                     form.imagenes.forEach((file) => {
-                        formData.append("imagenes", file); // nombre debe coincidir con el campo backend
+                        formData.append("imagenes", file);
                     });
                 } else if (Array.isArray(form[key])) {
                     form[key].forEach((item) => formData.append(key, item));
@@ -49,47 +72,52 @@ const CrearPropiedad = ({ setActiveSection }) => {
                 }
             }
 
-            await crearPropiedad(formData); // aquí ya no mandas JSON plano, sino FormData
-            alert("Propiedad creada correctamente");
+            if (modoEdicion && propiedadEditando) {
+                await actualizarPropiedad(propiedadEditando._id, form);
+                alert("Propiedad actualizada correctamente");
+            } else {
+                await crearPropiedad(formData);
+                alert("Propiedad creada correctamente");
+            }
+
             setActiveSection("propiedades");
         } catch (error) {
-            console.error("Error al crear propiedad", error);
-            alert("Error al crear propiedad");
+            console.error("Error al guardar propiedad", error);
+            alert("Error al guardar propiedad");
         }
     };
-
 
     return (
         <div className="crear-propiedad-container">
             <div className="crear-propiedad-form-container">
-                <h2>Crear Nueva Propiedad</h2>
+                <h2>{modoEdicion ? "Actualizar Propiedad" : "Crear Nueva Propiedad"}</h2>
                 <form className="crear-propiedad-form" onSubmit={handleSubmit}>
                     <div className="form-column">
                         <label>Título</label>
-                        <input name="titulo" className="input-box" onChange={handleChange} required />
+                        <input name="titulo" className="input-box" value={form.titulo} onChange={handleChange} required />
 
                         <label>Precio</label>
-                        <input name="precio" type="number" className="input-box" onChange={handleChange} required />
+                        <input name="precio" type="number" className="input-box" value={form.precio} onChange={handleChange} required />
 
                         <label>Ubicación</label>
-                        <input name="ubicacion" className="input-box" onChange={handleChange} required />
+                        <input name="ubicacion" className="input-box" value={form.ubicacion} onChange={handleChange} required />
 
                         <label>Metros cuadrados</label>
-                        <input name="metrosCuadrados" type="number" className="input-box" onChange={handleChange} required />
+                        <input name="metrosCuadrados" type="number" className="input-box" value={form.metrosCuadrados} onChange={handleChange} required />
                     </div>
 
                     <div className="form-column">
                         <label>Parqueaderos</label>
-                        <input name="parqueaderos" type="number" className="input-box" onChange={handleChange} required />
+                        <input name="parqueaderos" type="number" className="input-box" value={form.parqueaderos} onChange={handleChange} required />
 
                         <label>Habitaciones</label>
-                        <input name="habitaciones" type="number" className="input-box" onChange={handleChange} required />
+                        <input name="habitaciones" type="number" className="input-box" value={form.habitaciones} onChange={handleChange} required />
 
                         <label>Baños</label>
-                        <input name="banos" type="number" className="input-box" onChange={handleChange} required />
+                        <input name="banos" type="number" className="input-box" value={form.banos} onChange={handleChange} required />
 
                         <label>Tipo</label>
-                        <select name="tipo" className="input-box" onChange={handleChange} required>
+                        <select name="tipo" className="input-box" value={form.tipo} onChange={handleChange} required>
                             <option value="casa">Casa</option>
                             <option value="departamento">Departamento</option>
                             <option value="terreno">Terreno</option>
@@ -98,17 +126,17 @@ const CrearPropiedad = ({ setActiveSection }) => {
 
                     <div className="form-full">
                         <label>Estado</label>
-                        <select name="estado" className="input-box" onChange={handleChange}>
+                        <select name="estado" className="input-box" value={form.estado} onChange={handleChange}>
                             <option value="disponible">Disponible</option>
                             <option value="reservado">Reservado</option>
                             <option value="vendido">Vendido</option>
                         </select>
 
                         <label>Características</label>
-                        <input name="caracteristicas" className="input-long" onChange={handleCaracteristicas} />
+                        <input name="caracteristicas" className="input-long" onChange={handleCaracteristicas} value={form.caracteristicas.join(",")} />
 
                         <label>Descripción</label>
-                        <textarea name="descripcion" className="input-long" onChange={handleChange} />
+                        <textarea name="descripcion" className="input-long" value={form.descripcion} onChange={handleChange} />
 
                         <div className="file-upload-container">
                             <label className="file-label">Imágenes (máx. 10)</label>
@@ -137,10 +165,10 @@ const CrearPropiedad = ({ setActiveSection }) => {
                                 ))}
                             </div>
                         </div>
-
                     </div>
+
                     <div className="button-group">
-                        <button type="submit">Guardar</button>
+                        <button type="submit">{modoEdicion ? "Actualizar" : "Guardar"}</button>
                         <button type="button" onClick={() => setActiveSection("propiedades")}>Cancelar</button>
                     </div>
                 </form>

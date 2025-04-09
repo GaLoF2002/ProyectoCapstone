@@ -18,7 +18,10 @@ const AdminDashboard = () => {
     const [editSeller, setEditSeller] = useState(null);
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [modoEdicion, setModoEdicion] = useState(false);
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
+
+
 
 
 
@@ -172,13 +175,19 @@ const AdminDashboard = () => {
                     <Propiedades
                         setActiveSection={setActiveSection}
                         setPropiedadSeleccionada={setPropiedadSeleccionada}
+                        setModoEdicion={setModoEdicion}
                     />
                 )}
 
 
                 {activeSection === "crear-propiedad" && (
-                    <CrearPropiedad setActiveSection={setActiveSection} />
+                    <CrearPropiedad
+                        setActiveSection={setActiveSection}
+                        modoEdicion={modoEdicion}
+                        propiedadEditando={propiedadSeleccionada}
+                    />
                 )}
+
 
                 {activeSection === "ver-propiedad" && propiedadSeleccionada && (
                     <PropiedadIndividual
@@ -186,6 +195,8 @@ const AdminDashboard = () => {
                         setActiveSection={setActiveSection}
                     />
                 )}
+
+
 
 
 

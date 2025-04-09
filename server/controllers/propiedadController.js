@@ -25,12 +25,37 @@ export const crearPropiedad = async (req, res) => {
     }
 };
 
-// Obtener todas las propiedades
 export const obtenerPropiedades = async (req, res) => {
     try {
-        const propiedades = await Propiedad.find().populate("creadoPor", "name email");
+        const filtros = {};
+
+        if (req.query.metrosMin) {
+            filtros.metrosCuadrados = { $gte: Number(req.query.metrosMin) };
+        }
+
+        if (req.query.metrosMax) {
+            filtros.metrosCuadrados = {
+                ...filtros.metrosCuadrados,
+                $lte: Number(req.query.metrosMax)
+            };
+        }
+
+        if (req.query.habitaciones) {
+            filtros.habitaciones = Number(req.query.habitaciones);
+        }
+
+        if (req.query.parqueaderos) {
+            filtros.parqueaderos = Number(req.query.parqueaderos);
+        }
+
+        if (req.query.tipo) {
+            filtros.tipo = req.query.tipo;
+        }
+
+        const propiedades = await Propiedad.find(filtros).populate("creadoPor", "name email");
         res.json(propiedades);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Error al obtener propiedades' });
     }
 };
@@ -50,19 +75,26 @@ export const obtenerPropiedadPorId = async (req, res) => {
 export const actualizarPropiedad = async (req, res) => {
     try {
         const propiedad = await Propiedad.findById(req.params.id);
-        if (!propiedad) return res.status(404).json({ msg: 'Propiedad no encontrada' });
+        if (!propiedad) {
+            return res.status(404).json({ msg: 'Propiedad no encontrada' });
+        }
 
+        // Validación de permisos
         if (req.user.role !== 'admin' && !propiedad.creadoPor.equals(req.user._id)) {
             return res.status(403).json({ msg: 'No autorizado para actualizar esta propiedad' });
         }
 
+        // Actualizar datos
         Object.assign(propiedad, req.body);
         await propiedad.save();
-        res.json({ msg: 'Propiedad actualizada correctamente' });
+
+        res.json({ msg: 'Propiedad actualizada correctamente', propiedad });
     } catch (error) {
+        console.error("Error al actualizar propiedad:", error);
         res.status(500).json({ error: 'Error al actualizar la propiedad' });
     }
 };
+
 
 // Eliminar una propiedad
 export const eliminarPropiedad = async (req, res) => {
