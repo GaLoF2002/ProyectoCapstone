@@ -1,102 +1,226 @@
-/* Contenedor principal */
-.dashboard-container {
+/* Estructura Principal */
+.vendedor-dashboard-container {
     display: flex;
     height: 100vh;
     width: 100vw;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    overflow: hidden;
 }
 
 /* Sidebar */
-.sidebar {
-    width: 260px;
-    background: #162447;
+.vendedor-sidebar {
+    width: 250px;
+    background: #1f2d3d;
     color: white;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-    height: 100vh;
+    height: 100%;
 }
 
-.sidebar h2 {
-    font-size: 24px;
+.vendedor-sidebar h2 {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.sidebar ul {
+.vendedor-sidebar ul {
     list-style: none;
     padding: 0;
-    width: 100%;
 }
 
-.sidebar ul li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background 0.3s ease, transform 0.2s;
-    border-radius: 5px;
+.vendedor-sidebar ul li {
+    margin: 15px 0;
 }
 
-.sidebar ul li:hover,
-.sidebar ul li.active {
-    background: #1f4068;
-    transform: scale(1.05);
-}
-
-.logout {
-    margin-top: auto;
-    background: #e74c3c;
+.vendedor-sidebar ul li button {
+    background: none;
+    border: none;
     color: white;
-    padding: 12px;
-    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
     width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    font-size: 18px;
+}
+
+.vendedor-sidebar ul li button:hover {
+    background: #555;
+}
+
+/* Contenido Principal */
+.vendedor-main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background: #f4f4f4;
+    overflow-y: auto;
+    width: calc(100vw - 250px);
+}
+
+/* Sección de Inicio */
+.vendedor-home-section {
     text-align: center;
+    padding: 50px;
 }
 
-.logout:hover {
-    background: #c0392b;
+.vendedor-home-section h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-/* Contenedor del contenido */
-.main-container {
-    flex: 1;
+.vendedor-home-section p {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Gestión de Vendedores */
+.vendedor-sellers-section h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Contenedor en dos columnas */
+.vendedor-sellers-container {
     display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding-top: 25px;
+}
+
+/* Columna Izquierda - Lista de Vendedores */
+.vendedor-sellers-list-container {
+    flex: 1;
+    max-width: 50%;
+}
+
+/* Columna Derecha - Formulario */
+.vendedor-register-form-container {
+    flex: 1;
+    max-width: 50%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
     align-items: center;
-    justify-content: center;
+}
+
+/* Filtros */
+.vendedor-filters {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
     padding: 20px;
 }
 
-/* Contenido principal */
-.dashboard-content {
-    flex: 1;
+.vendedor-filters input {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.vendedor-filters select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Contenedor de dos columnas centrado */
+.vendedor-sellers-container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    gap: 40px; /* Espacio entre columnas */
+    width: 100%;
+}
+
+/* Columna Izquierda - Lista de Vendedores */
+.vendedor-sellers-list-container {
+    flex: 1;
+    max-width: 45%; /* Se redujo un poco para más espacio */
+    display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+/* Lista de Vendedores */
+.vendedor-sellers-list {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.vendedor-sellers-list h2 {
     text-align: center;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+.vendedor-sellers-list ul {
+    list-style: none;
+    align-items: center;
+}
+
+.vendedor-sellers-list li {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    color: black;
+}
+
+.vendedor-sellers-list li:last-child {
+    border-bottom: none;
+}
+
+/* Botones de Editar y Eliminar */
+.vendedor-edit-button {
+    background-color: #007bff;
     color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-.content-box {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-width: 500px;
+.vendedor-edit-button:hover {
+    background-color: #0056b3;
+}
+
+.vendedor-delete-button {
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.vendedor-delete-button:hover {
+    background-color: #c53030;
+}
+
+/* Formulario de Registro */
+.vendedor-register-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+.vendedor-register-form {
+    display: flex;
+    flex-direction: column;
     width: 90%;
-    backdrop-filter: blur(10px);
-}
-
-.content-box h1 {
-    font-size: 26px;
-    color: #ecf0f1;
-    margin-bottom: 10px;
-}
-
-.content-box p {
-    font-size: 18px;
-    color: #bdc3c7;
+    padding: 15px;
 }

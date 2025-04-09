@@ -1,15 +1,17 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Propiedades from "../pages/Propiedades";
 import CrearPropiedad from "../pages/CrearPropiedad";
-import Footer from "../components/Footer.jsx";
+import PropiedadIndividual from "./PropiedadIndividual.jsx";
 import "./VendedorDashboard.css";
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("home");
+    const [modoEdicion, setModoEdicion] = useState(false);
+    const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
 
     if (!user || user.role !== "vendedor") {
         return <Navigate to="/" />;
@@ -21,41 +23,68 @@ const VendedorDashboard = () => {
     };
 
     return (
-        <div className="dashboard-container">
-            <aside className="sidebar">
-                <h2>Vendedor</h2>
+        <div className="vendedor-dashboard-container">
+            {/* Sidebar */}
+            <nav className="vendedor-sidebar">
+                <h2>Vendedor Panel</h2>
                 <ul>
-                    <li onClick={() => setActiveSection("home")} className={activeSection === "home" ? "active" : ""}>🏠 Home</li>
-                    <li onClick={() => setActiveSection("perfil")} className={activeSection === "perfil" ? "active" : ""}>👤 Perfil</li>
-                    <li onClick={() => setActiveSection("propiedades")} className={activeSection === "propiedades" ? "active" : ""}>🏢 Administrar Propiedades</li>
-                    <li onClick={handleLogout} className="logout">🚪 Cerrar Sesión</li>
+                    <li>
+                        <button onClick={() => setActiveSection("home")}>🏠 Inicio</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setActiveSection("perfil")}>👤 Perfil</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button>
+                    </li>
+                    <li>
+                        <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
+                    </li>
                 </ul>
-            </aside>
+            </nav>
 
-            <main className="main-container">
+            {/* Contenido Principal */}
+            <div className="vendedor-main-content">
                 {activeSection === "home" && (
-                    <div className="dashboard-content">
-                        <div className="content-box">
-                            <h1>Bienvenido al Dashboard del Vendedor</h1>
-                            <p>Aquí puedes gestionar tus propiedades, citas y notificaciones.</p>
-                        </div>
+                    <div className="vendedor-home-section">
+                        <h1>Bienvenido al Panel del Vendedor</h1>
+                        <p>Selecciona una opción del menú para comenzar.</p>
                     </div>
                 )}
 
                 {activeSection === "propiedades" && (
-                    <Propiedades setActiveSection={setActiveSection} />
+                    <div className="vendedor-propiedades-section">
+                        <Propiedades
+                            setActiveSection={setActiveSection}
+                            setPropiedadSeleccionada={setPropiedadSeleccionada}
+                            setModoEdicion={setModoEdicion}
+                        />
+                    </div>
                 )}
-
                 {activeSection === "crear-propiedad" && (
-                    <CrearPropiedad setActiveSection={setActiveSection} />
+                    <div className="vendedor-crear-propiedad-section">
+                        <CrearPropiedad
+                            setActiveSection={setActiveSection}
+                            modoEdicion={modoEdicion}
+                            propiedadEditando={propiedadSeleccionada}
+                        />
+                    </div>
+                )}
+                {activeSection === "ver-propiedad" && propiedadSeleccionada && (
+                    <div className="vendedor-ver-propiedad-section">
+                        <PropiedadIndividual
+                            propiedadId={propiedadSeleccionada}
+                            setActiveSection={setActiveSection}
+                        />
+                    </div>
                 )}
 
                 {activeSection === "perfil" && (
-                    <div className="dashboard-content">
+                    <div className="vendedor-dashboard-content">
                         <h2>Tu perfil aparecería aquí</h2>
                     </div>
                 )}
-            </main>
+            </div>
         </div>
     );
 };

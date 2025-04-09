@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import React, { useState, useEffect } from "react";
 import { getSellers, createSeller, updateSeller, deleteSeller } from "../services/adminService";
@@ -20,10 +20,6 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [modoEdicion, setModoEdicion] = useState(false);
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
-
-
-
-
 
 
     const handleLogout = () => {
@@ -101,8 +97,6 @@ const AdminDashboard = () => {
                     <li>
                         <button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button>
                     </li>
-
-
                     <li>
                         <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
                     </li>
@@ -118,7 +112,6 @@ const AdminDashboard = () => {
                         <p>Selecciona una opción del menú para comenzar.</p>
                     </div>
                 )}
-
 
                 {activeSection === "sellers" && (
                     <div className="sellers-section">
@@ -155,20 +148,35 @@ const AdminDashboard = () => {
                             <div className="register-form-container">
                                 <h2>{editSeller ? "Editar Vendedor" : "Crear Vendedor"}</h2>
                                 <form className="register-form" onSubmit={editSeller ? handleUpdateSeller : handleCreateSeller}>
-                                    <input type="text" placeholder="Nombre" value={editSeller ? editSeller.name : newSeller.name} onChange={(e) => editSeller ? setEditSeller({ ...editSeller, name: e.target.value }) : setNewSeller({ ...newSeller, name: e.target.value })} required />
-                                    <input type="email" placeholder="Email" value={editSeller ? editSeller.email : newSeller.email} onChange={(e) => editSeller ? setEditSeller({ ...editSeller, email: e.target.value }) : setNewSeller({ ...newSeller, email: e.target.value })} required />
+                                    <label htmlFor="name">Nombre</label>
+                                    <input id="name" type="text" value={editSeller ? editSeller.name : newSeller.name} onChange={(e) => editSeller ? setEditSeller({ ...editSeller, name: e.target.value }) : setNewSeller({ ...newSeller, name: e.target.value })} required />
+
+                                    <label htmlFor="email">Email</label>
+                                    <input id="email" type="email" value={editSeller ? editSeller.email : newSeller.email} onChange={(e) => editSeller ? setEditSeller({ ...editSeller, email: e.target.value }) : setNewSeller({ ...newSeller, email: e.target.value })} required />
 
                                     {!editSeller && (
-                                        <input type="password" placeholder="Contraseña" value={newSeller.password} onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })} required />
+                                        <>
+                                            <label htmlFor="password">Contraseña</label>
+                                            <input id="password" type="password" value={newSeller.password} onChange={(e) => setNewSeller({ ...newSeller, password: e.target.value })} required />
+                                        </>
                                     )}
 
-                                    <input type="text" placeholder="Teléfono" value={editSeller ? editSeller.phone : newSeller.phone} onChange={(e) => editSeller ? setEditSeller({ ...editSeller, phone: e.target.value }) : setNewSeller({ ...newSeller, phone: e.target.value })} required />
+                                    <label htmlFor="phone">Teléfono</label>
+                                    <input id="phone" type="text" value={editSeller ? editSeller.phone : newSeller.phone} onChange={(e) => editSeller ? setEditSeller({ ...editSeller, phone: e.target.value }) : setNewSeller({ ...newSeller, phone: e.target.value })} required />
+
                                     <button className="Submmitbutton" type="submit">{editSeller ? "Actualizar" : "Crear"}</button>
                                     {editSeller && <button onClick={() => setEditSeller(null)}>Cancelar</button>}
                                 </form>
                             </div>
                         </div>
                     </div>
+                )}
+
+                {activeSection === "ver-propiedad" && propiedadSeleccionada && (
+                    <PropiedadIndividual
+                        propiedadId={propiedadSeleccionada}
+                        setActiveSection={setActiveSection}
+                    />
                 )}
 
                 {activeSection === "propiedades" && (
@@ -179,7 +187,6 @@ const AdminDashboard = () => {
                     />
                 )}
 
-
                 {activeSection === "crear-propiedad" && (
                     <CrearPropiedad
                         setActiveSection={setActiveSection}
@@ -187,20 +194,6 @@ const AdminDashboard = () => {
                         propiedadEditando={propiedadSeleccionada}
                     />
                 )}
-
-
-                {activeSection === "ver-propiedad" && propiedadSeleccionada && (
-                    <PropiedadIndividual
-                        propiedadId={propiedadSeleccionada}
-                        setActiveSection={setActiveSection}
-                    />
-                )}
-
-
-
-
-
-
 
             </div>
         </div>
