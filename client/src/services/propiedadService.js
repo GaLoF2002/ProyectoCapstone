@@ -10,8 +10,9 @@ const getAuthHeaders = () => {
 };
 
 // Obtener todas las propiedades
-export const getPropiedades = async () => {
-    return await axios.get(API_URL, {
+export const getPropiedades = async (filtros = {}) => {
+    const params = new URLSearchParams(filtros).toString();
+    return await axios.get(`${API_URL}?${params}`, {
         headers: getAuthHeaders()
     });
 };
@@ -34,14 +35,16 @@ export const crearPropiedad = async (formData) => {
 
 
 // Actualizar una propiedad (sin imágenes nuevas, por simplicidad)
-export const actualizarPropiedad = async (id, data) => {
-    return await axios.put(`${API_URL}/${id}`, data, {
+export const actualizarPropiedad = async (id, formData) => {
+    const token = localStorage.getItem('token');
+    return await axios.put(`${API_URL}/${id}`, formData, {
         headers: {
-            ...getAuthHeaders(),
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     });
 };
+
 
 export const eliminarPropiedad = async (id) => {
     return await axios.delete(`${API_URL}/${id}`, {
