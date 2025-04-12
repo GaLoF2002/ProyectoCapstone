@@ -18,6 +18,17 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await login({ email, password });
+            const propiedadPendiente = localStorage.getItem("propiedadPendiente");
+
+            if (propiedadPendiente) {
+                localStorage.removeItem("propiedadPendiente");
+                navigate(`/cliente`);
+                localStorage.setItem("propiedadSeleccionada", propiedadPendiente);
+            } else {
+                const role = response.data.user.role;
+                navigate(`/${role}`);
+            }
+
 
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -62,13 +73,20 @@ const Login = () => {
                             <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
                                 ¿Olvidaste tu contraseña?
                             </p>
+                            <button
+                                onClick={() => navigate("/")}
+                                className="btn-home"
+                            >
+                                Ir al Inicio
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };
 
 export default Login;
+

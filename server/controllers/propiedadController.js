@@ -79,22 +79,40 @@ export const actualizarPropiedad = async (req, res) => {
             return res.status(404).json({ msg: 'Propiedad no encontrada' });
         }
 
-        // Validación de permisos
         if (req.user.role !== 'admin' && !propiedad.creadoPor.equals(req.user._id)) {
             return res.status(403).json({ msg: 'No autorizado para actualizar esta propiedad' });
         }
 
-        // Actualizar datos
-        Object.assign(propiedad, req.body);
+        // Extraer imágenes si llegan nuevas
+        const nuevasImagenes = req.files ? req.files.map(file => file.path) : [];
+
+        // Actualizar campos manualmente
+        propiedad.titulo = req.body.titulo || propiedad.titulo;
+        propiedad.descripcion = req.body.descripcion || propiedad.descripcion;
+        propiedad.precio = req.body.precio || propiedad.precio;
+        propiedad.ubicacion = req.body.ubicacion || propiedad.ubicacion;
+        propiedad.metrosCuadrados = req.body.metrosCuadrados || propiedad.metrosCuadrados;
+        propiedad.parqueaderos = req.body.parqueaderos || propiedad.parqueaderos;
+        propiedad.habitaciones = req.body.habitaciones || propiedad.habitaciones;
+        propiedad.banos = req.body.banos || propiedad.banos;
+        propiedad.tipo = req.body.tipo || propiedad.tipo;
+        propiedad.estado = req.body.estado || propiedad.estado;
+        propiedad.caracteristicas = req.body.caracteristicas ? Array.isArray(req.body.caracteristicas) ? req.body.caracteristicas : [req.body.caracteristicas] : propiedad.caracteristicas;
+
+        // Solo si llegan imágenes nuevas las reemplazo
+        if (nuevasImagenes.length > 0) {
+            propiedad.imagenes = nuevasImagenes;
+        }
+
         await propiedad.save();
 
         res.json({ msg: 'Propiedad actualizada correctamente', propiedad });
+
     } catch (error) {
         console.error("Error al actualizar propiedad:", error);
         res.status(500).json({ error: 'Error al actualizar la propiedad' });
     }
 };
-
 
 // Eliminar una propiedad
 export const eliminarPropiedad = async (req, res) => {
