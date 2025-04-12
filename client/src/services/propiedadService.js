@@ -35,15 +35,12 @@ export const crearPropiedad = async (formData) => {
 
 
 // Actualizar una propiedad (sin imágenes nuevas, por simplicidad)
-export const actualizarPropiedad = async (id, formData) => {
-    const token = localStorage.getItem('token');
-    return await axios.put(`${API_URL}/${id}`, formData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-        }
+export const actualizarPropiedad = async (id, data) => {
+    return await axios.put(`${API_URL}/${id}`, data, {
+        headers: getAuthHeaders()
     });
 };
+
 
 
 export const eliminarPropiedad = async (id) => {
