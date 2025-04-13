@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { getPropiedades } from "../services/propiedadService";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "./Home.css";
 import Footer from "../components/Footer";
-import houseImage from "../assets/edificio-Home.jpg";
+import Header from "../components/Header";
 
 const Home = () => {
     const [propiedades, setPropiedades] = useState([]);
@@ -50,48 +50,37 @@ const Home = () => {
     return (
         <div className="page-container">
             <div className="home-container">
-
-                {/* Parte superior - Bienvenida y botones */}
-                <div className="home-text">
-                    <h1>Bienvenido a</h1>
-                    <h1>AlphaEco-Construcciones</h1>
-                    <Link to="/login"><button>Iniciar Sesión</button></Link>
-                    <Link to="/register"><button>Registrarse</button></Link>
-                </div>
-
-                <div className="home-image">
-                    <img src={houseImage} alt="Casa" />
-                </div>
-
-                {/* Listado de Propiedades */}
+                <Header />
                 <h2 className="propiedades-title">Nuestras Propiedades</h2>
-
-                <div className="propiedades-home">
+                <div className="propiedades-grid">
                     {propiedadesPaginadas.map((p) => (
-                        <div key={p._id} className="prop-card-home">
-                            <h3>{p.titulo}</h3>
-                            <p>Ubicación: {p.ubicacion}</p>
-                            <p>Precio: ${p.precio}</p>
-                            <p>Habitaciones: {p.habitaciones}</p>
-                            <p>Metros cuadrados: {p.metrosCuadrados}</p>
-                            <button onClick={() => handleVerMas(p._id)}>Saber más</button>
+                        <div key={p._id} className="prop-card">
+                            {p.imagenes && p.imagenes.length > 0 && (
+                                <img
+                                    src={`http://localhost:5000/${p.imagenes[0]}`}
+                                    alt="Imagen propiedad"
+                                    className="propiedad-img-lateral"
+                                />
+                            )}
+                            <div className="prop-details">
+                                <h3>{p.titulo}</h3>
+                                <span className="prop-price">${p.precio}</span>
+                                <p><strong>Ubicación:</strong> {p.ubicacion}</p>
+                                <p><strong>Habitaciones:</strong> {p.habitaciones}</p>
+                                <p><strong>Metros cuadrados:</strong> {p.metrosCuadrados} m²</p>
+                                <button onClick={() => handleVerMas(p._id)}>Saber más</button>
+                            </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Paginación */}
                 {propiedades.length > propiedadesPorPagina && (
                     <div className="paginacion">
-                        <button onClick={paginaAnterior} disabled={paginaActual === 1}>
-                            ◀ Anterior
-                        </button>
+                        <button onClick={paginaAnterior} disabled={paginaActual === 1}>◀ Anterior</button>
                         <span>Página {paginaActual}</span>
-                        <button onClick={paginaSiguiente} disabled={indiceFin >= propiedades.length}>
-                            Siguiente ▶
-                        </button>
+                        <button onClick={paginaSiguiente} disabled={indiceFin >= propiedades.length}>Siguiente ▶</button>
                     </div>
                 )}
-
                 <Footer />
             </div>
         </div>

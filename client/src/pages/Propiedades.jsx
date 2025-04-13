@@ -113,8 +113,6 @@ const Propiedades = ({ setActiveSection, setPropiedadSeleccionada, setModoEdicio
                     </div>
                 </div>
             )}
-
-
             <div className="prop-list">
                 {propiedadesPaginadas.map((p) => (
                     <div key={p._id} className="prop-card">

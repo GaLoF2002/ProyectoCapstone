@@ -13,12 +13,12 @@
 }
 
 .footer-links a {
-    color: #adff2f;
+    color: #609115;
     text-decoration: none;
     margin: 0 15px;
     transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-    color: #3498db;
+    color: #2c3e50;
 }
