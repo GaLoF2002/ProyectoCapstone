@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getPropiedades } from "../services/propiedadService";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -12,6 +12,30 @@ const Home = () => {
     const propiedadesPorPagina = 4;
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
+
+    const [mostrarModalFiltros, setMostrarModalFiltros] = useState(false);
+    const [filtros, setFiltros] = useState({
+        metrosMin: "",
+        metrosMax: "",
+        habitaciones: "",
+        parqueaderos: "",
+        tipo: ""
+    });
+
+    const handleFiltroChange = (e) => {
+        const { name, value } = e.target;
+        setFiltros({ ...filtros, [name]: value });
+    };
+
+    const aplicarFiltros = async () => {
+        try {
+            const res = await getPropiedades(filtros);
+            setPropiedades(res.data);
+            setPaginaActual(1);
+        } catch (err) {
+            console.error("Error al aplicar filtros", err);
+        }
+    };
 
     useEffect(() => {
         const fetchPropiedades = async () => {
@@ -51,7 +75,40 @@ const Home = () => {
         <div className="page-container">
             <div className="home-container">
                 <Header />
-                <h2 className="propiedades-title">Nuestras Propiedades</h2>
+                <div className="title-and-filter">
+                    <h2 className="propiedades-title">Nuestras Propiedades</h2>
+                    <button className="filtros-toggle" onClick={() => setMostrarModalFiltros(true)}>
+                        🔍 Filtros
+                    </button>
+                </div>
+
+                {mostrarModalFiltros && (
+                    <div className="modal-filtros-overlay">
+                        <div className="modal-filtros">
+                            <h3>Filtrar Propiedades</h3>
+                            <div className="filtros-grid">
+                                <input type="number" name="metrosMin" placeholder="Min m²" value={filtros.metrosMin} onChange={handleFiltroChange} />
+                                <input type="number" name="metrosMax" placeholder="Max m²" value={filtros.metrosMax} onChange={handleFiltroChange} />
+                                <input type="number" name="habitaciones" placeholder="Habitaciones" value={filtros.habitaciones} onChange={handleFiltroChange} />
+                                <input type="number" name="parqueaderos" placeholder="Parqueaderos" value={filtros.parqueaderos} onChange={handleFiltroChange} />
+                                <select name="tipo" value={filtros.tipo} onChange={handleFiltroChange}>
+                                    <option value="">Todos los tipos</option>
+                                    <option value="casa">Casa</option>
+                                    <option value="departamento">Departamento</option>
+                                    <option value="terreno">Terreno</option>
+                                </select>
+                            </div>
+                            <div className="modal-filtros-botones">
+                                <button onClick={() => { aplicarFiltros(); setMostrarModalFiltros(false); }}>Aplicar</button>
+                                <button className="limpiar" onClick={() => setFiltros({ metrosMin: "", metrosMax: "", habitaciones: "", parqueaderos: "", tipo: "" })}>
+                                    Limpiar Filtros
+                                </button>
+                                <button className="cerrar" onClick={() => setMostrarModalFiltros(false)}>Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className="propiedades-grid">
                     {propiedadesPaginadas.map((p) => (
                         <div key={p._id} className="prop-card">
@@ -73,7 +130,6 @@ const Home = () => {
                         </div>
                     ))}
                 </div>
-
                 {propiedades.length > propiedadesPorPagina && (
                     <div className="paginacion">
                         <button onClick={paginaAnterior} disabled={paginaActual === 1}>◀ Anterior</button>

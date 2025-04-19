@@ -89,8 +89,6 @@ const ClienteDashboard = () => {
                     />
                 )}
             </div>
-
-            <Footer />
         </div>
     );
 };
