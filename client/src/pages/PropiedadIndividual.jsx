@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
+import { AuthContext } from "../context/AuthContext";
 import "./PropiedadIndividual.css";
 
 const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
+    const { user } = useContext(AuthContext);
     const [propiedad, setPropiedad] = useState(null);
 
     useEffect(() => {
@@ -21,9 +23,6 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
 
     return (
         <div className="detalle-prop-container">
-            <button className="btn-volver" onClick={() => setActiveSection("propiedades")}>
-                ⬅️ Regresar
-            </button>
 
             <h2 className="titulo-propiedad">{propiedad.titulo}</h2>
 
