@@ -44,6 +44,12 @@ const CrearPropiedad = ({ setActiveSection, modoEdicion = false, propiedadEditan
         }
     }, [modoEdicion, propiedadEditando]);
 
+    useEffect(() => {
+        return () => {
+            imagePreviews.forEach(url => URL.revokeObjectURL(url));
+        };
+    }, [imagePreviews]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
@@ -52,6 +58,28 @@ const CrearPropiedad = ({ setActiveSection, modoEdicion = false, propiedadEditan
     const handleCaracteristicas = (e) => {
         const value = e.target.value.split(",");
         setForm({ ...form, caracteristicas: value });
+    };
+
+    const handleImageChange = (e) => {
+        const newFiles = Array.from(e.target.files);
+
+        if (form.imagenes.length + newFiles.length > 10) {
+            alert("Solo puedes subir un máximo de 10 imágenes.");
+            return;
+        }
+
+        const updatedFiles = [...form.imagenes, ...newFiles];
+        const updatedPreviews = [...imagePreviews, ...newFiles.map(file => URL.createObjectURL(file))];
+
+        setForm({ ...form, imagenes: updatedFiles });
+        setImagePreviews(updatedPreviews);
+    };
+
+    const handleRemoveImage = (index) => {
+        const nuevasImagenes = form.imagenes.filter((_, i) => i !== index);
+        const nuevasPreviews = imagePreviews.filter((_, i) => i !== index);
+        setForm({ ...form, imagenes: nuevasImagenes });
+        setImagePreviews(nuevasPreviews);
     };
 
     const handleSubmit = async (e) => {
@@ -145,23 +173,16 @@ const CrearPropiedad = ({ setActiveSection, modoEdicion = false, propiedadEditan
                                 type="file"
                                 multiple
                                 accept="image/*"
-                                onChange={(e) => {
-                                    const files = Array.from(e.target.files);
-
-                                    if (files.length > 10) {
-                                        alert("Solo puedes subir un máximo de 10 imágenes.");
-                                        return;
-                                    }
-
-                                    setForm({ ...form, imagenes: files });
-
-                                    const previews = files.map(file => URL.createObjectURL(file));
-                                    setImagePreviews(previews);
-                                }}
+                                onChange={handleImageChange}
                             />
                             <div className="preview-container">
                                 {imagePreviews.map((src, index) => (
-                                    <img key={index} src={src} alt={`Preview ${index}`} className="preview-image" />
+                                    <div key={index} className="preview-wrapper">
+                                        <img src={src} alt={`Preview ${index}`} className="preview-image" />
+                                        <button type="button" className="remove-image-button" onClick={() => handleRemoveImage(index)}>
+                                            ✖
+                                        </button>
+                                    </div>
                                 ))}
                             </div>
                         </div>
