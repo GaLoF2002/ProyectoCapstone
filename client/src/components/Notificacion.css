@@ -1,0 +1,26 @@
+.notification {
+    position: fixed;
+    top: 20px; /* Ajusta la posición vertical */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da; /* Fondo para errores */
+    color: #721c24; /* Texto para errores */
+    border: 1px solid #f5c6cb;
+    padding: 15px 20px;
+    border-radius: 5px;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.notification.success {
+    background-color: #d4edda; /* Fondo para éxito */
+    color: #155724; /* Texto para éxito */
+    border: 1px solid #c3e6cb;
+}
+
+.notification.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+}

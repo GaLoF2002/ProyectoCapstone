@@ -1,18 +1,25 @@
 import { useState, useContext, useEffect } from "react";
 import { login } from "../services/authService";
-import { Navigate, useNavigate, useLocation } from "react-router-dom"; // Importamos useLocation
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import Footer from "./Footer.jsx"; // Agregamos el footer
+import Footer from "./Footer.jsx";
 import "./Login.css";
+import "./Notificacion.css";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { user, logout, login: loginUser } = useContext(AuthContext);
     const navigate = useNavigate();
-    const location = useLocation(); // Se usa correctamente location
+    const location = useLocation();
+    const [notification, setNotification] = useState(null); // Estado para la notificación
 
-
+    const showNotification = (message, isError = true) => {
+        setNotification({ message, isError, visible: true });
+        setTimeout(() => {
+            setNotification(prev => ({ ...prev, visible: false }));
+        }, 3000); // La notificación desaparece después de 3 segundos
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -29,7 +36,6 @@ const Login = () => {
                 navigate(`/${role}`);
             }
 
-
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
 
@@ -38,7 +44,7 @@ const Login = () => {
             const role = response.data.user.role;
             navigate(`/${role}`);
         } catch (error) {
-            alert("Error en login: " + error.response?.data?.error);
+            showNotification(error.response?.data?.error || "Error al iniciar sesión. Por favor, inténtalo de nuevo.");
         }
     };
 
@@ -83,10 +89,14 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
+            {notification?.visible && (
+                <div className={`notification ${notification.isError ? 'error' : 'success'}`}>
+                    {notification.message}
+                </div>
+            )}
         </div>
     );
 };
 
 export default Login;
-
