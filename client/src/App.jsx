@@ -11,6 +11,9 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Propiedades from './pages/Propiedades';
 import CrearPropiedad from './pages/CrearPropiedad';
+import AgendamientoVendedor from "./pages/AgendamientoVendedor.jsx";
+import AgendarCita from "./pages/AgendarCita.jsx";
+import GestionarCitasVendedor from "./pages/GestionarCitasVendedor.jsx";
 
 import React from "react";
 import PropiedadIndividual from "./pages/PropiedadIndividual.jsx";
@@ -32,6 +35,9 @@ function App() {
                     <Route path="/propiedades" element={<Propiedades />} />
                     <Route path="/crear-propiedad" element={<CrearPropiedad />} />
                     <Route path="/propiedades/:id" element={<PropiedadIndividual />} />
+                    <Route path="/agendamiento-vendedor" element={<AgendamientoVendedor />} />
+                    <Route path="/creacion-cita" element={<AgendarCita />} />
+                    <Route path="/gestionar-citas" element={<GestionarCitasVendedor />} />
                 </Routes>
             </Router>
         </AuthProvider>

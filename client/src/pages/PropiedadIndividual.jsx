@@ -50,6 +50,17 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
                     <p><strong>Características:</strong> {propiedad.caracteristicas.join(", ")}</p>
                 </div>
             </div>
+
+            {/* Botón para Agendar Cita */}
+            {user.role === "cliente" && (
+                <button
+                    className="btn-agendar-cita"
+                    onClick={() => setActiveSection("agendar-cita")}
+                >
+                    📅 Agendar Cita para Conocer la Propiedad
+                </button>
+            )}
+
         </div>
     );
 };
