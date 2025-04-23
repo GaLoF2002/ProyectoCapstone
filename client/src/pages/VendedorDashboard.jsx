@@ -4,7 +4,9 @@ import { AuthContext } from "../context/AuthContext";
 import Propiedades from "../pages/Propiedades";
 import CrearPropiedad from "../pages/CrearPropiedad";
 import PropiedadIndividual from "./PropiedadIndividual.jsx";
+import AgendamientoVendedor from "./AgendamientoVendedor.jsx";
 import "./VendedorDashboard.css";
+import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -37,6 +39,15 @@ const VendedorDashboard = () => {
                     <li>
                         <button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button>
                     </li>
+                    <li>
+                        <button onClick={() => setActiveSection("agendamiento")}>📅 Agendamiento</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setActiveSection("mis-citas")}>🗓️ Mis Citas</button>
+                    </li>
+
+
+
                     <li>
                         <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
                     </li>
@@ -84,6 +95,20 @@ const VendedorDashboard = () => {
                         <h2>Tu perfil aparecería aquí</h2>
                     </div>
                 )}
+
+                {activeSection === "agendamiento" && (
+                    <div className="vendedor-agendamiento-section">
+                        <AgendamientoVendedor />
+                    </div>
+                )}
+                {activeSection === "mis-citas" && (
+                    <div className="vendedor-citas-section">
+                        <GestionarCitasVendedor />
+                    </div>
+                )}
+
+
+
             </div>
         </div>
     );

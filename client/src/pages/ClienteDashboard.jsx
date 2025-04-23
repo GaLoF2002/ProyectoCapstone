@@ -7,6 +7,9 @@ import Perfil from './PerfilCliente';
 import PropiedadIndividual from './PropiedadIndividual';
 import { getPropiedades } from '../services/propiedadService';
 import './ClienteDashboard.css';
+import AgendarCita from "./AgendarCita"; // Importa tu nuevo componente
+
+
 
 const ClienteDashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -183,6 +186,12 @@ const ClienteDashboard = () => {
                     <div style={{ padding: "2rem" }}>
                         <h2>Aquí se mostrarán tus propiedades favoritas ❤️</h2>
                     </div>
+                )}
+                {activeSection === "agendar-cita" && propiedadSeleccionada && (
+                    <AgendarCita
+                        propiedadId={propiedadSeleccionada}
+                        setActiveSection={setActiveSection}
+                    />
                 )}
             </main>
 
