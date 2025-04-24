@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import { getDisponibilidadPorVendedor, getMisCitas, crearCita } from "../services/agendamientoService";
 import { AuthContext } from "../context/AuthContext";
+import "./AgendarCita.css"; // Importa el archivo de estilos
 
 const AgendarCita = ({ propiedadId, setActiveSection }) => {
     const { user } = useContext(AuthContext);
@@ -76,50 +77,45 @@ const AgendarCita = ({ propiedadId, setActiveSection }) => {
     if (!propiedad) return <p>Cargando información de la propiedad...</p>;
 
     return (
-        <div style={{ padding: "2rem" }}>
-            <h2>Agendar Cita para: {propiedad.titulo}</h2>
+        <div className="agendar-cita-container">
+            <h2 className="agendar-cita-titulo">Agendar Cita para: {propiedad.titulo}</h2>
 
-            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <div className="calendario-container">
                 {diasSiguientes.map((dia) => (
-                    <div key={dia.fecha} style={{ border: "1px solid #ccc", padding: "1rem", width: "200px" }}>
-                        <h4>{dia.diaSemana} ({dia.fecha})</h4>
-                        {generarHoras("08:00", "18:00").map((hora) => {
-                            const disponible = estaDisponible(dia.fecha, hora, dia.diaSemana);
-                            return (
-                                <button
-                                    key={`${dia.fecha}-${hora}`}
-                                    style={{
-                                        display: "block",
-                                        margin: "0.2rem 0",
-                                        backgroundColor: disponible ? "lightgreen" : "lightcoral",
-                                        border: disponible ? "1px solid green" : "1px solid red",
-                                        color: "#000",
-                                        cursor: disponible ? "pointer" : "not-allowed"
-                                    }}
-                                    disabled={!disponible}
-                                    onClick={() => {
-                                        setFechaSeleccionada(dia.fecha);
-                                        setHoraSeleccionada(hora);
-                                    }}
-                                >
-                                    {hora}
-                                </button>
-                            );
-                        })}
+                    <div key={dia.fecha} className="dia-container">
+                        <h3 className="dia-titulo">{dia.diaSemana} ({dia.fecha})</h3>
+                        <div className="horas-container">
+                            {generarHoras("08:00", "18:00").map((hora) => {
+                                const disponible = estaDisponible(dia.fecha, hora, dia.diaSemana);
+                                return (
+                                    <button
+                                        key={`${dia.fecha}-${hora}`}
+                                        className={`hora-boton ${disponible ? 'disponible' : 'no-disponible'}`}
+                                        disabled={!disponible}
+                                        onClick={() => {
+                                            setFechaSeleccionada(dia.fecha);
+                                            setHoraSeleccionada(hora);
+                                        }}
+                                    >
+                                        {hora}
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>
 
             {fechaSeleccionada && horaSeleccionada && (
-                <div style={{ marginTop: "1rem" }}>
+                <div className="seleccion-cita-confirmacion">
                     <p>Seleccionaste: <strong>{fechaSeleccionada} a las {horaSeleccionada}</strong></p>
-                    <button onClick={confirmarCita}>Confirmar Cita</button>
+                    <div className="confirmacion-container">
+                        <button className="confirmar-boton" onClick={confirmarCita}>Confirmar Cita</button>
+                        <button className="cancelar-boton" onClick={() => setActiveSection("ver-propiedad")}>Cancelar</button>
+                        {mensaje && <p className="mensaje-cita-confirmacion">{mensaje}</p>}
+                    </div>
                 </div>
             )}
-
-            {mensaje && <p>{mensaje}</p>}
-
-            <button onClick={() => setActiveSection("ver-propiedad")} style={{ marginTop: "1rem" }}>Cancelar</button>
         </div>
     );
 };
@@ -132,7 +128,7 @@ const generarSieteDias = () => {
         const fechaObj = new Date();
         fechaObj.setDate(fechaObj.getDate() + i);
         const diaSemana = nombresDias[fechaObj.getDay()];
-        const fechaStr = fechaObj.toISOString().slice(0, 10); // yyyy-mm-dd
+        const fechaStr = fechaObj.toISOString().slice(0, 10); // YYYY-MM-DD
         dias.push({ diaSemana, fecha: fechaStr });
     }
     return dias;

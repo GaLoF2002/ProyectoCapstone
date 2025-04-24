@@ -1,0 +1,165 @@
+
+.agendamiento-vendedor-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.agendamiento-vendedor-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.mensaje {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.mensaje.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.mensaje.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.formulario-disponibilidad {
+    display: grid;
+    grid-template-columns: auto auto; /* Dos columnas: una para los inputs, otra para el botón */
+    grid-template-rows: auto auto auto; /* Tres filas para día, inicio, fin */
+    gap: 10px 15px; /* Reducimos el espacio entre filas y agregamos un poco entre columnas */
+    margin-bottom: 20px;
+    align-items: center; /* Alinea verticalmente los items en cada fila */
+}
+
+.campo-disponibilidad {
+    display: flex;
+    gap: 8px; /* Reducimos el espacio entre label e input */
+    align-items: center;
+    justify-content: center; /* Centra los elementos (label e input) horizontalmente */
+}
+
+.campo-disponibilidad label {
+    font-weight: bold;
+    color: #555;
+    width: auto; /* Dejamos que el ancho de la etiqueta se ajuste */
+    text-align: left;
+    margin-right: 5px; /* Reducimos el margen derecho de la etiqueta */
+}
+
+/* Selector para los inputs de hora */
+.campo-disponibilidad input[type="time"] {
+    padding: 8px; /* Reducimos el padding interno */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 150px; /* Ancho reducido para los inputs de hora */
+    box-sizing: border-box;
+    flex-grow: 0; /* Evitamos que crezcan */
+}
+
+/* Selector para el select de día de la semana */
+.campo-disponibilidad select {
+    padding: 8px; /* Reducimos el padding interno */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100px; /* Ancho reducido para el select de día */
+    box-sizing: border-box;
+    flex-grow: 0; /* Evitamos que crezca */
+}
+
+.boton-guardar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px; /* Reducimos el padding del botón */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    grid-column: 2 / 3; /* Coloca el botón en la segunda columna */
+    grid-row: 1 / 4; /* El botón ocupa las tres filas verticalmente */
+    align-self: center; /* Alinea verticalmente el botón al centro */
+    justify-self: start; /* Alinea horizontalmente el botón al inicio de su celda */
+    width: fit-content; /* Ajusta el ancho al contenido del botón */
+    margin-left: 10px; /* Agregamos un margen izquierdo para separarlo un poco */
+}
+
+.boton-guardar:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos específicos para cada campo para ubicarlos en las filas correctas */
+.campo-dia-semana {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.campo-hora-inicio {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.campo-hora-fin {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+/* Ajustamos el estilo del label dentro de los campos */
+.campo-dia-semana label,
+.campo-hora-inicio label,
+.campo-hora-fin label {
+    width: auto; /* Dejamos que el ancho de la etiqueta se ajuste */
+    text-align: left;
+    margin-right: 5px; /* Reducimos el margen derecho de la etiqueta */
+}
+
+.disponibilidad-registrada {
+    margin-top: 20px; /* Reducimos el margen superior */
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: white;
+}
+
+.disponibilidad-registrada h3 {
+    color: #333;
+    margin-bottom: 10px; /* Reducimos el margen inferior */
+}
+
+.sin-disponibilidad {
+    color: #777;
+    font-style: italic;
+}
+
+.lista-disponibilidad {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-disponibilidad .item-disponibilidad {
+    padding: 8px 0; /* Reducimos el padding vertical */
+    border-bottom: 1px solid #eee;
+}
+
+.lista-disponibilidad .item-disponibilidad:last-child {
+    border-bottom: none;
+}
+
+.lista-disponibilidad .item-disponibilidad strong {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Adaptación para el dashboard */
+.vendedor-main-content .vendedor-agendamiento-section {
+    padding: 15px; /* Reducimos el padding general de la sección */
+}
