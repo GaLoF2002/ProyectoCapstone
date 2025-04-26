@@ -47,9 +47,6 @@ const VendedorDashboard = () => {
                         <button onClick={() => setActiveSection("citas-pendientes")}>📋 Citas Pendientes</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("mis-citas")}>🗓️ Mis Citas</button>
-                    </li>
-                    <li>
                         <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
                     </li>
                 </ul>

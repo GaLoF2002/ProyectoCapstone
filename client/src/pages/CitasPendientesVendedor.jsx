@@ -4,6 +4,7 @@ import { getMisCitas, cambiarEstadoCita, getDisponibilidadPorVendedor } from "..
 import "./CitasPendientesVendedor.css";
 
 const diasSemana = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+const horasDia = Array.from({ length: 16 }, (_, i) => `${(6 + i).toString().padStart(2, '0')}:00`); // Genera horas de 06:00 a 21:00
 
 const CitasPendientesVendedor = () => {
     const { user } = useContext(AuthContext);
@@ -55,41 +56,65 @@ const CitasPendientesVendedor = () => {
         }
     }, [user]);
 
-    // 🗓️ Generar horario por día
     const renderHorario = () => {
-        return diasSemana.map(dia => {
-            const disp = disponibilidad.find(d => d.diaSemana === dia);
-            if (!disp) return null;
+        const borderColor = '#ccc';
+        const cellPaddingVertical = '0.2rem'; // Reducimos el padding vertical
+        const cellPaddingHorizontal = '0.5rem';
 
-            let inicio = parseInt(disp.horaInicio.split(":")[0]);
-            let fin = parseInt(disp.horaFin.split(":")[0]);
+        return (
+            <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', border: `1px solid ${borderColor}` }}>
+                    <thead>
+                    <tr>
+                        <th style={{ border: `1px solid ${borderColor}`, padding: '0.5rem', fontWeight: 'bold', color: 'black' }}></th>
+                        {diasSemana.map(dia => (
+                            <th key={dia} style={{ border: `1px solid ${borderColor}`, padding: '0.5rem', fontWeight: 'bold', color: 'black' }}>
+                                {dia.charAt(0).toUpperCase() + dia.slice(1)}
+                            </th>
+                        ))}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {horasDia.map(hora => (
+                        <tr key={hora}>
+                            <th style={{ border: `1px solid ${borderColor}`, padding: '0.5rem', fontWeight: 'bold', color: 'black' }}>{hora}</th>
+                            {diasSemana.map(dia => {
+                                const disp = disponibilidad.find(d => d.diaSemana === dia);
+                                if (!disp) return <td key={`${dia}-${hora}`} style={{ border: `1px solid ${borderColor}`, padding: `${cellPaddingVertical} ${cellPaddingHorizontal}` }}></td>;
 
-            const horas = [];
-            for (let h = inicio; h <= fin; h++) {
-                const horaTexto = `${h.toString().padStart(2, '0')}:00`;
+                                const cita = citasAceptadas.find(c => {
+                                    const citaDia = new Date(c.fecha).toLocaleString("es-EC", { weekday: "long" });
+                                    return citaDia === dia && c.hora === hora;
+                                });
 
-                const cita = citasAceptadas.find(c => {
-                    const citaDia = new Date(c.fecha).toLocaleString("es-EC", { weekday: "long" });
-                    return citaDia === dia && c.hora === horaTexto;
-                });
+                                const horaInicioDisp = disp.horaInicio.split(':')[0];
+                                const horaFinDisp = disp.horaFin.split(':')[0];
+                                const horaActual = hora.split(':')[0];
 
-                horas.push(
-                    <span key={horaTexto} style={{
-                        marginRight: "1rem",
-                        color: cita ? "red" : "green",
-                        fontWeight: "bold"
-                    }}>
-                        {horaTexto} {cita ? `(${cita.propiedad.titulo})` : ""}
-                    </span>
-                );
-            }
+                                const estaDisponible = parseInt(horaActual) >= parseInt(horaInicioDisp) && parseInt(horaActual) <= parseInt(horaFinDisp);
+                                let contenido = '';
+                                let color = 'black';
 
-            return (
-                <div key={dia} style={{ marginBottom: "1rem" , margin: "0 2rem"}}>
-                    <strong>{dia.charAt(0).toUpperCase() + dia.slice(1)}</strong>: {horas}
-                </div>
-            );
-        });
+                                if (cita) {
+                                    contenido = `(${cita.propiedad.titulo})`;
+                                    color = 'red';
+                                } else if (estaDisponible) {
+                                    contenido = 'Libre';
+                                    color = 'green';
+                                }
+
+                                return (
+                                    <td key={`${dia}-${hora}`} style={{ border: `1px solid ${borderColor}`, padding: `${cellPaddingVertical} ${cellPaddingHorizontal}`, color: color, fontSize: '0.75rem', textAlign: 'center' }}>
+                                        {contenido}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+        );
     };
 
     return (
@@ -98,7 +123,7 @@ const CitasPendientesVendedor = () => {
             {citasPendientes.length === 0 ? (
                 <p>No tienes citas pendientes.</p>
             ) : (
-                <div className="citas-grid-container"> {/* Contenedor de la cuadrícula */}
+                <div className="citas-grid-container">
                     {citasPendientes.map(cita => (
                         <div key={cita._id} className="cita-pendiente-item">
                             <div>
@@ -126,7 +151,6 @@ const CitasPendientesVendedor = () => {
                                 <button onClick={() => manejarCita(cita._id, "cancelada")}>Rechazar</button>
                             </div>
                         </div>
-
                     ))}
                 </div>
             )}

@@ -89,40 +89,7 @@
     background-color: #c9302c;
 }
 
-/* Estilos para el calendario semanal (sin cambios) */
+/* Estilos para el calendario semanal (modificados para columnas de días) */
 .vendedor-citas-pendientes-section h2:last-of-type {
     margin-top: 2rem;
-}
-
-.vendedor-citas-pendientes-section > div { /* Contenedor de cada día */
-    margin-bottom: 1rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px dashed #ddd;
-}
-
-.vendedor-citas-pendientes-section > div:last-child {
-    border-bottom: none;
-}
-
-.vendedor-citas-pendientes-section > div strong {
-    display: block;
-    margin-bottom: 0.3rem;
-    color: #555;
-}
-
-.vendedor-citas-pendientes-section > div span {
-    display: inline-block;
-    padding: 0.4rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-}
-
-.vendedor-citas-pendientes-section > div span.ocupado {
-    background-color: #f44336; /* Rojo para cita */
-    color: white;
-}
-
-.vendedor-citas-pendientes-section > div span.libre {
-    background-color: #4CAF50; /* Verde para libre */
-    color: white;
 }
