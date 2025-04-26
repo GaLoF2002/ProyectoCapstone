@@ -24,6 +24,7 @@ export const getDisponibilidadPorVendedor = async (vendedorId) => {
     });
 };
 
+
 // ========== CITAS ========== //
 
 // Crear una cita (cliente)

@@ -4,7 +4,7 @@ import {
     crearDisponibilidad,
     getDisponibilidadPorVendedor
 } from "../services/agendamientoService";
-import "./AgendamientoVendedor.css"; // Importa el archivo de estilos
+import "./AgendamientoVendedor.css";
 
 const AgendamientoVendedor = () => {
     const { user } = useContext(AuthContext);
@@ -14,7 +14,7 @@ const AgendamientoVendedor = () => {
     const [horaFin, setHoraFin] = useState("");
     const [disponibilidad, setDisponibilidad] = useState([]);
     const [mensaje, setMensaje] = useState(null);
-    const [tipoMensaje, setTipoMensaje] = useState(null); // 'success' o 'error'
+    const [tipoMensaje, setTipoMensaje] = useState(null);
 
     const mostrarMensaje = (texto, tipo) => {
         setMensaje(texto);
@@ -33,7 +33,7 @@ const AgendamientoVendedor = () => {
 
         try {
             const data = { diaSemana, horaInicio, horaFin };
-            console.log("Enviando datos:", data);
+            console.log("📤 Enviando datos:", data);
             await crearDisponibilidad(data);
 
             mostrarMensaje("✅ Disponibilidad guardada correctamente", "success");
@@ -44,23 +44,26 @@ const AgendamientoVendedor = () => {
 
             obtenerDisponibilidad();
         } catch (error) {
-            console.error("Error al guardar disponibilidad:", error);
+            console.error("❌ Error al guardar disponibilidad:", error);
             mostrarMensaje(error.response?.data?.msg || "❌ Error al guardar disponibilidad", "error");
         }
     };
 
     const obtenerDisponibilidad = async () => {
         try {
-            if (!user || !user._id) return;
-            const res = await getDisponibilidadPorVendedor(user._id);
+            const vendedorId = user._id || user.id;
+            const res = await getDisponibilidadPorVendedor(vendedorId);
+            console.log("🟢 Disponibilidad obtenida:", res.data);
             setDisponibilidad(res.data);
         } catch (err) {
-            console.error("Error obteniendo disponibilidad:", err);
+            console.error("❌ Error obteniendo disponibilidad:", err);
         }
     };
 
+    // ✅ useEffect bien controlado
     useEffect(() => {
-        if (user && user._id) {
+        if (user && (user._id || user.id)) {
+            console.log("👤 User listo para cargar disponibilidad:", user);
             obtenerDisponibilidad();
         }
     }, [user]);
