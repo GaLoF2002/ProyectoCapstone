@@ -123,16 +123,20 @@
 }
 
 .disponibilidad-registrada {
-    margin-top: 20px; /* Reducimos el margen superior */
+    margin-top: 20px;
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 6px;
     background-color: white;
+    text-align: center; /* Centra el texto contenido dentro */
+    width: 400px; /* Ajusta el ancho al contenido */
+    margin-left: auto; /* Crea un margen automático a la izquierda */
+    margin-right: auto; /* Crea un margen automático a la derecha */
 }
 
 .disponibilidad-registrada h3 {
     color: #333;
-    margin-bottom: 10px; /* Reducimos el margen inferior */
+    margin-bottom: 10px;
 }
 
 .sin-disponibilidad {
@@ -146,8 +150,9 @@
 }
 
 .lista-disponibilidad .item-disponibilidad {
-    padding: 8px 0; /* Reducimos el padding vertical */
+    padding: 8px 0;
     border-bottom: 1px solid #eee;
+    color: #555;
 }
 
 .lista-disponibilidad .item-disponibilidad:last-child {
@@ -162,4 +167,5 @@
 /* Adaptación para el dashboard */
 .vendedor-main-content .vendedor-agendamiento-section {
     padding: 15px; /* Reducimos el padding general de la sección */
+    margin-top: 150px;
 }

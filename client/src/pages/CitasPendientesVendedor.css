@@ -1,0 +1,128 @@
+/* Estilos para CitasPendientesVendedor.jsx */
+.vendedor-citas-pendientes-section {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vendedor-citas-pendientes-section h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+.vendedor-citas-pendientes-section p {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Contenedor de la cuadrícula de citas */
+.citas-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Crea hasta 3 columnas */
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cita-pendiente-item {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex; /* Convertimos el item en un contenedor flex */
+    flex-direction: column; /* Los elementos internos se apilan verticalmente por defecto */
+}
+
+.cita-pendiente-item > div { /* Contenedor para la información en línea */
+    display: flex;
+    margin-bottom: 0.3rem;
+    align-items: baseline; /* Alinea la base del texto */
+    width: 100%; /* Asegura que el div ocupe todo el ancho disponible */
+}
+
+.cita-pendiente-item > strong {
+    margin-right: 0.5rem;
+    width: 80px; /* Ajusta este valor según necesites para alinear los valores */
+    display: inline-block;
+    flex-shrink: 0; /* Evita que se encoja demasiado */
+}
+
+.cita-pendiente-item > div span {
+    color: black; /* un poco más oscuro que #555, pero menos que negro */
+}
+
+.citas-botones {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center; /* Por si acaso hay un problema de alineación vertical */
+    width: 100%;
+}
+
+.cita-pendiente-item > .botones-container > * { /* Selecciona todos los hijos directos (los botones) */
+    flex-grow: 0; /* No permitas que los botones crezcan para llenar el espacio */
+    flex-shrink: 0; /* No permitas que los botones se encojan más de lo necesario */
+}
+
+.cita-pendiente-item button {
+    background-color: #5cb85c; /* Verde para aceptar */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+
+.cita-pendiente-item button:hover {
+    background-color: #4cae4c;
+}
+
+.cita-pendiente-item button:last-child {
+    background-color: #d9534f; /* Rojo para rechazar */
+}
+
+.cita-pendiente-item button:last-child:hover {
+    background-color: #c9302c;
+}
+
+/* Estilos para el calendario semanal (sin cambios) */
+.vendedor-citas-pendientes-section h2:last-of-type {
+    margin-top: 2rem;
+}
+
+.vendedor-citas-pendientes-section > div { /* Contenedor de cada día */
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.vendedor-citas-pendientes-section > div:last-child {
+    border-bottom: none;
+}
+
+.vendedor-citas-pendientes-section > div strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #555;
+}
+
+.vendedor-citas-pendientes-section > div span {
+    display: inline-block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.vendedor-citas-pendientes-section > div span.ocupado {
+    background-color: #f44336; /* Rojo para cita */
+    color: white;
+}
+
+.vendedor-citas-pendientes-section > div span.libre {
+    background-color: #4CAF50; /* Verde para libre */
+    color: white;
+}

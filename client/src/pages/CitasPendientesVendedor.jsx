@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getMisCitas, cambiarEstadoCita, getDisponibilidadPorVendedor } from "../services/agendamientoService";
+import "./CitasPendientesVendedor.css";
 
 const diasSemana = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
 
@@ -84,7 +85,7 @@ const CitasPendientesVendedor = () => {
             }
 
             return (
-                <div key={dia} style={{ marginBottom: "1rem" }}>
+                <div key={dia} style={{ marginBottom: "1rem" , margin: "0 2rem"}}>
                     <strong>{dia.charAt(0).toUpperCase() + dia.slice(1)}</strong>: {horas}
                 </div>
             );
@@ -92,24 +93,42 @@ const CitasPendientesVendedor = () => {
     };
 
     return (
-        <div style={{ padding: "2rem" }}>
+        <div className="vendedor-citas-pendientes-section">
             <h2>📅 Citas Pendientes</h2>
             {citasPendientes.length === 0 ? (
                 <p>No tienes citas pendientes.</p>
             ) : (
-                <ul>
+                <div className="citas-grid-container"> {/* Contenedor de la cuadrícula */}
                     {citasPendientes.map(cita => (
-                        <li key={cita._id} style={{ marginBottom: "1rem" }}>
-                            <strong>Propiedad:</strong> {cita.propiedad.titulo} <br />
-                            <strong>Cliente:</strong> {cita.cliente.name} <br />
-                            <strong>Fecha:</strong> {new Date(cita.fecha).toLocaleDateString()} <br />
-                            <strong>Hora:</strong> {cita.hora} <br />
-                            <strong>Mensaje:</strong> {cita.mensaje} <br />
-                            <button onClick={() => manejarCita(cita._id, "aceptada")} style={{ marginRight: "1rem" }}>✅ Aceptar</button>
-                            <button onClick={() => manejarCita(cita._id, "cancelada")}>❌ Rechazar</button>
-                        </li>
+                        <div key={cita._id} className="cita-pendiente-item">
+                            <div>
+                                <strong>Propiedad</strong>
+                                <span>{cita.propiedad.titulo}</span>
+                            </div>
+                            <div>
+                                <strong>Cliente</strong>
+                                <span>{cita.cliente.name}</span>
+                            </div>
+                            <div>
+                                <strong>Fecha</strong>
+                                <span>{new Date(cita.fecha).toLocaleDateString()}</span>
+                            </div>
+                            <div>
+                                <strong>Hora</strong>
+                                <span>{cita.hora}</span>
+                            </div>
+                            <div>
+                                <strong>Mensaje</strong>
+                                <span>{cita.mensaje}</span>
+                            </div>
+                            <div className="citas-botones">
+                                <button onClick={() => manejarCita(cita._id, "aceptada")}>Aceptar</button>
+                                <button onClick={() => manejarCita(cita._id, "cancelada")}>Rechazar</button>
+                            </div>
+                        </div>
+
                     ))}
-                </ul>
+                </div>
             )}
 
             <h2>🗓️ Mi Calendario Semanal</h2>
