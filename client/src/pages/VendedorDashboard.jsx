@@ -7,6 +7,7 @@ import PropiedadIndividual from "./PropiedadIndividual.jsx";
 import AgendamientoVendedor from "./AgendamientoVendedor.jsx";
 import "./VendedorDashboard.css";
 import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
+import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -44,6 +45,9 @@ const VendedorDashboard = () => {
                     </li>
                     <li>
                         <button onClick={() => setActiveSection("mis-citas")}>🗓️ Mis Citas</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setActiveSection("citas-pendientes")}>📋 Citas Pendientes</button>
                     </li>
 
 
@@ -104,6 +108,11 @@ const VendedorDashboard = () => {
                 {activeSection === "mis-citas" && (
                     <div className="vendedor-citas-section">
                         <GestionarCitasVendedor />
+                    </div>
+                )}
+                {activeSection === "citas-pendientes" && (
+                    <div className="vendedor-citas-pendientes-section">
+                        <CitasPendientesVendedor />
                     </div>
                 )}
 
