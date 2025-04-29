@@ -10,6 +10,7 @@
     color: #333;
     margin-bottom: 20px;
     text-align: center;
+    font-weight: bold; /* Añadimos esta línea para poner el texto en negrita */
 }
 
 .sin-citas {
@@ -50,7 +51,7 @@
 .detalle-cita {
     flex-grow: 2;
     margin-left: 20px;
-    color: #666;
+    color: black;
 }
 
 .propiedad-cita {
@@ -134,4 +135,9 @@
 /* Adaptación para el dashboard */
 .vendedor-main-content .vendedor-citas-section {
     padding: 20px; /* Asegura que haya espacio alrededor del contenido */
+}
+
+.cita-pendiente-item strong {
+    color: black;
+    margin-right: 20px;
 }

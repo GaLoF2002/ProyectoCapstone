@@ -4,7 +4,7 @@ import { getDisponibilidadPorVendedor, getMisCitas, crearCita } from "../service
 import { AuthContext } from "../context/AuthContext";
 import "./AgendarCita.css"; // Importa el archivo de estilos
 
-const AgendarCita = ({ propiedadId, setActiveSection }) => {
+const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
     const { user } = useContext(AuthContext);
     const [propiedad, setPropiedad] = useState(null);
     const [disponibilidad, setDisponibilidad] = useState([]);
@@ -37,30 +37,36 @@ const AgendarCita = ({ propiedadId, setActiveSection }) => {
 
     const diasSiguientes = generarSieteDias();
 
-    const confirmarCita = async () => {
-        try {
-            if (!fechaSeleccionada || !horaSeleccionada) {
-                alert("Debes seleccionar fecha y hora");
-                return;
-            }
+    const handleAgendarCita = async () => {
+        if (!fechaSeleccionada || !horaSeleccionada) {
+            alert("Debes seleccionar fecha y hora");
+            return;
+        }
 
+        try {
             await crearCita({
                 propiedad: propiedad._id,
                 fecha: fechaSeleccionada,
                 hora: horaSeleccionada,
-                mensaje: "Me gustaría visitar la propiedad"
+                mensaje: mensaje || "Me gustaría visitar la propiedad",
             });
 
             setMensaje("✅ ¡Cita agendada correctamente!");
 
+            // 🔥 Recargar las citas después de agendar
+            const resCitasActualizadas = await getMisCitas();
+            setCitasExistentes(resCitasActualizadas.data);
+
             setTimeout(() => {
-                setActiveSection("ver-propiedad");
+                onCitaAgendada(); // o puedes dejarlo, depende si quieres hacer algo más
             }, 2000);
         } catch (error) {
-            console.error("Error al agendar cita:", error);
-            alert("❌ Error al agendar cita");
+            console.error("❌ Error al agendar cita:", error.response?.data || error.message);
+            alert("❌ Error al agendar cita: " + (error.response?.data?.msg || "Intenta más tarde"));
         }
     };
+
+
 
     const estaDisponible = (fecha, hora, diaSemana) => {
         const disponible = disponibilidad.find((d) => d.diaSemana === diaSemana);
@@ -110,8 +116,8 @@ const AgendarCita = ({ propiedadId, setActiveSection }) => {
                 <div className="seleccion-cita-confirmacion">
                     <p>Seleccionaste: <strong>{fechaSeleccionada} a las {horaSeleccionada}</strong></p>
                     <div className="confirmacion-container">
-                        <button className="confirmar-boton" onClick={confirmarCita}>Confirmar Cita</button>
-                        <button className="cancelar-boton" onClick={() => setActiveSection("ver-propiedad")}>Cancelar</button>
+                        <button className="confirmar-boton" onClick={handleAgendarCita}>Confirmar Cita</button>
+                        <button className="cancelar-boton" onClick={() => /* Aquí podrías llamar a otra función o actualizar el estado para volver a la vista anterior */ console.log('Cancelar')}>Cancelar</button>
                         {mensaje && <p className="mensaje-cita-confirmacion">{mensaje}</p>}
                     </div>
                 </div>
