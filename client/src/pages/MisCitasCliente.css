@@ -1,0 +1,130 @@
+.mis-citas-cliente {
+    padding: 20px;
+    font-family: sans-serif;
+    background-color: #f4f6f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid; /* Enable grid layout for the container */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Create responsive columns with a minimum width of 300px */
+    gap: 20px; /* Spacing between the grid items */
+    padding-bottom: 60px; /* Add some bottom padding to avoid footer overlap (adjust as needed) */
+    position: relative; /* For potential positioning of child elements */
+}
+
+.mis-citas-cliente h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    grid-column: 1 / -1; /* Make the heading span across all grid columns */
+    text-align: center;
+}
+
+.cita-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex; /* Use flexbox for internal layout of the card */
+    flex-direction: column; /* Stack the content vertically */
+}
+
+.cita-card p {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.cita-card strong {
+    font-weight: bold;
+    color: #333;
+}
+
+.cita-card button {
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Push the button to the bottom of the card */
+}
+
+.cita-card button:hover {
+    background-color: #0056b3;
+}
+
+.reagendar-panel {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    grid-column: 1 / -1; /* Make the reagendar panel span across all grid columns when visible */
+}
+
+.reagendar-panel h3 {
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.reagendar-panel h4 {
+    color: #555;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.horas-disponibles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.hora-boton {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hora-boton.disponible {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+.hora-boton.disponible:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.hora-boton.ocupado {
+    background-color: #f8d7da;
+    color: #721c24;
+    cursor: not-allowed;
+}
+
+.reagendar-panel button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.reagendar-panel button:hover {
+    background-color: #1e7e34;
+}
