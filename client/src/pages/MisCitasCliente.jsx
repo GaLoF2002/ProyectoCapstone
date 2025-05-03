@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { getMisCitas, reagendarCita, getDisponibilidadPorVendedor } from "../services/agendamientoService";
 import { AuthContext } from "../context/AuthContext";
+import "./MisCitasCliente.css";
 
 const MisCitasCliente = () => {
     const { user } = useContext(AuthContext);
