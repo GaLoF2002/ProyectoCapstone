@@ -4,7 +4,8 @@ import {
     crearCita,
     obtenerMisCitas,
     cambiarEstadoCita,
-    eliminarCita
+    eliminarCita,
+    reagendarCita
 } from '../controllers/citaController.js';
 
 import {
@@ -33,6 +34,8 @@ router.get('/citas', authMiddleware, obtenerMisCitas);
 
 // Cambiar el estado de una cita (aceptada / cancelada)
 router.put('/citas/:id/estado', authMiddleware, cambiarEstadoCita);
+
+router.put('/citas/:id/reagendar', authMiddleware, reagendarCita);
 
 // Eliminar una cita (si decides permitirlo)
 router.delete('/citas/:id', authMiddleware, eliminarCita);

@@ -17,6 +17,7 @@ import GestionarCitasVendedor from "./pages/GestionarCitasVendedor.jsx";
 
 import React from "react";
 import PropiedadIndividual from "./pages/PropiedadIndividual.jsx";
+import MisCitasCliente from "./pages/MisCitasCliente.jsx";
 
 function App() {
     return (
@@ -38,6 +39,7 @@ function App() {
                     <Route path="/agendamiento-vendedor" element={<AgendamientoVendedor />} />
                     <Route path="/creacion-cita" element={<AgendarCita />} />
                     <Route path="/gestionar-citas" element={<GestionarCitasVendedor />} />
+                    <Route path="/cliente/mis-citas" element={<MisCitasCliente />} />
                 </Routes>
             </Router>
         </AuthProvider>

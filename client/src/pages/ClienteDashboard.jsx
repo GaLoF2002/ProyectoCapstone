@@ -8,6 +8,7 @@ import PropiedadIndividual from './PropiedadIndividual';
 import { getPropiedades } from '../services/propiedadService';
 import './ClienteDashboard.css';
 import AgendarCita from "./AgendarCita"; // Importa tu nuevo componente
+import MisCitasCliente from "./MisCitasCliente.jsx";
 
 
 
@@ -101,6 +102,10 @@ const ClienteDashboard = () => {
                     <li onClick={() => { setActiveSection("favoritos"); setPropiedadSeleccionada(null); }}>
                         <FiHeart /> Favoritos
                     </li>
+                    <li onClick={() => { setActiveSection("mis-citas"); setPropiedadSeleccionada(null); }}>
+                        📅 Mis Citas
+                    </li>
+
                     <li onClick={handleLogout} className="logout">
                         <FiLogOut /> Cerrar Sesión
                     </li>
@@ -193,6 +198,12 @@ const ClienteDashboard = () => {
                         setActiveSection={setActiveSection}
                     />
                 )}
+                {activeSection === "mis-citas" && <MisCitasCliente
+                    setActiveSection={setActiveSection}/>
+                }
+
+
+
             </main>
 
             <Footer />

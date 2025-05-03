@@ -100,3 +100,36 @@ export const eliminarCita = async (req, res) => {
         res.status(500).json({ error: "Error al eliminar cita" });
     }
 };
+
+// Reagendar una cita
+export const reagendarCita = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nuevaFecha, nuevaHora } = req.body;
+
+        const cita = await Cita.findById(id);
+        if (!cita) return res.status(404).json({ msg: "Cita no encontrada" });
+
+        // Solo el cliente puede reagendar su propia cita
+        if (String(cita.cliente) !== String(req.user._id)) {
+            return res.status(403).json({ msg: "No tienes permiso para reagendar esta cita" });
+        }
+
+        // Verificar disponibilidad del nuevo horario
+        const disponible = await esHoraDisponible(cita.vendedor, nuevaFecha, nuevaHora);
+        if (!disponible) {
+            return res.status(400).json({ msg: "La nueva hora seleccionada no está disponible" });
+        }
+
+        cita.fecha = nuevaFecha;
+        cita.hora = nuevaHora;
+        cita.estado = "pendiente"; // Opcional: vuelve a estado pendiente
+
+        await cita.save();
+        res.json({ msg: "Cita reagendada correctamente", cita });
+    } catch (error) {
+        console.error("Error al reagendar cita:", error);
+        res.status(500).json({ error: "Error al reagendar cita" });
+    }
+};
+
