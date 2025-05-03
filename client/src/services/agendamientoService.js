@@ -49,6 +49,17 @@ export const cambiarEstadoCita = async (citaId, nuevoEstado) => {
     });
 };
 
+// Reagendar una cita (solo cliente)
+export const reagendarCita = async (citaId, nuevaFecha, nuevaHora) => {
+    return await axios.put(`${API_URL}/citas/${citaId}/reagendar`, {
+        nuevaFecha,
+        nuevaHora
+    }, {
+        headers: getAuthHeaders()
+    });
+};
+
+
 // Eliminar una cita (opcional)
 export const eliminarCita = async (citaId) => {
     return await axios.delete(`${API_URL}/citas/${citaId}`, {
