@@ -1,11 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import { AuthContext } from "../context/AuthContext";
+import FormularioEvaluacion from "./FormularioEvaluacion";
+
 import "./PropiedadIndividual.css";
 
 const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
     const { user } = useContext(AuthContext);
     const [propiedad, setPropiedad] = useState(null);
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
 
     useEffect(() => {
         const fetch = async () => {
@@ -53,13 +57,27 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
 
             {/* Botón para Agendar Cita */}
             {user.role === "cliente" && (
-                <button
-                    className="btn-agendar-cita"
-                    onClick={() => setActiveSection("agendar-cita")}
-                >
-                    📅 Agendar Cita para Conocer la Propiedad
-                </button>
+                <>
+                    <button
+                        className="btn-agendar-cita"
+                        onClick={() => setActiveSection("agendar-cita")}
+                    >
+                        📅 Agendar Cita para Conocer la Propiedad
+                    </button>
+
+                    <button
+                        className="btn-interesado"
+                        onClick={() => setMostrarFormulario(true)}
+                    >
+                        ❤️ Estoy interesado
+                    </button>
+
+                    {mostrarFormulario && (
+                        <FormularioEvaluacion propiedadId={propiedad._id} />
+                    )}
+                </>
             )}
+
 
         </div>
     );

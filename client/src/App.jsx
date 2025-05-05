@@ -14,6 +14,8 @@ import CrearPropiedad from './pages/CrearPropiedad';
 import AgendamientoVendedor from "./pages/AgendamientoVendedor.jsx";
 import AgendarCita from "./pages/AgendarCita.jsx";
 import GestionarCitasVendedor from "./pages/GestionarCitasVendedor.jsx";
+import FormularioEvaluacion from "./pages/FormularioEvaluacion";
+
 
 import React from "react";
 import PropiedadIndividual from "./pages/PropiedadIndividual.jsx";
@@ -40,6 +42,8 @@ function App() {
                     <Route path="/creacion-cita" element={<AgendarCita />} />
                     <Route path="/gestionar-citas" element={<GestionarCitasVendedor />} />
                     <Route path="/cliente/mis-citas" element={<MisCitasCliente />} />
+                    <Route path="/cliente/evaluacion/:propiedadId" element={<FormularioEvaluacion />} />
+
                 </Routes>
             </Router>
         </AuthProvider>

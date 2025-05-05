@@ -9,6 +9,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import userRoutes  from "./routes/userRoutes.js";
 import propiedadRoutes from './routes/propiedadRoutes.js';
 import agendamientoRoutes from './routes/agendamientoRoutes.js';
+import evaluacionRoutes from "./routes/evaluacionRoutes.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -58,6 +59,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/propiedades', propiedadRoutes);
 app.use('/api/agendamiento', agendamientoRoutes);
+app.use("/api/evaluacion", evaluacionRoutes);
 
 
 const PORT = process.env.PORT || 5000;
