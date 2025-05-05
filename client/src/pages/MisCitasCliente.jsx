@@ -41,12 +41,31 @@ const MisCitasCliente = () => {
     const estaDisponible = (fecha, hora, diaSemana) => {
         const disp = disponibilidad.find(d => d.diaSemana === diaSemana);
         if (!disp) return false;
-        const dentroHorario = hora >= disp.horaInicio && hora < disp.horaFin;
 
-        const citasVendedor = citas.filter(c => c.vendedor._id === citaReagendando.vendedor._id && c.estado !== "cancelada");
-        const ocupada = citasVendedor.some(c => c.fecha.slice(0, 10) === fecha && c.hora === hora);
+        // Convertir hora y rangos a enteros para comparación segura
+        const horaNum = parseInt(hora.split(":")[0]);
+        const horaInicioNum = parseInt(disp.horaInicio.split(":")[0]);
+        const horaFinNum = parseInt(disp.horaFin.split(":")[0]);
+
+        const dentroHorario = horaNum >= horaInicioNum && horaNum < horaFinNum;
+
+        const citasVendedor = citas.filter(
+            c =>
+                c.vendedor._id === citaReagendando.vendedor._id &&
+                c.estado !== "cancelada" &&
+                c._id !== citaReagendando._id
+        );
+
+        const ocupada = citasVendedor.some(
+            c => c.fecha.slice(0, 10) === fecha && normalizarHora(c.hora) === hora
+        );
 
         return dentroHorario && !ocupada;
+    };
+
+    const normalizarHora = (h) => {
+        const [hora, minuto = "00"] = h.split(":");
+        return `${hora.padStart(2, "0")}:${minuto.padStart(2, "0")}`;
     };
 
     const confirmarReagendar = async () => {
@@ -68,12 +87,10 @@ const MisCitasCliente = () => {
             setFechaSeleccionada("");
             setHoraSeleccionada("");
 
-
             const res = await getMisCitas();
             const activas = res.data.filter(c => c.estado !== "cancelada");
             setCitas(activas);
             console.log("📋 Citas actualizadas tras reagendar");
-
         } catch (error) {
             console.error("❌ Error al reagendar cita:", error.response?.data || error.message);
             alert(`Error al reagendar: ${error.response?.data?.msg || "intenta más tarde"}`);
@@ -123,7 +140,6 @@ const MisCitasCliente = () => {
                             </div>
                         </div>
                     ))}
-
                 </div>
             )}
         </div>
