@@ -59,7 +59,7 @@ const FormularioEvaluacion = ({ propiedadId }) => {
         setError(null);
 
         if (!propiedadId) {
-            setError("❌ No se ha definido la propiedad de interés.");
+            setError("❌ No se ha definido la propiedad de interés.  ");
             return;
         }
 
