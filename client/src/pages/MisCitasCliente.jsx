@@ -31,6 +31,8 @@ const MisCitasCliente = () => {
             const res = await getDisponibilidadPorVendedor(cita.vendedor._id);
             setDisponibilidad(res.data);
             setCitaReagendando(cita);
+            setFechaSeleccionada(""); // Resetea la selección al abrir
+            setHoraSeleccionada("");   // Resetea la selección al abrir
             console.log("🕒 Disponibilidad cargada para reagendar:", res.data);
         } catch (error) {
             console.error("❌ Error al cargar disponibilidad:", error);
@@ -42,7 +44,6 @@ const MisCitasCliente = () => {
         const disp = disponibilidad.find(d => d.diaSemana === diaSemana);
         if (!disp) return false;
 
-        // Convertir hora y rangos a enteros para comparación segura
         const horaNum = parseInt(hora.split(":")[0]);
         const horaInicioNum = parseInt(disp.horaInicio.split(":")[0]);
         const horaFinNum = parseInt(disp.horaFin.split(":")[0]);
@@ -115,32 +116,44 @@ const MisCitasCliente = () => {
             {citaReagendando && (
                 <div className="reagendar-panel">
                     <h3>Reagendar cita para: {citaReagendando.propiedad?.titulo}</h3>
-                    {generarSieteDias().map(dia => (
-                        <div key={dia.fecha}>
-                            <h4>{dia.diaSemana} - {dia.fecha}</h4>
-                            <div className="horas-disponibles">
-                                {generarHoras("08:00", "18:00").map(hora => {
-                                    const disponible = estaDisponible(dia.fecha, hora, dia.diaSemana);
-                                    return (
-                                        <button
-                                            key={hora}
-                                            onClick={() => {
-                                                setFechaSeleccionada(dia.fecha);
-                                                setHoraSeleccionada(hora);
-                                                console.log(`🟢 Seleccionado: ${dia.fecha} a las ${hora}`);
-                                            }}
-                                            className={`hora-boton ${disponible ? "disponible" : "ocupado"}`}
-                                            disabled={!disponible}
-                                        >
-                                            {hora}
-                                        </button>
-                                    );
-                                })}
-                                <button onClick={confirmarReagendar}>Confirmar nuevo horario</button>
-                            </div>
+
+                    <div className="reagendar-scroll-wrapper">
+                        <div className="dias-reagendar-wrapper">
+                            {generarSieteDias().map(dia => (
+                                <div key={dia.fecha} className="dia-container">
+                                    <h4>{dia.diaSemana} - {dia.fecha}</h4>
+                                    <div className="horas-disponibles">
+                                        {generarHoras("08:00", "18:00").map(hora => {
+                                            const disponible = estaDisponible(dia.fecha, hora, dia.diaSemana);
+                                            const esSeleccionada = fechaSeleccionada === dia.fecha && horaSeleccionada === hora;
+                                            return (
+                                                <button
+                                                    key={hora}
+                                                    onClick={() => {
+                                                        if (disponible) {
+                                                            setFechaSeleccionada(dia.fecha);
+                                                            setHoraSeleccionada(hora);
+                                                            console.log(`🟢 Seleccionado: ${dia.fecha} a las ${hora}`);
+                                                        }
+                                                    }}
+                                                    className={`hora-boton ${disponible ? "disponible" : "ocupado"} ${esSeleccionada ? "seleccionada" : ""}`}
+                                                    disabled={!disponible}
+                                                >
+                                                    {hora}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+
+                    <button onClick={confirmarReagendar} className="confirmar-reagendamiento-btn">
+                        Confirmar nuevo horario
+                    </button>
                 </div>
+
             )}
         </div>
     );
@@ -153,11 +166,16 @@ const generarSieteDias = () => {
         const fechaObj = new Date();
         fechaObj.setDate(fechaObj.getDate() + i);
         const diaSemana = nombresDias[fechaObj.getDay()];
-        const fechaStr = fechaObj.toISOString().slice(0, 10);
+        // Asegúrate de que la fecha esté en formato YYYY-MM-DD
+        const anio = fechaObj.getFullYear();
+        const mes = (fechaObj.getMonth() + 1).toString().padStart(2, '0'); // Meses son 0-indexados
+        const diaDelMes = fechaObj.getDate().toString().padStart(2, '0');
+        const fechaStr = `${anio}-${mes}-${diaDelMes}`;
         dias.push({ diaSemana, fecha: fechaStr });
     }
     return dias;
 };
+
 
 const generarHoras = (inicio, fin) => {
     const horas = [];
