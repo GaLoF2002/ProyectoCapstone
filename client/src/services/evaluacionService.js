@@ -9,12 +9,14 @@ const getAuthHeaders = () => {
     };
 };
 
-// Enviar una evaluación con archivos PDF
+
 export const crearEvaluacion = async (formData) => {
-    return await axios.post(`${API_URL}/`, formData, {
+    return await axios.post(`${API_URL}/compra`, formData, {
         headers: {
             ...getAuthHeaders(),
             'Content-Type': 'multipart/form-data'
         }
     });
 };
+
+

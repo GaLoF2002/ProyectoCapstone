@@ -1,10 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { getMisCitas, cambiarEstadoCita, getDisponibilidadPorVendedor } from "../services/agendamientoService";
+import {
+    getMisCitas,
+    cambiarEstadoCita,
+    getDisponibilidadPorVendedor
+} from "../services/agendamientoService";
 import "./CitasPendientesVendedor.css";
 
 const diasSemana = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
-const horasDia = Array.from({ length: 16 }, (_, i) => `${(6 + i).toString().padStart(2, '0')}:00`); // Genera horas de 06:00 a 21:00
+const horasDia = Array.from({ length: 16 }, (_, i) => `${(6 + i).toString().padStart(2, '0')}:00`);
+
+const normalizar = (str) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+const igualHora = (hora1, hora2) => hora1.slice(0, 5) === hora2.slice(0, 5);
 
 const CitasPendientesVendedor = () => {
     const { user } = useContext(AuthContext);
@@ -13,18 +22,14 @@ const CitasPendientesVendedor = () => {
     const [disponibilidad, setDisponibilidad] = useState([]);
 
     const obtenerCitas = async () => {
-        console.log("🚀 Ejecutando obtenerCitas");
         try {
             const res = await getMisCitas();
-            console.log("📊 Todas las citas que llegan:", res.data);
-
             const pendientes = res.data.filter(c => c.estado === "pendiente");
             const aceptadas = res.data.filter(c => c.estado === "aceptada");
-
             setCitasPendientes(pendientes);
             setCitasAceptadas(aceptadas);
         } catch (error) {
-            console.error("❌ Error al obtener citas:", error.response ? error.response.data : error.message);
+            console.error("❌ Error al obtener citas:", error);
         }
     };
 
@@ -32,7 +37,6 @@ const CitasPendientesVendedor = () => {
         try {
             const vendedorId = user._id || user.id;
             const res = await getDisponibilidadPorVendedor(vendedorId);
-            console.log("🟢 Disponibilidad:", res.data);
             setDisponibilidad(res.data);
         } catch (error) {
             console.error("❌ Error al obtener disponibilidad:", error);
@@ -42,33 +46,28 @@ const CitasPendientesVendedor = () => {
     const manejarCita = async (id, estado) => {
         try {
             await cambiarEstadoCita(id, estado);
-            await obtenerCitas();  // Actualiza citas pendientes y aceptadas
+            await obtenerCitas();
         } catch (error) {
-            console.error(`❌ Error al cambiar estado de la cita:`, error);
+            console.error(`❌ Error al cambiar estado:`, error);
         }
     };
 
     useEffect(() => {
         if (user && (user._id || user.id)) {
-            console.log("👤 User detectado:", user);
             obtenerCitas();
             obtenerDisponibilidad();
         }
     }, [user]);
 
     const renderHorario = () => {
-        const borderColor = '#ccc';
-        const cellPaddingVertical = '0.2rem'; // Reducimos el padding vertical
-        const cellPaddingHorizontal = '0.5rem';
-
         return (
             <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', border: `1px solid ${borderColor}` }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                     <tr>
-                        <th style={{ border: `1px solid ${borderColor}`, padding: '0.5rem', fontWeight: 'bold', color: 'black' }}></th>
+                        <th style={headerStyle}></th>
                         {diasSemana.map(dia => (
-                            <th key={dia} style={{ border: `1px solid ${borderColor}`, padding: '0.5rem', fontWeight: 'bold', color: 'black' }}>
+                            <th key={dia} style={headerStyle}>
                                 {dia.charAt(0).toUpperCase() + dia.slice(1)}
                             </th>
                         ))}
@@ -77,34 +76,61 @@ const CitasPendientesVendedor = () => {
                     <tbody>
                     {horasDia.map(hora => (
                         <tr key={hora}>
-                            <th style={{ border: `1px solid ${borderColor}`, padding: '0.5rem', fontWeight: 'bold', color: 'black' }}>{hora}</th>
+                            <th style={cellStyle}>{hora}</th>
                             {diasSemana.map(dia => {
                                 const disp = disponibilidad.find(d => d.diaSemana === dia);
-                                if (!disp) return <td key={`${dia}-${hora}`} style={{ border: `1px solid ${borderColor}`, padding: `${cellPaddingVertical} ${cellPaddingHorizontal}` }}></td>;
+                                if (!disp) {
+                                    return <td key={`${dia}-${hora}`} style={cellStyle}></td>;
+                                }
 
-                                const cita = citasAceptadas.find(c => {
-                                    const citaDia = new Date(c.fecha).toLocaleString("es-EC", { weekday: "long" });
-                                    return citaDia === dia && c.hora === hora;
+                                const citaAceptada = citasAceptadas.find(c => {
+                                    const diaCita = normalizar(
+                                        new Date(c.fecha).toLocaleString("es-EC", {
+                                            weekday: "long",
+                                            timeZone: "UTC"
+                                        })
+                                    );
+                                    return normalizar(diaCita) === normalizar(dia) && igualHora(c.hora, hora);
                                 });
 
-                                const horaInicioDisp = disp.horaInicio.split(':')[0];
-                                const horaFinDisp = disp.horaFin.split(':')[0];
-                                const horaActual = hora.split(':')[0];
+                                const citaPendiente = citasPendientes.find(c => {
+                                    const diaCita = normalizar(
+                                        new Date(c.fecha).toLocaleString("es-EC", {
+                                            weekday: "long",
+                                            timeZone: "UTC"
+                                        })
+                                    );
+                                    return normalizar(diaCita) === normalizar(dia) && igualHora(c.hora, hora);
+                                });
 
-                                const estaDisponible = parseInt(horaActual) >= parseInt(horaInicioDisp) && parseInt(horaActual) <= parseInt(horaFinDisp);
-                                let contenido = '';
-                                let color = 'black';
+                                const horaNum = parseInt(hora.split(":")[0]);
+                                const inicio = parseInt(disp.horaInicio.split(":")[0]);
+                                const fin = parseInt(disp.horaFin.split(":")[0]);
 
-                                if (cita) {
-                                    contenido = `(${cita.propiedad.titulo})`;
-                                    color = 'red';
-                                } else if (estaDisponible) {
-                                    contenido = 'Libre';
-                                    color = 'green';
+                                let contenido = "";
+                                let color = "";
+
+                                if (citaAceptada) {
+                                    contenido = `✅ ${citaAceptada.propiedad.titulo}`;
+                                    color = "red";
+                                } else if (citaPendiente) {
+                                    contenido = `🕒 ${citaPendiente.propiedad.titulo}`;
+                                    color = "orange";
+                                } else if (horaNum >= inicio && horaNum < fin) {
+                                    contenido = "Libre";
+                                    color = "green";
                                 }
 
                                 return (
-                                    <td key={`${dia}-${hora}`} style={{ border: `1px solid ${borderColor}`, padding: `${cellPaddingVertical} ${cellPaddingHorizontal}`, color: color, fontSize: '0.75rem', textAlign: 'center' }}>
+                                    <td
+                                        key={`${dia}-${hora}`}
+                                        style={{
+                                            ...cellStyle,
+                                            color,
+                                            fontSize: '0.75rem',
+                                            textAlign: 'center'
+                                        }}
+                                    >
                                         {contenido}
                                     </td>
                                 );
@@ -126,26 +152,11 @@ const CitasPendientesVendedor = () => {
                 <div className="citas-grid-container">
                     {citasPendientes.map(cita => (
                         <div key={cita._id} className="cita-pendiente-item">
-                            <div>
-                                <strong>Propiedad</strong>
-                                <span>{cita.propiedad.titulo}</span>
-                            </div>
-                            <div>
-                                <strong>Cliente</strong>
-                                <span>{cita.cliente.name}</span>
-                            </div>
-                            <div>
-                                <strong>Fecha</strong>
-                                <span>{new Date(cita.fecha).toLocaleDateString()}</span>
-                            </div>
-                            <div>
-                                <strong>Hora</strong>
-                                <span>{cita.hora}</span>
-                            </div>
-                            <div>
-                                <strong>Mensaje</strong>
-                                <span>{cita.mensaje}</span>
-                            </div>
+                            <div><strong>Propiedad:</strong> {cita.propiedad.titulo}</div>
+                            <div><strong>Cliente:</strong> {cita.cliente.name}</div>
+                            <div><strong>Fecha:</strong> {new Date(cita.fecha).toLocaleDateString("es-EC", { timeZone: "UTC" })}</div>
+                            <div><strong>Hora:</strong> {cita.hora}</div>
+                            <div><strong>Mensaje:</strong> {cita.mensaje}</div>
                             <div className="citas-botones">
                                 <button onClick={() => manejarCita(cita._id, "aceptada")}>Aceptar</button>
                                 <button onClick={() => manejarCita(cita._id, "cancelada")}>Rechazar</button>
@@ -159,6 +170,19 @@ const CitasPendientesVendedor = () => {
             {renderHorario()}
         </div>
     );
+};
+
+const headerStyle = {
+    border: '1px solid #ccc',
+    padding: '0.5rem',
+    fontWeight: 'bold',
+    color: 'black'
+};
+
+const cellStyle = {
+    border: '1px solid #ccc',
+    padding: '0.3rem',
+    color: 'black'
 };
 
 export default CitasPendientesVendedor;

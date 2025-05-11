@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import { getDisponibilidadPorVendedor, getMisCitas, crearCita } from "../services/agendamientoService";
 import { AuthContext } from "../context/AuthContext";
-import "./AgendarCita.css"; // Importa el archivo de estilos
+import "./AgendarCita.css";
 
 const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
     const { user } = useContext(AuthContext);
@@ -23,7 +23,7 @@ const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
                 const resDisp = await getDisponibilidadPorVendedor(vendedorId);
                 setDisponibilidad(resDisp.data);
 
-                const resCitas = await getMisCitas(); // Podrías filtrar por vendedor si es necesario
+                const resCitas = await getMisCitas();
                 setCitasExistentes(resCitas.data);
             } catch (error) {
                 console.error("Error cargando datos:", error);
@@ -53,12 +53,11 @@ const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
 
             setMensaje("✅ ¡Cita agendada correctamente!");
 
-            // 🔥 Recargar las citas después de agendar
             const resCitasActualizadas = await getMisCitas();
             setCitasExistentes(resCitasActualizadas.data);
 
             setTimeout(() => {
-                onCitaAgendada(); // o puedes dejarlo, depende si quieres hacer algo más
+                onCitaAgendada();
             }, 2000);
         } catch (error) {
             console.error("❌ Error al agendar cita:", error.response?.data || error.message);
@@ -66,15 +65,13 @@ const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
         }
     };
 
-
-
     const estaDisponible = (fecha, hora, diaSemana) => {
         const disponible = disponibilidad.find((d) => d.diaSemana === diaSemana);
         if (!disponible) return false;
 
         const dentroHorario = hora >= disponible.horaInicio && hora < disponible.horaFin;
         const citaExiste = citasExistentes.some(c =>
-            c.fecha.slice(0, 10) === fecha && c.hora === hora && c.estado !== "cancelada"
+            new Date(c.fecha).toISOString().slice(0, 10) === fecha && c.hora === hora && c.estado !== "cancelada"
         );
 
         return dentroHorario && !citaExiste;
@@ -117,7 +114,7 @@ const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
                     <p>Seleccionaste: <strong>{fechaSeleccionada} a las {horaSeleccionada}</strong></p>
                     <div className="confirmacion-container">
                         <button className="confirmar-boton" onClick={handleAgendarCita}>Confirmar Cita</button>
-                        <button className="cancelar-boton" onClick={() => /* Aquí podrías llamar a otra función o actualizar el estado para volver a la vista anterior */ console.log('Cancelar')}>Cancelar</button>
+                        <button className="cancelar-boton" onClick={() => console.log('Cancelar')}>Cancelar</button>
                         {mensaje && <p className="mensaje-cita-confirmacion">{mensaje}</p>}
                     </div>
                 </div>
@@ -126,25 +123,24 @@ const AgendarCita = ({ propiedadId, onCitaAgendada }) => {
     );
 };
 
-// Generar los próximos 7 días
 const generarSieteDias = () => {
     const dias = [];
     const nombresDias = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
     for (let i = 0; i < 7; i++) {
-        const fechaObj = new Date();
-        fechaObj.setDate(fechaObj.getDate() + i);
-        const diaSemana = nombresDias[fechaObj.getDay()];
-        const fechaStr = fechaObj.toISOString().slice(0, 10); // YYYY-MM-DD
+        const fecha = new Date();
+        fecha.setHours(12, 0, 0, 0); // prevenir desfases por UTC
+        fecha.setDate(fecha.getDate() + i);
+        const diaSemana = fecha.toLocaleDateString("es-EC", { weekday: "long" }).toLowerCase();
+        const fechaStr = fecha.toISOString().slice(0, 10);
         dias.push({ diaSemana, fecha: fechaStr });
     }
     return dias;
 };
 
-// Generar horas entre dos horas (por hora completa)
 const generarHoras = (inicio, fin) => {
     const horas = [];
-    let hIni = parseInt(inicio.split(":")[0]);
-    const hFin = parseInt(fin.split(":")[0]);
+    let hIni = parseInt(inicio.split(":" )[0]);
+    const hFin = parseInt(fin.split(":" )[0]);
     while (hIni < hFin) {
         horas.push(`${hIni.toString().padStart(2, "0")}:00`);
         hIni++;

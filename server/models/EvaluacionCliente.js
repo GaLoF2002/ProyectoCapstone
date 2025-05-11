@@ -12,44 +12,19 @@ const evaluacionSchema = new mongoose.Schema({
         required: true
     },
 
-    // 1. Datos personales
-    nombres: String,
-    cedula: String,
-    edad: Number,
-    estadoCivil: String,
-    hijos: Number,
-    nivelEducativo: {
+    // Información básica
+    tipoCompra: {
         type: String,
-        enum: ['Primaria', 'Secundaria', 'Bachillerato', 'Tercer nivel', 'Cuarto nivel', 'Postgrado']
+        enum: ['contado', 'credito'],
+        required: true
     },
-    celular: String,
-
-    // 2. Información laboral
-    tipoEmpleado: {
+    tiempoCompra: {
         type: String,
-        enum: ['Dependiente', 'Independiente'],
+        enum: ['1mes', '2meses', '3meses', '4meses', '5meses', '6meses'],
         required: true
     },
 
-    // Si es dependiente
-    empleador: String,
-    cargo: String,
-    antiguedadAnios: Number,
-    ingresoMensual: Number,
-    bonificaciones: Number,
-
-    // Si es independiente
-    actividadEconomica: String,
-    negocioNombre: String,
-    localPropio: Boolean,
-    empleados: Number,
-    ventasMensuales: Number,
-    comprasMensuales: Number,
-    utilidadMensual: Number,
-    ventasAnioAnterior: Number,
-    ventasProyectadas: Number,
-
-    // 3. Ingresos y egresos
+    // Solo si tipoCompra === "credito"
     ingresos: {
         sueldo: Number,
         otros: Number,
@@ -70,47 +45,24 @@ const evaluacionSchema = new mongoose.Schema({
         deudas: Number,
         otros: Number
     },
+    ahorroMensual: Number,
 
-    // 4. Información financiera
-    tieneActivos: Boolean,
-    numeroInmuebles: Number,
-    numeroVehiculos: Number,
-
-    tienePasivos: Boolean,
-    detallePasivos: String, // si tiene pasivos, lo describe aquí
-
-    // 5. Información bancaria
-    tieneCuentaBancaria: Boolean,
-    tipoCuenta: String,
-    bancos: String,
-    tieneTarjetasCredito: Boolean,
-    tarjetas: String,
-    tieneAtrasos: Boolean,
     buro: {
         type: String,
         enum: ['A', 'B', 'C', 'D', 'E']
     },
 
-    // 6. Cónyuge (opcional)
-    conyuge: {
-        nombre: String,
-        profesion: String,
-        cedula: String,
-        relacionLaboral: String,
-        actividad: String,
-        ingreso: Number,
-        deudas: String
-    },
+    antiguedadAnios: Number,
 
-    // 7. Propiedad de interés
+    numeroInmuebles: Number,
+    numeroVehiculos: Number,
+
     valorPropiedad: Number,
-    entradaInicial: Number,
-    plazoCredito: Number,
 
-    // 8. Puntaje
-    nivelPotencial: { type: Number, min: 1, max: 5 },
+    // Puntaje automático
+    nivelPotencial: { type: Number, min: 1, max: 7 },
 
-    // Archivos
+    // Documentos de precalificación bancaria (solo crédito)
     documentos: [String]
 
 }, { timestamps: true });

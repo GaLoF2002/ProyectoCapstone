@@ -5,16 +5,46 @@ import Propiedad from "../models/Propiedad.js";
 
 // Utilidad: Verifica si hay conflicto con disponibilidad y otras citas
 const esHoraDisponible = async (vendedorId, fecha, hora) => {
-    const diaSemana = new Date(fecha).toLocaleString("es-EC", { weekday: "long" });
-
+    // Día de la semana en español (en minúscula)
+    const diaSemana = new Date(`${fecha}T12:00:00`).toLocaleString("es-EC", {
+        weekday: "long"
+    }).toLowerCase();
     const disponibilidad = await DisponibilidadVendedor.findOne({ vendedor: vendedorId, diaSemana });
-    if (!disponibilidad) return false;
+    if (!disponibilidad) {
+        console.log("⛔ No hay disponibilidad registrada para:", vendedorId, diaSemana);
+        return false;
+    }
+    console.log("🔍 Día buscado:", diaSemana);
+    console.log("📊 Comparando:", { hora, horaInicio: disponibilidad.horaInicio, horaFin: disponibilidad.horaFin });
 
-    if (hora < disponibilidad.horaInicio || hora > disponibilidad.horaFin) return false;
 
-    const citaExistente = await Cita.findOne({ vendedor: vendedorId, fecha, hora, estado: { $ne: "cancelada" } });
-    if (citaExistente) return false;
+    // 🔁 Convertimos las horas a minutos
+    console.log(disponibilidad)
+    const horaToMin = (h) => {
+        const [hrs, mins] = h.split(":").map(Number);
+        return hrs * 60 + mins;
+    };
 
+    const minSeleccionada = horaToMin(hora);
+    const minInicio = horaToMin(disponibilidad.horaInicio);
+    const minFin = horaToMin(disponibilidad.horaFin);
+
+    // ⛔ Excluye el rango si está fuera
+    if (minSeleccionada < minInicio || minSeleccionada >= minFin) {
+        console.log("⛔ Hora fuera del rango:", hora, disponibilidad.horaInicio, disponibilidad.horaFin);
+        return false;
+    }
+    // 🔄 Revisar que no haya otra cita a esa hora y día
+    const citaExistente = await Cita.findOne({
+        vendedor: vendedorId,
+        fecha,
+        hora,
+        estado: { $ne: "cancelada" }
+    });
+    if (citaExistente) {
+        console.log("⛔ Ya hay una cita agendada en esa hora:", citaExistente);
+        return false;
+    }
     return true;
 };
 

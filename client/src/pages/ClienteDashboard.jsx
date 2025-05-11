@@ -9,6 +9,7 @@ import { getPropiedades } from '../services/propiedadService';
 import './ClienteDashboard.css';
 import AgendarCita from "./AgendarCita"; // Importa tu nuevo componente
 import MisCitasCliente from "./MisCitasCliente.jsx";
+import FormularioEvaluacion from "./FormularioEvaluacion.jsx";
 
 
 
@@ -201,8 +202,15 @@ const ClienteDashboard = () => {
                 {activeSection === "mis-citas" && <MisCitasCliente
                     setActiveSection={setActiveSection}/>
                 }
-
-
+                {activeSection === "evaluar-compra" && propiedadSeleccionada && (
+                    <FormularioEvaluacion
+                        propiedadId={propiedadSeleccionada}
+                        onFinalizar={() => {
+                            setPropiedadSeleccionada(null);
+                            setActiveSection("inicio");
+                        }}
+                    />
+                )}
 
             </main>
 
