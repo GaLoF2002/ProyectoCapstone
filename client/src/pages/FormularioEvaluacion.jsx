@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { crearEvaluacion } from "../services/evaluacionService";
-import { useNavigate } from "react-router-dom";
 
-const FormularioEvaluacion = ({ propiedadId }) => {
-    const navigate = useNavigate();
+const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
     const [paso, setPaso] = useState(1);
     const [tipoCompra, setTipoCompra] = useState("");
     const [tiempoCompra, setTiempoCompra] = useState("");
     const [ingresos, setIngresos] = useState({ sueldo: 0, otros: 0, conyuge: 0 });
     const [egresos, setEgresos] = useState({ deudas: 0 });
     const [ahorroMensual, setAhorroMensual] = useState(0);
-    const [buro, setBuro] = useState(null);
+    const [buro, setBuro] = useState("");
     const [antiguedadAnios, setAntiguedadAnios] = useState(0);
     const [numeroInmuebles, setNumeroInmuebles] = useState(0);
     const [numeroVehiculos, setNumeroVehiculos] = useState(0);
@@ -44,7 +42,9 @@ const FormularioEvaluacion = ({ propiedadId }) => {
         try {
             await crearEvaluacion(formData);
             setMensaje("✅ ¡Gracias! Nos pondremos en contacto contigo muy pronto.");
-            setTimeout(() => navigate(-1), 3000);
+            setTimeout(() => {
+                if (onFinalizar) onFinalizar();
+            }, 2500);
         } catch (error) {
             setMensaje("❌ Error al enviar la evaluación. Inténtalo más tarde.");
         }
@@ -84,7 +84,7 @@ const FormularioEvaluacion = ({ propiedadId }) => {
                     <label>Egresos totales (incluyendo deudas): <input type="number" min={0} value={egresos.deudas} onChange={e => setEgresos({ ...egresos, deudas: Number(e.target.value) })} /></label>
                     <label>Ahorro mensual aproximado: <input type="number" min={0} value={ahorroMensual} onChange={e => setAhorroMensual(Number(e.target.value))} /></label>
                     <label>Buró crediticio:
-                        <select value={buro || ""} onChange={e => setBuro(e.target.value || null)}>
+                        <select value={buro} onChange={e => setBuro(e.target.value)}>
                             <option value="">Selecciona</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
