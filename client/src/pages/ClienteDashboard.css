@@ -226,7 +226,7 @@
     padding: 0.25rem 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: white;
+    background-color: #4caf50;
     cursor: pointer;
     font-size: 0.8rem;
     transition: background-color 0.3s ease;

@@ -1,103 +1,184 @@
-.formulario-evaluacion-container {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-.formulario-evaluacion-container h2 {
+.form-evaluacion-container {
+    background-color: #f8f9fa; /* Un gris claro suave */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-top: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
-    margin-bottom: 15px;
+}
+
+.detalle-prop-container {
+    margin-bottom: 150px;
+}
+
+.form-evaluacion-container h2 {
+    color: #094684; /* Un azul primario para el título */
+    margin-bottom: 25px;
     text-align: center;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
 }
 
-.formulario-evaluacion {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
+.paso {
+    margin-bottom: 25px;
+    margin-left: 125px;
 }
 
-@media (min-width: 768px) {
-    .formulario-evaluacion {
-        grid-template-columns: 1fr 1fr;
-    }
-    .formulario-evaluacion > div:nth-child(odd) {
-        grid-column: 1;
-    }
-    .formulario-evaluacion > div:nth-child(even) {
-        grid-column: 2;
-    }
-    .formulario-evaluacion > button,
-    .formulario-evaluacion > .mensaje {
-        grid-column: 1 / -1;
-    }
+.pregunta {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 15px;
 }
 
-.formulario-evaluacion label {
-    display: block;
-    margin-bottom: 5px;
-    color: black;
-    font-weight: bold;
+.opciones-compra {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.formulario-evaluacion input[type="text"],
-.formulario-evaluacion input[type="number"],
-.formulario-evaluacion select,
-.formulario-evaluacion input[type="file"],
-.formulario-evaluacion textarea {
-    width: 100%;
-    padding: 10px;
-    background-color: #ffffff; /* blanco */
-    color: #000000;            /* negro */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-.formulario-evaluacion select {
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23555" viewBox="0 0 4 5"><path d="M2 0L0 2h4L2 0z"></path></svg>');
-    background-repeat: no-repeat;
-    background-position-x: 97%;
-    background-position-y: 50%;
-    padding-right: 25px;
-}
-
-.formulario-evaluacion input[type="checkbox"] {
-    margin-right: 5px;
-    vertical-align: middle;
-}
-
-.formulario-evaluacion button {
-    background-color: #007bff;
+.boton-opcion {
+    background-color: #094684;
     color: white;
     padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-.formulario-evaluacion button:hover {
+.boton-opcion.credito {
+    background-color: #28a745; /* Un verde para la opción de crédito */
+}
+
+.boton-opcion:hover {
     background-color: #0056b3;
 }
 
-.mensaje {
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 10px;
-    text-align: center;
+.selector-tiempo {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #495057;
+    background-color: #fff;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23495057" viewBox="0 0 4 5"><path d="M2 0L0 2h4L2 0z"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: center;
 }
 
-.mensaje.error {
+.selector-tiempo:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.boton-siguiente {
+    background-color: #6c757d; /* Un gris secundario para el botón siguiente */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-siguiente:disabled {
+    background-color: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.boton-siguiente:hover:enabled {
+    background-color: #5a6268;
+}
+
+.subtitulo {
+    color: #094684;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+.etiqueta {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.input-field,
+.selector-buro {
+    width: 600px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #495057;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.selector-buro {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23495057" viewBox="0 0 4 5"><path d="M2 0L0 2h4L2 0z"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: center;
+}
+
+.input-field:focus,
+.selector-buro:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.input-archivo {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #495057;
+    box-sizing: border-box;
+}
+
+.boton-enviar {
+    background-color: #28a745; /* Un verde para el botón de enviar */
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-enviar:hover {
+    background-color: #1e7e34;
+}
+
+.mensaje-error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .mensaje-exito {
@@ -105,34 +186,12 @@
     color: #155724;
     border: 1px solid #c3e6cb;
     padding: 12px;
-    border-radius: 4px;
-    margin-top: 15px;
+    border-radius: 6px;
+    margin-top: 20px;
     text-align: center;
     font-weight: bold;
 }
 
-/* Secciones específicas */
-.formulario-evaluacion > div:nth-child(10),
-.formulario-evaluacion > div:nth-child(11),
-.formulario-evaluacion > div:nth-child(12),
-.formulario-evaluacion > div:nth-child(13),
-.formulario-evaluacion > div:nth-child(14),
-.formulario-evaluacion > div:nth-child(15),
-.formulario-evaluacion > div:nth-child(16),
-.formulario-evaluacion > div:nth-child(17),
-.formulario-evaluacion > div:nth-child(18),
-.formulario-evaluacion > div:nth-child(19),
-.formulario-evaluacion > div:nth-child(20),
-.formulario-evaluacion > div:nth-child(21),
-.formulario-evaluacion > div:nth-child(22),
-.formulario-evaluacion > div:nth-child(23),
-.formulario-evaluacion > div:nth-child(24),
-.formulario-evaluacion > div:nth-child(25),
-.formulario-evaluacion > div:nth-child(26),
-.formulario-evaluacion > div:nth-child(27),
-.formulario-evaluacion > div:nth-child(28),
-.formulario-evaluacion > div:nth-child(29),
-.formulario-evaluacion > div:nth-child(30),
-.formulario-evaluacion > div:nth-child(31) {
-    /* Estilos específicos si se requieren */
+.campo.archivo {
+    margin-top: 25px;
 }
