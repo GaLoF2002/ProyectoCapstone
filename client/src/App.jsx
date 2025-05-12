@@ -43,6 +43,7 @@ function App() {
                     <Route path="/gestionar-citas" element={<GestionarCitasVendedor />} />
                     <Route path="/cliente/mis-citas" element={<MisCitasCliente />} />
                     <Route path="/cliente/evaluacion/:propiedadId" element={<FormularioEvaluacion />} />
+                    <Route path="/evaluacion" element={<FormularioEvaluacion />} />
 
                 </Routes>
             </Router>
