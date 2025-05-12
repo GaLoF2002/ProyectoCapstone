@@ -85,7 +85,7 @@ export const crearEvaluacionCompra = async (req, res) => {
         await evaluacion.save();
         res.status(201).json({ msg: "Evaluación guardada correctamente", evaluacion });
     } catch (error) {
-        console.error("❌ Error al guardar evaluación:", error);
+        console.error("❌ Error al guardar evaluación: ", error);
         res.status(500).json({ msg: "Error al guardar evaluación" });
     }
 };
