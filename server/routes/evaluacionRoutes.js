@@ -8,10 +8,10 @@ import { uploadEvaluacion } from "../config/multer.js";
 
 const router = express.Router();
 
-// Ruta para crear evaluación de compra
-router.post("/compra", authMiddleware, uploadEvaluacion, crearEvaluacionCompra);
+// ✅ Ruta clara para crear evaluación de compra con documentos PDF
+router.post("/evaluacion-compra", authMiddleware, uploadEvaluacion, crearEvaluacionCompra);
 
-// Ruta para obtener evaluaciones por propiedad
-router.get("/compra/:propiedadId", authMiddleware, obtenerEvaluacionesPorPropiedad);
+// ✅ Ruta clara para obtener evaluaciones por ID de propiedad
+router.get("/evaluacion-compra/por-propiedad/:propiedadId", authMiddleware, obtenerEvaluacionesPorPropiedad);
 
 export default router;

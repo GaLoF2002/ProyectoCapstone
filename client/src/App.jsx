@@ -15,6 +15,7 @@ import AgendamientoVendedor from "./pages/AgendamientoVendedor.jsx";
 import AgendarCita from "./pages/AgendarCita.jsx";
 import GestionarCitasVendedor from "./pages/GestionarCitasVendedor.jsx";
 import FormularioEvaluacion from "./pages/FormularioEvaluacion";
+import AdminCompradoresPage from "./pages/AdminCompradoresPage.jsx";
 
 
 import React from "react";
@@ -44,6 +45,7 @@ function App() {
                     <Route path="/cliente/mis-citas" element={<MisCitasCliente />} />
                     <Route path="/cliente/evaluacion/:propiedadId" element={<FormularioEvaluacion />} />
                     <Route path="/evaluacion" element={<FormularioEvaluacion />} />
+                    <Route path="/admin/compradores" element={<AdminCompradoresPage />} />
 
                 </Routes>
             </Router>

@@ -61,6 +61,12 @@ const evaluacionSchema = new mongoose.Schema({
 
     // Puntaje automático
     nivelPotencial: { type: Number, min: 1, max: 7 },
+    porcentaje: {
+        type: Number,
+        min: 0,
+        max: 100
+    },
+
 
     // Documentos de precalificación bancaria (solo crédito)
     documentos: [String]
