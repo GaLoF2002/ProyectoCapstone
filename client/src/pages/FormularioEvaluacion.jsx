@@ -55,25 +55,23 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
             <h2>Evaluación de Compra</h2>
 
             {paso === 1 && (
-                <div className="paso">
-                    <p className="pregunta">¿Cómo deseas comprar la propiedad?</p>
-                    <div className="opciones-compra">
-                        <button className="boton-opcion" onClick={() => { setTipoCompra("contado"); setPaso(2); }}>De contado</button>
-                        <button className="boton-opcion credito" onClick={() => { setTipoCompra("credito"); setPaso(2); }}>Con crédito</button>
-                    </div>
+                <div>
+                    <p>¿Cómo deseas comprar la propiedad?</p>
+                    <button onClick={() => { setTipoCompra("contado"); setPaso(2); }}>De contado</button>
+                    <button onClick={() => { setTipoCompra("credito"); setPaso(2); }}>Con crédito</button>
                 </div>
             )}
 
             {paso === 2 && (
-                <div className="paso">
-                    <p className="pregunta">¿En cuánto tiempo deseas comprar?</p>
-                    <select className="selector-tiempo" value={tiempoCompra} onChange={e => setTiempoCompra(e.target.value)}>
+                <div>
+                    <p>¿En cuánto tiempo deseas comprar?</p>
+                    <select value={tiempoCompra} onChange={e => setTiempoCompra(e.target.value)}>
                         <option value="">Selecciona</option>
                         <option value="1mes">En 1 mes</option>
                         <option value="2meses">En 2 meses</option>
                         <option value="3meses">En 3 meses</option>
                     </select>
-                    <button className="boton-siguiente" disabled={!tiempoCompra} onClick={() => tipoCompra === "credito" ? setPaso(3) : handleSubmit()}>Siguiente</button>
+                    <button disabled={!tiempoCompra} onClick={() => tipoCompra === "credito" ? setPaso(3) : handleSubmit()}>Siguiente</button>
                 </div>
             )}
 
@@ -94,28 +92,16 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
                             <option value="D">D</option>
                             <option value="E">E</option>
                         </select>
-                    </div>
-                    <div className="campo">
-                        <label className="etiqueta">Antigüedad laboral (años):</label>
-                        <input type="number" className="input-field" min={0} value={antiguedadAnios} onChange={e => setAntiguedadAnios(Number(e.target.value))} />
-                    </div>
-                    <div className="campo">
-                        <label className="etiqueta">Inmuebles a su nombre:</label>
-                        <input type="number" className="input-field" min={0} value={numeroInmuebles} onChange={e => setNumeroInmuebles(Number(e.target.value))} />
-                    </div>
-                    <div className="campo">
-                        <label className="etiqueta">Vehículos a su nombre:</label>
-                        <input type="number" className="input-field" min={0} value={numeroVehiculos} onChange={e => setNumeroVehiculos(Number(e.target.value))} />
-                    </div>
-                    <div className="campo archivo">
-                        <label className="etiqueta">Adjunta documentos (PDF):</label>
-                        <input type="file" className="input-archivo" multiple accept="application/pdf" onChange={e => setDocumentos([...e.target.files])} />
-                    </div>
-                    <button className="boton-enviar" onClick={handleSubmit}>Enviar Evaluación</button>
+                    </label>
+                    <label>Antigüedad laboral (años): <input type="number" min={0} value={antiguedadAnios} onChange={e => setAntiguedadAnios(Number(e.target.value))} /></label>
+                    <label>Inmuebles a su nombre: <input type="number" min={0} value={numeroInmuebles} onChange={e => setNumeroInmuebles(Number(e.target.value))} /></label>
+                    <label>Vehículos a su nombre: <input type="number" min={0} value={numeroVehiculos} onChange={e => setNumeroVehiculos(Number(e.target.value))} /></label>
+                    <label>Adjunta documentos (PDF): <input type="file" multiple accept="application/pdf" onChange={e => setDocumentos([...e.target.files])} /></label>
+                    <button onClick={handleSubmit}>Enviar Evaluación</button>
                 </div>
             )}
 
-            {mensaje && <p className={mensaje.includes("✅") ? "mensaje-exito" : "mensaje-error"}>{mensaje}</p>}
+            {mensaje && <p>{mensaje}</p>}
         </div>
     );
 };

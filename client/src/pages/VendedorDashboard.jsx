@@ -8,6 +8,7 @@ import AgendamientoVendedor from "./AgendamientoVendedor.jsx";
 import "./VendedorDashboard.css";
 import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
 import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
+import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -47,6 +48,11 @@ const VendedorDashboard = () => {
                         <button onClick={() => setActiveSection("citas-pendientes")}>📋 Citas Pendientes</button>
                     </li>
                     <li>
+                        <button onClick={() => setActiveSection("ver-compradores")}>🧾 Ver Compradores</button>
+                    </li>
+
+                    <li>
+
                         <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
                     </li>
                 </ul>
@@ -109,6 +115,12 @@ const VendedorDashboard = () => {
                         <CitasPendientesVendedor />
                     </div>
                 )}
+                {activeSection === "ver-compradores" && (
+                    <div className="vendedor-compradores-section">
+                        <AdminCompradoresPage />
+                    </div>
+                )}
+
             </div>
         </div>
     );
