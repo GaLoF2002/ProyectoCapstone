@@ -34,6 +34,7 @@
     padding: 1rem;
     display: flex; /* Convertimos el item en un contenedor flex */
     flex-direction: column; /* Los elementos internos se apilan verticalmente por defecto */
+    color: black;
 }
 
 .cita-pendiente-item > div { /* Contenedor para la información en línea */
