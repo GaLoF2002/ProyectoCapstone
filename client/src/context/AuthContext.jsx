@@ -20,7 +20,9 @@ export const AuthProvider = ({ children }) => {  // ✅ Exportando AuthProvider 
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("token"); // ✅ Ahora también elimina el token
     };
+
 
     return (
         <AuthContext.Provider value={{ user, login, logout }}>
@@ -29,4 +31,4 @@ export const AuthProvider = ({ children }) => {  // ✅ Exportando AuthProvider 
     );
 };
 
-export { AuthContext }; // ✅ Exportamos AuthContext correctamente
+export { AuthContext };

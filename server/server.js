@@ -6,6 +6,16 @@ import authRoutes from './routes/authRoutes.js';
 import User from "./models/User.js";
 import bcrypt from 'bcryptjs';
 import adminRoutes from './routes/adminRoutes.js';
+import userRoutes  from "./routes/userRoutes.js";
+import propiedadRoutes from './routes/propiedadRoutes.js';
+import agendamientoRoutes from './routes/agendamientoRoutes.js';
+import evaluacionRoutes from "./routes/evaluacionRoutes.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 
 dotenv.config();
@@ -38,11 +48,19 @@ createAdminUser();
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // ✅ Necesario para parsear JSON correctamente
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/propiedades', propiedadRoutes);
+app.use('/api/agendamiento', agendamientoRoutes);
+app.use("/api/evaluacion", evaluacionRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

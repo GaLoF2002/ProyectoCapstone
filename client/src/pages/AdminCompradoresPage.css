@@ -1,0 +1,87 @@
+.admin-compradores-container {
+    padding: 2rem;
+    background-color: #f7f7f7;
+    color: #1f1f1f;
+}
+
+.admin-compradores-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.propiedad-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.propiedad-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.propiedad-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.propiedad-card p {
+    margin: 0.3rem 0;
+}
+
+.propiedad-card button {
+    margin-top: 1rem;
+    background-color: #1f2937;
+    color: #ffffff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.propiedad-card button:hover {
+    background-color: #111827;
+}
+
+.tabla-compradores {
+    margin-top: 1.5rem;
+}
+
+.tabla-compradores h4 {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #111827;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.4rem;
+}
+
+.tabla-compradores table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.tabla-compradores th,
+.tabla-compradores td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tabla-compradores th {
+    background-color: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+}
+
+.tabla-compradores tr:hover {
+    background-color: #f9fafb;
+}

@@ -1,0 +1,291 @@
+.cliente-dashboard {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+.cliente-main{
+    background-color: #d0d3d4;
+}
+
+.cliente-navbar {
+    background-color: #2c3e50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0; /* Removed margin-bottom */
+    padding-left: 90px;
+    padding-right: 90px;
+}
+
+.cliente-logo {
+    font-size: 1.2rem;
+    color: white;
+    margin-right: 1rem;
+}
+
+.cliente-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.cliente-nav-links li {
+    margin-left: 0.75rem;
+}
+
+.cliente-nav-links li:first-child {
+    margin-left: 0;
+    color: white;
+}
+
+.cliente-nav-links li svg {
+    margin-right: 0.25rem;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    color: white;
+}
+
+.cliente-nav-links li {
+    cursor: pointer;
+    color: #546e7a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+    color: white;
+}
+
+.cliente-nav-links li:hover {
+    color: #1976d2;
+}
+
+.cliente-nav-links .logout {
+    background: none;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.cliente-nav-links .logout svg {
+    margin-right: 0.25rem;
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+.cliente-nav-links .logout:hover {
+    background-color: #2c3e50;
+}
+
+.cliente-main {
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.title-and-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.propiedades-title {
+    font-size: 1.5rem;
+    color: #263238;
+    margin-top: 0; /* Removed default top margin */
+}
+
+.filtros-toggle {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.filtros-toggle:hover {
+    background-color: #388e3c;
+}
+
+.modal-filtros-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.modal-filtros {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+}
+
+.modal-filtros h3 {
+    font-size: 1.2rem;
+    color: #263238;
+    margin-bottom: 0.5rem;
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.filtros-grid input[type="number"],
+.filtros-grid select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.modal-filtros-botones {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.modal-filtros-botones button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.modal-filtros-botones button:first-child {
+    background-color: #1976d2;
+    color: white;
+}
+
+.modal-filtros-botones button:first-child:hover {
+    background-color: #1565c0;
+}
+
+.modal-filtros-botones .limpiar {
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-filtros-botones .limpiar:hover {
+    background-color: #d32f2f;
+}
+
+.modal-filtros-botones .cerrar {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.modal-filtros-botones .cerrar:hover {
+    background-color: #bdbdbd;
+}
+
+
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.paginacion button {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #4caf50;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s ease;
+}
+
+.paginacion button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+}
+
+.paginacion button:disabled {
+    color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+/* Media query para hacerlo responsive (ejemplo para pantallas pequeñas */
+@media (max-width: 600px) {
+    .cliente-navbar {
+        padding: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0; /* Removed margin-bottom */
+    }
+
+    .cliente-logo {
+        margin-bottom: 0.25rem;
+        font-size: 1rem;
+    }
+
+    .cliente-nav-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cliente-nav-links li {
+        margin-left: 0;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.9rem;
+    }
+
+    .cliente-nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .title-and-filter {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0; /* Removed margin-bottom */
+    }
+
+    .filtros-toggle {
+        margin-top: 0.5rem;
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .propiedades-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}

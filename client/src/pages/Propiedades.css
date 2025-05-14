@@ -1,0 +1,289 @@
+/* Contenedor principal */
+.propiedades-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Contenedor del título y botón */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 800px;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.header-container h2 {
+    font-size: 24px;
+    color: #1a1a1a;
+}
+
+.header-container button {
+    background-color: #5a67d8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.header-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Lista de propiedades */
+.prop-list {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    max-width: 1200px;
+    gap: 15px;
+    color: #1a1a1a;
+    text-align: start;
+}
+
+/* Tarjeta de propiedad */
+.prop-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+.prop-card-content {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+/* Imagen lateral */
+.propiedad-img-lateral {
+    width: 300px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+/* Información de la propiedad */
+.prop-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Controles de paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: #1a1a1a;
+}
+
+.paginacion button {
+    background-color: #5a67d8;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.paginacion button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.paginacion span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.filtros {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    width: 800px;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    align-items: end;
+}
+
+.filtros input,
+.filtros select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.filtros input:focus,
+.filtros select:focus {
+    border-color: #5a67d8;
+    outline: none;
+}
+
+.filtros button {
+    background-color: #5a67d8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    grid-column: span 2;
+}
+
+.filtros button:hover {
+    background-color: #434190;
+}
+
+.boton-filtro-container {
+    width: 800px;
+    max-width: 1200px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.filtros-toggle {
+    background-color: #5a67d8;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filtros-toggle:hover {
+    background-color: #434190;
+}
+
+.modal-filtros-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-filtros {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: black;
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.modal-filtros input,
+.modal-filtros select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.modal-filtros-botones {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.modal-filtros-botones button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    flex-grow: 1;
+    min-width: 100px;
+}
+
+.modal-filtros-botones .cerrar {
+    background-color: #ccc;
+    color: black;
+}
+
+.modal-filtros-botones .limpiar {
+    background-color: #e53e3e;
+    color: white;
+}
+
+.modal-filtros-botones button:not(.cerrar):not(.limpiar) {
+    background-color: #5a67d8;
+    color: white;
+}
+
+.modal-filtros-botones button:hover:not(.cerrar):not(.limpiar) {
+    background-color: #434190;
+}
+
+.modal-filtros-botones .limpiar:hover {
+    background-color: #c53030;
+}
+
+
+.modal-filtros-botones button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal-filtros-botones .cerrar {
+    background-color: #ccc;
+    color: black;
+}
+
+.modal-filtros-botones button:not(.cerrar) {
+    background-color: #5a67d8;
+    color: white;
+}
+
+.modal-filtros-botones button:hover:not(.cerrar) {
+    background-color: #434190;
+}
+
