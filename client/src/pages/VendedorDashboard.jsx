@@ -96,7 +96,7 @@ const VendedorDashboard = () => {
 
                 {activeSection === "perfil" && (
                     <div className="vendedor-dashboard-content">
-                        <h2>Tu perfil aparecería aquí</h2>
+                        <h1>Perfil del Vendedor</h1>
                     </div>
                 )}
 
