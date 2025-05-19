@@ -11,7 +11,7 @@ const IndicadoresPage = () => {
                 const res = await getIndicadores();
                 setDatos(res.data);
             } catch (err) {
-                console.error("Error al cargar indicadores:", err);
+                console.error("Error al cargar indicadores: ", err);
             }
         };
         fetch();
