@@ -9,6 +9,8 @@ import "./VendedorDashboard.css";
 import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
 import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
 import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
+import IndicadoresPage from "../pages/IndicadoresPage";
+
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -50,6 +52,10 @@ const VendedorDashboard = () => {
                     <li>
                         <button onClick={() => setActiveSection("ver-compradores")}>🧾 Ver Compradores</button>
                     </li>
+                    <li>
+                        <button onClick={() => setActiveSection("reportes")}>📈 Ver Reportes</button>
+                    </li>
+
 
                     <li>
 
@@ -120,6 +126,12 @@ const VendedorDashboard = () => {
                         <AdminCompradoresPage />
                     </div>
                 )}
+                {activeSection === "reportes" && (
+                    <div className="vendedor-reportes-section">
+                        <IndicadoresPage />
+                    </div>
+                )}
+
 
             </div>
         </div>
