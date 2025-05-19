@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect,useRef, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import { AuthContext } from "../context/AuthContext";
 import FormularioEvaluacion from "./FormularioEvaluacion";
+import { registrarVisita } from "../services/visitaService";
 import "./PropiedadIndividual.css";
 
 const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
@@ -9,16 +10,25 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
     const [propiedad, setPropiedad] = useState(null);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [mensajeFinal, setMensajeFinal] = useState(false);
+    const visitaRegistrada = useRef(false);
 
     useEffect(() => {
+        if (!user || user.role !== "cliente") return;
+
+        if (visitaRegistrada.current) return; // ✅ corta si ya registró
+
+        visitaRegistrada.current = true; // ❗ marca antes para evitar simultáneas
+
         const fetch = async () => {
             try {
                 const res = await getPropiedadPorId(propiedadId);
                 setPropiedad(res.data);
+                await registrarVisita(propiedadId);
             } catch (err) {
-                console.error("Error al cargar la propiedad", err);
+                console.error("Error al cargar propiedad o registrar visita", err);
             }
         };
+
         fetch();
     }, [propiedadId]);
 
