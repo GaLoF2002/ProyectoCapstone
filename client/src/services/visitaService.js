@@ -12,3 +12,15 @@ export const registrarVisita = async (propiedadId) => {
         headers: getAuthHeaders()
     });
 };
+export const registrarDuracionVisualizacion = async (propiedadId, duracionSegundos) => {
+    return await axios.post(`${API_URL}/registrar-duracion`, {
+        propiedadId,
+        duracionSegundos
+    }, {
+        headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json'
+        }
+    });
+};
+

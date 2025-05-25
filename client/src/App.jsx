@@ -17,6 +17,7 @@ import GestionarCitasVendedor from "./pages/GestionarCitasVendedor.jsx";
 import FormularioEvaluacion from "./pages/FormularioEvaluacion";
 import AdminCompradoresPage from "./pages/AdminCompradoresPage.jsx";
 import IndicadoresPage from "./pages/IndicadoresPage.jsx";
+import SimuladorFinanciamiento from "./pages/SimuladorFinanciamiento.jsx";
 
 
 import React from "react";
@@ -48,6 +49,7 @@ function App() {
                     <Route path="/evaluacion" element={<FormularioEvaluacion />} />
                     <Route path="/admin/compradores" element={<AdminCompradoresPage />} />
                     <Route path="/indicadores" element={<IndicadoresPage />} />
+                    <Route path="/simulador-financiamiento" element={<SimuladorFinanciamiento />} />
 
                 </Routes>
             </Router>

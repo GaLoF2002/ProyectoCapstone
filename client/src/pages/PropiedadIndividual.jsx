@@ -2,7 +2,7 @@ import { useContext, useEffect,useRef, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import { AuthContext } from "../context/AuthContext";
 import FormularioEvaluacion from "./FormularioEvaluacion";
-import { registrarVisita } from "../services/visitaService";
+import { registrarVisita, registrarDuracionVisualizacion} from "../services/visitaService";
 import "./PropiedadIndividual.css";
 
 const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
@@ -11,11 +11,13 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [mensajeFinal, setMensajeFinal] = useState(false);
     const visitaRegistrada = useRef(false);
+    const tiempoInicio = useRef(null);
 
     useEffect(() => {
         if (!user || user.role !== "cliente") return;
 
         if (visitaRegistrada.current) return; // ✅ corta si ya registró
+
 
         visitaRegistrada.current = true; // ❗ marca antes para evitar simultáneas
 
@@ -24,6 +26,8 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
                 const res = await getPropiedadPorId(propiedadId);
                 setPropiedad(res.data);
                 await registrarVisita(propiedadId);
+                tiempoInicio.current = Date.now();
+
             } catch (err) {
                 console.error("Error al cargar propiedad o registrar visita", err);
             }
@@ -31,6 +35,17 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
 
         fetch();
     }, [propiedadId]);
+    useEffect(() => {
+        return () => {
+            if (tiempoInicio.current && propiedadId && user?.role === "cliente") {
+                const duracion = Math.floor((Date.now() - tiempoInicio.current) / 1000);
+                registrarDuracionVisualizacion(propiedadId, duracion).catch(err =>
+                    console.error("❌ Error al registrar duración:", err)
+                );
+            }
+        };
+    }, []);
+
 
     const handleFormularioCompletado = () => {
         setMensajeFinal(true);
@@ -87,6 +102,12 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
                                 onClick={() => setMostrarFormulario(true)}
                             >
                                 📝 Deseo comprar esta propiedad
+                            </button>
+                            <button
+                                className="btn-simular"
+                                onClick={() => setActiveSection("simulador")}
+                            >
+                                💰 Simular tu compra
                             </button>
                         </>
                     )}

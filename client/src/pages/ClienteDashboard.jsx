@@ -10,6 +10,7 @@ import './ClienteDashboard.css';
 import AgendarCita from "./AgendarCita"; // Importa tu nuevo componente
 import MisCitasCliente from "./MisCitasCliente.jsx";
 import FormularioEvaluacion from "./FormularioEvaluacion.jsx";
+import SimuladorFinanciamiento from "./SimuladorFinanciamiento.jsx";
 
 
 
@@ -211,6 +212,13 @@ const ClienteDashboard = () => {
                         }}
                     />
                 )}
+                {activeSection === "simulador" && propiedadSeleccionada && (
+                    <SimuladorFinanciamiento
+                        propiedadId={propiedadSeleccionada}
+                        setActiveSection={setActiveSection}
+                    />
+                )}
+
 
             </main>
 

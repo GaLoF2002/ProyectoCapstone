@@ -15,3 +15,11 @@ export const getIndicadores = async () => {
         headers: getAuthHeaders()
     });
 };
+
+// 🔹 Obtener estadísticas específicas por propiedad
+export const getIndicadoresPorPropiedad = async (propiedadId) => {
+    return await axios.get(`${API_URL}/propiedadIndicador/${propiedadId}`, {
+        headers: getAuthHeaders()
+    });
+};
+

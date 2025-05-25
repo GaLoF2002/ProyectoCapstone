@@ -321,6 +321,45 @@ const AdminDashboard = () => {
                                         </>
 
                                     )}
+                                    <label htmlFor="codigoVendedor">Código Vendedor</label>
+                                    <input
+                                        id="codigoVendedor"
+                                        type="text"
+                                        value={editSeller ? editSeller.codigoVendedor || "" : newSeller.codigoVendedor}
+                                        onChange={(e) =>
+                                            editSeller
+                                                ? setEditSeller({ ...editSeller, codigoVendedor: e.target.value })
+                                                : setNewSeller({ ...newSeller, codigoVendedor: e.target.value })
+                                        }
+                                    />
+
+                                    <label htmlFor="inmobiliaria">Inmobiliaria</label>
+                                    <input
+                                        id="inmobiliaria"
+                                        type="text"
+                                        value={editSeller ? editSeller.inmobiliaria || "" : newSeller.inmobiliaria}
+                                        onChange={(e) =>
+                                            editSeller
+                                                ? setEditSeller({ ...editSeller, inmobiliaria: e.target.value })
+                                                : setNewSeller({ ...newSeller, inmobiliaria: e.target.value })
+                                        }
+                                    />
+
+                                    <label htmlFor="genero">Género</label>
+                                    <select
+                                        id="genero"
+                                        value={editSeller ? editSeller.genero || "" : newSeller.genero}
+                                        onChange={(e) =>
+                                            editSeller
+                                                ? setEditSeller({ ...editSeller, genero: e.target.value })
+                                                : setNewSeller({ ...newSeller, genero: e.target.value })
+                                        }
+                                    >
+                                        <option value="">Seleccionar género</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="femenino">Femenino</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
 
 
 
