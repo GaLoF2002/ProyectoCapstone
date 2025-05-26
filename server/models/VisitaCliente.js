@@ -17,7 +17,13 @@ const visitaClienteSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         default: Date.now
+
+    },
+    duracionSegundos: {
+        type: Number,
+        default: 0 // tiempo que el cliente permaneció viendo la propiedad
     }
+
 });
 
 export default mongoose.model('VisitaCliente', visitaClienteSchema);

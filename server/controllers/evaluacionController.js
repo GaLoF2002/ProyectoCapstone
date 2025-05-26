@@ -128,3 +128,66 @@ export const obtenerEvaluacionesPorPropiedad = async (req, res) => {
         res.status(500).json({ msg: "Error al obtener evaluaciones" });
     }
 };
+export const simularFinanciamiento = async (req, res) => {
+    try {
+        const { propiedadId, porcentajeEntrada, plazoAnios } = req.body;
+
+        if (!porcentajeEntrada || porcentajeEntrada < 30 || porcentajeEntrada > 100) {
+            return res.status(400).json({ msg: "La entrada debe ser mínimo del 30% y máximo del 100%." });
+        }
+
+        if (!plazoAnios || plazoAnios <= 0) {
+            return res.status(400).json({ msg: "Debes ingresar un plazo válido." });
+        }
+
+        const propiedad = await Propiedad.findById(propiedadId);
+        if (!propiedad) {
+            return res.status(404).json({ msg: "Propiedad no encontrada." });
+        }
+
+        const valorPropiedad = propiedad.precio;
+        const entrada = (porcentajeEntrada / 100) * valorPropiedad;
+        const montoFinanciar = valorPropiedad - entrada;
+        const plazoMeses = plazoAnios * 12;
+
+        // Obtener tasa según valor propiedad y plazo
+        let tasa = 0;
+
+        if (valorPropiedad <= 90000) {
+            tasa = 6.16;
+        } else if (valorPropiedad <= 130000) {
+            if (plazoMeses <= 120) tasa = 7.22;
+            else if (plazoMeses <= 180) tasa = 8.29;
+            else tasa = 9.27;
+        } else if (valorPropiedad <= 200000) {
+            if (plazoMeses <= 120) tasa = 8.29;
+            else if (plazoMeses <= 180) tasa = 8.79;
+            else tasa = 9.38;
+        } else {
+            if (plazoMeses <= 120) tasa = 8.50;
+            else if (plazoMeses <= 180) tasa = 9.00;
+            else tasa = 9.49;
+        }
+
+        const interesMensual = tasa / 12 / 100;
+
+        const cuotaMensual = montoFinanciar * (
+            interesMensual * Math.pow(1 + interesMensual, plazoMeses)
+        ) / (
+            Math.pow(1 + interesMensual, plazoMeses) - 1
+        );
+
+        res.json({
+            valorPropiedad,
+            entrada: Math.round(entrada * 100) / 100,
+            montoFinanciar: Math.round(montoFinanciar * 100) / 100,
+            plazoAnios,
+            tasaEfectivaAnual: tasa,
+            cuotaMensual: Math.round(cuotaMensual * 100) / 100
+        });
+
+    } catch (error) {
+        console.error("❌ Error en simulador de financiamiento:", error);
+        res.status(500).json({ msg: "Error al calcular financiamiento." });
+    }
+};
