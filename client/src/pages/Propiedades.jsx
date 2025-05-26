@@ -115,16 +115,16 @@ const Propiedades = ({ setActiveSection, setPropiedadSeleccionada, setModoEdicio
             )}
             <div className="prop-list">
                 {propiedadesPaginadas.map((p) => (
-                    <div key={p._id} className="prop-card">
+                    <div className="propiedad-card">
                         <div className="prop-card-content">
                             {p.imagenes && p.imagenes.length > 0 && (
-                                <img
-                                    src={`http://localhost:5000/${p.imagenes[0]}`}
-                                    alt="Imagen de la propiedad"
-                                    className="propiedad-img-lateral"
-                                    onClick={() => navigate(`/imagen/${p._id}`)}
-                                    style={{ cursor: "pointer" }}
-                                />
+                                    <img
+                                        src={`http://localhost:5000/${p.imagenes[0]}`}
+                                        alt="Imagen de la propiedad"
+                                        className="propiedad-img-lateral"
+                                        onClick={() => navigate(`/imagen/${p._id}`)}
+                                        style={{ cursor: "pointer" }}
+                                    />
                             )}
                             <div className="prop-info">
                                 <h3>{p.titulo}</h3>

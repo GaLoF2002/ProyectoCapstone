@@ -1,0 +1,270 @@
+/* IndicadoresPage.css */
+.indicadores-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto; /* Margen superior e inferior añadido */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #2d3748; /* Color de texto base (gris oscuro) */
+    background-color: #f7fafc; /* Fondo general de la página (gris muy claro) */
+}
+
+.indicadores-container .titulo-principal {
+    font-size: 2rem;
+    font-weight: 700; /* Más grueso */
+    margin-bottom: 2.5rem;
+    color: #1a202c; /* Casi negro */
+    text-align: center;
+}
+
+.seccion {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0; /* Borde sutil */
+    border-radius: 8px; /* Bordes más suaves */
+    padding: 1.5rem 2rem; /* Más padding horizontal */
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra más suave */
+    overflow: visible; /* Asegurar que el contenido como tooltips no se corte */
+}
+
+.seccion h3.titulo-seccion {
+    font-size: 1.5rem; /* Ligeramente ajustado */
+    color: black; /* Azul oscuro */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem; /* Más padding para la línea */
+    display: inline-block;
+}
+
+.seccion h4 { /* Títulos dentro de tarjetas o subsecciones */
+    font-size: 1.1rem;
+    color: #4a5568; /* Gris oscuro-medio */
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.seccion p:not(.info-paginacion) { /* Estilo general para párrafos en secciones */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #4a5568;
+}
+
+.seccion p:only-child { /* Para mensajes de "No hay datos..." etc. */
+    text-align: center;
+    color: #718096; /* Gris medio */
+    padding: 1rem 0;
+}
+
+/* Lista de Propiedades */
+.lista-propiedades {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1.5rem;
+}
+
+.tarjeta-propiedad {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column; /* Para alinear el botón abajo */
+}
+
+.tarjeta-propiedad:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.07), 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.titulo-propiedad { /* Título dentro de la tarjeta de propiedad */
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 0.75rem;
+}
+
+.contenedor-imagen {
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background-color: #edf2f7; /* Placeholder background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagen-propiedad {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imagen-placeholder {
+    font-size: 0.85rem;
+    color: #a0aec0; /* Gris claro */
+}
+
+.tarjeta-propiedad p {
+    font-size: 0.875rem; /* Un poco más pequeño para info */
+    color: #4a5568;
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+}
+
+.tarjeta-propiedad p strong {
+    color: #2d3748;
+}
+
+.tarjeta-propiedad button {
+    margin-top: auto; /* Empuja el botón al final */
+    padding: 0.5rem 1rem;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500; /* Ligeramente menos grueso */
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    align-self: flex-start; /* Para que no ocupe todo el ancho */
+}
+
+.tarjeta-propiedad button:hover {
+    background-color: #4f46e5;
+}
+
+/* Paginación */
+.paginacion {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.boton-pagina {
+    padding: 0.5rem 1.2rem; /* Un poco más de padding horizontal */
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.boton-pagina:hover:not(:disabled) {
+    background-color: #4f46e5;
+}
+
+.boton-pagina:disabled {
+    background-color: #e2e8f0; /* Gris más claro para deshabilitado */
+    color: #a0aec0;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.numero-pagina {
+    font-weight: 600;
+    color: #2d3748;
+    padding: 0 0.5rem;
+    font-size: 0.95rem;
+}
+
+.info-paginacion { /* Para mensajes como "Todas se muestran en una página" */
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+
+/* Reporte Detalle (Indicadores por Propiedad) */
+.reporte-detalle {
+    margin-top: 2.5rem;
+    padding: 1.5rem 2rem;
+    background-color: #fdfdfe; /* Un blanco muy sutilmente diferente */
+    border-left: 5px solid #6366f1;
+    border-radius: 0 6px 6px 0;
+}
+
+.reporte-detalle p {
+    margin-bottom: 0.75rem;
+    color: #374151; /* Gris oscuro */
+}
+
+.reporte-detalle h4 { /* Títulos dentro del reporte: Clientes, Visitas por Mes */
+    margin-top: 1.5rem;
+    color: #434190; /* Un tono de morado/azul */
+}
+
+.grid-ul { /* Para listas de clientes, visitas por mes */
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.75rem; /* Espacio entre items */
+    margin-bottom: 1rem;
+}
+
+.grid-ul li {
+    background-color: #f8fafc; /* Fondo claro para items */
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: #4a5568;
+}
+
+/* Tabla de Filtros */
+.tabla-filtros {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    border-radius: 6px; /* Para que la sombra y bordes redondeados apliquen bien */
+    overflow: hidden; /* Para que el border-radius afecte a las celdas de las esquinas */
+}
+
+.tabla-filtros th,
+.tabla-filtros td {
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.tabla-filtros th {
+    background-color: #f1f5f9; /* Fondo azul muy claro para encabezados */
+    color: #1a202c;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase; /* Opcional: para dar más énfasis */
+    letter-spacing: 0.05em; /* Opcional */
+}
+
+.tabla-filtros tbody tr:nth-child(even) {
+    background-color: #fcfdff; /* Rayado muy sutil */
+}
+
+.tabla-filtros tbody tr:hover {
+    background-color: #eff6ff; /* Azul muy pálido al pasar el mouse */
+}
+
+.tabla-filtros td {
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+/* Ajuste para que las celdas de la tabla con números puedan centrarse si se prefiere */
+.tabla-filtros td:nth-child(1), /* Asumiendo que Habitaciones es la primera columna */
+.tabla-filtros td:nth-child(2), /* Parqueaderos */
+.tabla-filtros td:nth-child(3) { /* Consultas */
+    text-align: center;
+}
+.tabla-filtros th {
+    text-align: center;
+}

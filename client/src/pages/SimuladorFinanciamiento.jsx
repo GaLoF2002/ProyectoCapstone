@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import { simularFinanciamiento } from "../services/evaluacionService";
-
+import "./SimuladorFinanciamiento.css";
 
 /**
  * Componente: SimuladorFinanciamiento
