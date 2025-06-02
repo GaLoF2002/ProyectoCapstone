@@ -39,7 +39,6 @@ export const registrarVisita = async (req, res) => {
         return res.status(500).json({ msg: "Error al registrar visita" });
     }
 };
-
 export const registrarDuracionVisualizacion = async (req, res) => {
     try {
         const { propiedadId, duracionSegundos } = req.body;
@@ -49,13 +48,21 @@ export const registrarDuracionVisualizacion = async (req, res) => {
             return res.status(400).json({ msg: "Datos incompletos" });
         }
 
-        await VisitaCliente.create({
+        // Buscar la última visita reciente de este cliente a esta propiedad
+        const ultimaVisita = await VisitaCliente.findOne({
             propiedad: propiedadId,
-            cliente: clienteId,
-            duracionSegundos: Math.round(duracionSegundos)
-        });
+            cliente: clienteId
+        }).sort({ timestamp: -1 });
 
-        return res.status(201).json({ msg: "Duración registrada correctamente" });
+        if (!ultimaVisita) {
+            return res.status(404).json({ msg: "No se encontró una visita para registrar duración" });
+        }
+
+        // Actualizar la duración
+        ultimaVisita.duracionSegundos = Math.round(duracionSegundos);
+        await ultimaVisita.save();
+
+        return res.status(200).json({ msg: "Duración registrada correctamente" });
     } catch (error) {
         console.error("❌ Error al registrar duración de visualización:", error);
         return res.status(500).json({ msg: "Error al registrar duración" });
