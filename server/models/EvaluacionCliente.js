@@ -52,15 +52,21 @@ const evaluacionSchema = new mongoose.Schema({
         enum: ['A', 'B', 'C', 'D', 'E']
     },
 
+    tieneInmueble: Boolean, // ✅ si tiene al menos un inmueble
+    valorTotalInmuebles: Number, // ✅ valor económico estimado total de los inmuebles
+    tieneEntrada30: Boolean, // ✅ indica si tiene el 30% de la propiedad como entrada
+    plazoCreditoAnios: Number,// ✅ plazo del crédito en años
     antiguedadAnios: Number,
-
-    numeroInmuebles: Number,
-    numeroVehiculos: Number,
-
     valorPropiedad: Number,
 
     // Puntaje automático
-    nivelPotencial: { type: Number, min: 1, max: 7 },
+    nivelPotencial: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 15 // ✅ cambia el máximo a 15, que es el valor permitido según tu lógica
+    },
+
     porcentaje: {
         type: Number,
         min: 0,

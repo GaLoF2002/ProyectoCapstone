@@ -23,6 +23,8 @@ import SimuladorFinanciamiento from "./pages/SimuladorFinanciamiento.jsx";
 import React from "react";
 import PropiedadIndividual from "./pages/PropiedadIndividual.jsx";
 import MisCitasCliente from "./pages/MisCitasCliente.jsx";
+import ResumenMensualAdmin from "./pages/ResumenMensualAdmin.jsx";
+import EstadisticasCitasVendedor from "./pages/EstadisticasCitasVendedor.jsx";
 
 function App() {
     return (
@@ -50,7 +52,8 @@ function App() {
                     <Route path="/admin/compradores" element={<AdminCompradoresPage />} />
                     <Route path="/indicadores" element={<IndicadoresPage />} />
                     <Route path="/simulador-financiamiento" element={<SimuladorFinanciamiento />} />
-
+                    <Route path="/estadistica-vendedor" element={<EstadisticasCitasVendedor />} />
+                    <Route path="/resumen-mensual" element={<ResumenMensualAdmin />} />
                 </Routes>
             </Router>
         </AuthProvider>

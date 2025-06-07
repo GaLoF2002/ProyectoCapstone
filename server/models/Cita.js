@@ -33,6 +33,10 @@ const citaSchema = new mongoose.Schema({
     mensaje: {
         type: String
     },
+    ejecutada: {
+        type: Boolean,
+        default: false
+    },
     recordatorioEnviado: { type: Boolean, default: false }
 }, {
     timestamps: true

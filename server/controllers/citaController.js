@@ -106,12 +106,16 @@ export const obtenerMisCitas = async (req, res) => {
             .populate("cliente", "name")
             .populate("vendedor", "name");
 
-        // 🔔 Generar recordatorios automáticos si hay citas hoy o mañana
         const hoyStr = hoy.toISOString().split("T")[0];
         const mananaStr = manana.toISOString().split("T")[0];
 
         for (const cita of citas) {
             if (cita.estado === "cancelada") continue;
+
+            const ahora = new Date();
+            const citaFechaHora = new Date(`${cita.fecha.toISOString().split("T")[0]}T${cita.hora}`);
+
+            if (citaFechaHora < ahora) continue;
 
             const fechaStr = cita.fecha.toISOString().split("T")[0];
             let tipoMensaje = null;
@@ -145,6 +149,7 @@ export const obtenerMisCitas = async (req, res) => {
         res.status(500).json({ error: "Error al obtener citas" });
     }
 };
+
 
 // Cambiar estado de cita
 export const cambiarEstadoCita = async (req, res) => {

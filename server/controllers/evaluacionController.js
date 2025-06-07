@@ -6,11 +6,8 @@ const calcularNivelPotencial = (data) => {
     const ingresoTotal = (data.ingresos?.sueldo || 0) + (data.ingresos?.otros || 0) + (data.ingresos?.conyuge || 0);
     const egresosTotales = Object.values(data.egresos || {}).reduce((a, b) => a + (b || 0), 0);
     const ahorroCalculado = ingresoTotal - egresosTotales;
-    const ahorroCliente = data.ahorroMensual || 0;
-    const relacionDeuda = ingresoTotal > 0 ? (data.egresos?.deudas || 0) / ingresoTotal : 1;
     const tieneBuenBuro = data.buro === "A" || data.buro === "B";
     const estabilidad = data.antiguedadAnios >= 2;
-    const patrimonio = (data.numeroInmuebles || 0) + (data.numeroVehiculos || 0);
 
     let score = 0;
 
@@ -18,18 +15,44 @@ const calcularNivelPotencial = (data) => {
         score += 3;
         if (data.tiempoCompra === "1mes") score += 2;
         else if (data.tiempoCompra === "2meses") score += 1;
+
     } else if (data.tipoCompra === "credito") {
-        score += 1;
+        score += 1; // Por elegir crédito
+
         if (data.tiempoCompra === "1mes") score += 2;
         else if (data.tiempoCompra === "2meses") score += 1;
-        if (ahorroCliente >= 0.3 * (data.valorPropiedad || 0)) score += 1;
-        if (relacionDeuda < 0.3) score += 1;
+
+        // ✅ Entrada del 30% para abonar
+        if (data.tieneEntrada30) score += 1;
+
+        // ✅ Buró
         if (tieneBuenBuro) score += 1;
         else score -= 1;
+
+        // ✅ Antigüedad laboral
         if (estabilidad) score += 1;
 
-        if (patrimonio === 1) score += 1;
-        else if (patrimonio > 1) score += 2;
+        // ✅ Tiene inmueble
+        if (data.tieneInmueble) score += 1;
+
+        // ✅ Valor de inmuebles >= 30% valor propiedad
+        if ((data.valorTotalInmuebles || 0) >= 0.3 * (data.valorPropiedad || 0)) {
+            score += 1;
+        }
+
+        // ✅ Capacidad de pago anual sin intereses
+        const valorPropiedad = data.valorPropiedad || 0;
+        const plazoAnios = data.plazoCreditoAnios || 1;
+        const montoRestante = valorPropiedad - (data.tieneEntrada30 ? 0.3 * valorPropiedad : 0);
+        const cuotaAnualSimulada = montoRestante / plazoAnios;
+
+        const ingresoAnualCliente = ahorroCalculado * 12;
+
+        if (ingresoAnualCliente > cuotaAnualSimulada) {
+            score += 2;
+        } else if (Math.abs(ingresoAnualCliente - cuotaAnualSimulada) < 1e-2 || ingresoAnualCliente === cuotaAnualSimulada) {
+            score += 1;
+        }
     }
 
     const rawScore = score;
@@ -40,21 +63,30 @@ const calcularNivelPotencial = (data) => {
     return { nivelPotencial: normalizedScore, porcentaje };
 };
 
+
 export const crearEvaluacionCompra = async (req, res) => {
     try {
         const data = JSON.parse(req.body.datos);
         const archivos = req.files?.map(file => file.path) || [];
 
+        // 🔎 Buscar propiedad y asignar su precio
+        const propiedad = await Propiedad.findById(data.propiedadInteres);
+        if (!propiedad) {
+            return res.status(404).json({ msg: "Propiedad no encontrada." });
+        }
+
+        data.valorPropiedad = propiedad.precio; // ✅ usar valor real
+
         if (data.tipoCompra === "credito") {
             const camposNumericos = [
                 ...Object.values(data.ingresos || {}),
                 ...Object.values(data.egresos || {}),
-                data.ahorroMensual,
                 data.antiguedadAnios,
-                data.numeroInmuebles,
-                data.numeroVehiculos,
-                data.valorPropiedad
+                data.valorPropiedad,
+                data.valorTotalInmuebles,
+                data.plazoCreditoAnios
             ];
+
             if (camposNumericos.some(n => typeof n === 'number' && n < 0)) {
                 return res.status(400).json({ msg: "No se permiten valores negativos en ingresos, egresos o activos." });
             }
@@ -62,16 +94,28 @@ export const crearEvaluacionCompra = async (req, res) => {
             if (!["A", "B", "C", "D", "E"].includes(data.buro)) {
                 return res.status(400).json({ msg: "Debes seleccionar un buró válido." });
             }
+
+            if (typeof data.tieneEntrada30 !== 'boolean' || typeof data.tieneInmueble !== 'boolean') {
+                return res.status(400).json({ msg: "Faltan los campos booleanos requeridos (tieneEntrada30, tieneInmueble)." });
+            }
+
+            if (!data.plazoCreditoAnios || data.plazoCreditoAnios <= 0) {
+                return res.status(400).json({ msg: "El plazo de crédito debe ser mayor a 0." });
+            }
+
         } else {
+            // Si es contado, resetear valores innecesarios
             data.ingresos = {};
             data.egresos = {};
-            data.ahorroMensual = 0;
             data.buro = undefined;
             data.antiguedadAnios = 0;
-            data.numeroInmuebles = 0;
-            data.numeroVehiculos = 0;
+            data.tieneEntrada30 = false;
+            data.tieneInmueble = false;
+            data.valorTotalInmuebles = 0;
+            data.plazoCreditoAnios = 0;
         }
 
+        // 🔢 Calcular nivel de potencial
         const { nivelPotencial, porcentaje } = calcularNivelPotencial(data);
 
         const evaluacion = new EvaluacionCompra({
@@ -84,6 +128,7 @@ export const crearEvaluacionCompra = async (req, res) => {
 
         await evaluacion.save();
         res.status(201).json({ msg: "Evaluación guardada correctamente", evaluacion });
+
     } catch (error) {
         console.error("❌ Error al guardar evaluación: ", error);
         res.status(500).json({ msg: "Error al guardar evaluación" });
@@ -107,17 +152,13 @@ export const obtenerEvaluacionesPorPropiedad = async (req, res) => {
                 const ingresoA = (a.ingresos?.sueldo || 0) + (a.ingresos?.otros || 0) + (a.ingresos?.conyuge || 0);
                 const ingresoB = (b.ingresos?.sueldo || 0) + (b.ingresos?.otros || 0) + (b.ingresos?.conyuge || 0);
 
-                const ahorroA = a.ahorroMensual || 0;
-                const ahorroB = b.ahorroMensual || 0;
-
-                const patrimonioA = (a.numeroInmuebles || 0) + (a.numeroVehiculos || 0);
-                const patrimonioB = (b.numeroInmuebles || 0) + (b.numeroVehiculos || 0);
+                const valorInmuebleA = a.valorTotalInmuebles || 0;
+                const valorInmuebleB = b.valorTotalInmuebles || 0;
 
                 const comparacion =
                     b.nivelPotencial - a.nivelPotencial ||
                     ingresoB - ingresoA ||
-                    ahorroB - ahorroA ||
-                    patrimonioB - patrimonioA;
+                    valorInmuebleB - valorInmuebleA;
 
                 return comparacion;
             });
@@ -128,6 +169,116 @@ export const obtenerEvaluacionesPorPropiedad = async (req, res) => {
         res.status(500).json({ msg: "Error al obtener evaluaciones" });
     }
 };
+export const obtenerEvaluacionPorId = async (req, res) => {
+    try {
+        const { evaluacionId } = req.params;
+
+        const evaluacion = await EvaluacionCompra.findById(evaluacionId)
+            .populate("cliente", "name email phone");
+
+        if (!evaluacion) {
+            return res.status(404).json({ msg: "Evaluación no encontrada." });
+        }
+
+        const data = evaluacion.toObject();
+        const detalles = [];
+        const ingresoTotal = (data.ingresos?.sueldo || 0) + (data.ingresos?.otros || 0) + (data.ingresos?.conyuge || 0);
+        const egresosTotales = Object.values(data.egresos || {}).reduce((a, b) => a + (b || 0), 0);
+        const ahorroCalculado = ingresoTotal - egresosTotales;
+
+        const tieneBuenBuro = data.buro === "A" || data.buro === "B";
+        const estabilidad = data.antiguedadAnios >= 2;
+        const valorPropiedad = data.valorPropiedad || 0;
+        const plazo = data.plazoCreditoAnios || 1;
+
+        let score = 0;
+
+        if (data.tipoCompra === "contado") {
+            score += 3;
+            detalles.push("✅ Compra al contado: +3");
+
+            if (data.tiempoCompra === "1mes") {
+                score += 2;
+                detalles.push("📆 Compra en 1 mes: +2");
+            } else if (data.tiempoCompra === "2meses") {
+                score += 1;
+                detalles.push("📆 Compra en 2 meses: +1");
+            }
+        } else if (data.tipoCompra === "credito") {
+            score += 1;
+            detalles.push("💳 Compra con crédito: +1");
+
+            if (data.tiempoCompra === "1mes") {
+                score += 2;
+                detalles.push("📆 Compra en 1 mes: +2");
+            } else if (data.tiempoCompra === "2meses") {
+                score += 1;
+                detalles.push("📆 Compra en 2 meses: +1");
+            }
+
+            if (data.tieneEntrada30) {
+                score += 1;
+                detalles.push("💰 Tiene entrada del 30%: +1");
+            }
+
+            if (tieneBuenBuro) {
+                score += 1;
+                detalles.push(`📈 Buen buró (${data.buro}): +1`);
+            } else {
+                score -= 1;
+                detalles.push(`📉 Mal buró (${data.buro}): -1`);
+            }
+
+            if (estabilidad) {
+                score += 1;
+                detalles.push("👔 Antigüedad laboral >= 2 años: +1");
+            }
+
+            if (data.tieneInmueble) {
+                score += 1;
+                detalles.push("🏠 Tiene inmueble: +1");
+            }
+
+            if ((data.valorTotalInmuebles || 0) >= 0.3 * valorPropiedad) {
+                score += 1;
+                detalles.push("📊 Inmuebles ≥ 30% del valor de la propiedad: +1");
+            }
+
+            const montoRestante = valorPropiedad - (data.tieneEntrada30 ? 0.3 * valorPropiedad : 0);
+            const cuotaAnual = montoRestante / plazo;
+            const ingresoAnual = ingresoTotal * 12;
+
+            if (ingresoAnual > cuotaAnual) {
+                score += 2;
+                detalles.push("💵 Ingreso anual > cuota anual simulada: +2");
+            } else if (Math.abs(ingresoAnual - cuotaAnual) < 1e-2 || ingresoAnual === cuotaAnual) {
+                score += 1;
+                detalles.push("💵 Ingreso anual ≈ cuota anual simulada: +1");
+            }
+        }
+
+        const maxScore = data.tipoCompra === "contado" ? 5 : 15;
+        const nivelPotencial = Math.max(1, Math.min(score, maxScore));
+        const porcentaje = (nivelPotencial / maxScore) * 100;
+
+        res.json({
+            evaluacion,
+            ingresoTotal,
+            egresosTotales,
+            ahorroCalculado,
+            nivelPotencial,
+            porcentaje,
+            detalles
+        });
+
+    } catch (error) {
+        console.error("❌ Error al obtener evaluación por ID:", error);
+        res.status(500).json({ msg: "Error al obtener evaluación" });
+    }
+};
+
+
+
 export const simularFinanciamiento = async (req, res) => {
     try {
         const { propiedadId, porcentajeEntrada, plazoAnios } = req.body;

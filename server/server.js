@@ -15,6 +15,7 @@ import { fileURLToPath } from 'url';
 import visitaRoutes from "./routes/visitaRoutes.js";
 import indicadoresRoutes from "./routes/indicadoresRoutes.js";
 import notificacionesRoutes from './routes/notificacionesRoutes.js';
+import estadisticasCitasRoutes from './routes/estadisticasCitasRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +67,7 @@ app.use("/api/evaluacion", evaluacionRoutes);
 app.use("/api/visitas", visitaRoutes);
 app.use("/api/indicadores", indicadoresRoutes);
 app.use('/api/notificaciones', notificacionesRoutes);
+app.use('/api/estadisticas-citas', estadisticasCitasRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

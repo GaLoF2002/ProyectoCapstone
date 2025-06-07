@@ -8,11 +8,12 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
     const [tiempoCompra, setTiempoCompra] = useState("");
     const [ingresos, setIngresos] = useState({ sueldo: 0, otros: 0, conyuge: 0 });
     const [egresos, setEgresos] = useState({ deudas: 0 });
-    const [ahorroMensual, setAhorroMensual] = useState(0);
     const [buro, setBuro] = useState("");
     const [antiguedadAnios, setAntiguedadAnios] = useState(0);
-    const [numeroInmuebles, setNumeroInmuebles] = useState(0);
-    const [numeroVehiculos, setNumeroVehiculos] = useState(0);
+    const [tieneEntrada30, setTieneEntrada30] = useState(false);
+    const [tieneInmueble, setTieneInmueble] = useState(false);
+    const [valorTotalInmuebles, setValorTotalInmuebles] = useState(0);
+    const [plazoCreditoAnios, setPlazoCreditoAnios] = useState(20);
     const [documentos, setDocumentos] = useState([]);
     const [mensaje, setMensaje] = useState("");
 
@@ -28,12 +29,12 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
             tiempoCompra,
             ingresos,
             egresos,
-            ahorroMensual,
             buro,
             antiguedadAnios,
-            numeroInmuebles,
-            numeroVehiculos,
-            valorPropiedad: 120000,
+            tieneEntrada30,
+            tieneInmueble,
+            valorTotalInmuebles,
+            plazoCreditoAnios,
             propiedadInteres: propiedadId
         };
 
@@ -74,7 +75,13 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
                         <option value="2meses">En 2 meses</option>
                         <option value="3meses">En 3 meses</option>
                     </select>
-                    <button className="boton-siguiente" disabled={!tiempoCompra} onClick={() => tipoCompra === "credito" ? setPaso(3) : handleSubmit()}>Siguiente</button>
+                    <button
+                        className="boton-siguiente"
+                        disabled={!tiempoCompra}
+                        onClick={() => tipoCompra === "credito" ? setPaso(3) : handleSubmit()}
+                    >
+                        Siguiente
+                    </button>
                 </div>
             )}
 
@@ -103,8 +110,11 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
                     </div>
 
                     <div className="campo">
-                        <label className="etiqueta">Ahorro mensual aproximado:</label>
-                        <input type="number" className="input-field" min={0} value={ahorroMensual} onChange={e => setAhorroMensual(Number(e.target.value))} />
+                        <label className="etiqueta">¿Tienes el 30% del valor de la propiedad?</label>
+                        <select className="selector-entrada" value={tieneEntrada30} onChange={e => setTieneEntrada30(e.target.value === "true")}>
+                            <option value="false">No</option>
+                            <option value="true">Sí</option>
+                        </select>
                     </div>
 
                     <div className="campo">
@@ -125,13 +135,21 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
                     </div>
 
                     <div className="campo">
-                        <label className="etiqueta">Inmuebles a su nombre:</label>
-                        <input type="number" className="input-field" min={0} value={numeroInmuebles} onChange={e => setNumeroInmuebles(Number(e.target.value))} />
+                        <label className="etiqueta">¿Tienes algún inmueble a tu nombre?</label>
+                        <select className="selector-inmueble" value={tieneInmueble} onChange={e => setTieneInmueble(e.target.value === "true")}>
+                            <option value="false">No</option>
+                            <option value="true">Sí</option>
+                        </select>
                     </div>
 
                     <div className="campo">
-                        <label className="etiqueta">Vehículos a su nombre:</label>
-                        <input type="number" className="input-field" min={0} value={numeroVehiculos} onChange={e => setNumeroVehiculos(Number(e.target.value))} />
+                        <label className="etiqueta">Valor total de tus inmuebles:</label>
+                        <input type="number" className="input-field" min={0} value={valorTotalInmuebles} onChange={e => setValorTotalInmuebles(Number(e.target.value))} />
+                    </div>
+
+                    <div className="campo">
+                        <label className="etiqueta">¿A cuántos años deseas financiar?</label>
+                        <input type="number" className="input-field" min={1} value={plazoCreditoAnios} onChange={e => setPlazoCreditoAnios(Number(e.target.value))} />
                     </div>
 
                     <div className="campo archivo">

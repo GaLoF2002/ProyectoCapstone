@@ -39,3 +39,8 @@ export const simularFinanciamiento = async ({ propiedadId, porcentajeEntrada, pl
         }
     });
 };
+export const getEvaluacionPorId = async (evaluacionId) => {
+    return await axios.get(`${API_URL}/evaluacion-detalle/${evaluacionId}`, {
+        headers: getAuthHeaders()
+    });
+};

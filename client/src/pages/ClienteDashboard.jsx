@@ -59,12 +59,39 @@ const ClienteDashboard = () => {
     const fetchNotificaciones = async () => {
         try {
             const res = await getNotificaciones();
-            setNotificaciones(res.data);
+
+            const ahora = new Date();
+
+            const notificacionesFiltradas = res.data.filter((noti) => {
+                if (noti.tipo !== "recordatorio") return true;
+
+                const match = noti.mensaje.match(/hora (\d{2}:\d{2})/);
+                const matchFecha = noti.mensaje.match(/^(Hoy|Mañana)/);
+
+                if (!match || !matchFecha) return true;
+
+                const hora = match[1]; // ej. "15:30"
+                const tipoFecha = matchFecha[1]; // "Hoy" o "Mañana"
+
+                const fechaCita = new Date();
+                if (tipoFecha === "Mañana") {
+                    fechaCita.setDate(fechaCita.getDate() + 1);
+                }
+
+                // Unificar fecha y hora para comparar con "ahora"
+                const [hours, minutes] = hora.split(":").map(Number);
+                fechaCita.setHours(hours, minutes, 0, 0);
+
+                return fechaCita > ahora;
+            });
+
+            setNotificaciones(notificacionesFiltradas);
         } catch (err) {
             console.error("Error al obtener notificaciones:", err);
             setNotificaciones([]);
         }
     };
+
 
     const fetchPropiedades = async () => {
         try {
