@@ -10,11 +10,17 @@ import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
 import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
 import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
 import IndicadoresPage from "../pages/IndicadoresPage";
+import EstadisticasCitasVendedor from "./EstadisticasCitasVendedor.jsx";
+import EvaluacionDetalleCliente from "./EvaluacionDetalleCliente.jsx";
+
 
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [evaluacionSeleccionadaId, setEvaluacionSeleccionadaId] = useState(null);
+
+
     const [activeSection, setActiveSection] = useState("home");
     const [modoEdicion, setModoEdicion] = useState(false);
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
@@ -55,6 +61,10 @@ const VendedorDashboard = () => {
                     <li>
                         <button onClick={() => setActiveSection("reportes")}>📈 Ver Reportes</button>
                     </li>
+                    <li>
+                        <button onClick={() => setActiveSection("citas-resumen")}>📊 Citas Ejecutadas</button>
+                    </li>
+
 
 
                     <li>
@@ -123,7 +133,10 @@ const VendedorDashboard = () => {
                 )}
                 {activeSection === "ver-compradores" && (
                     <div className="vendedor-compradores-section">
-                        <AdminCompradoresPage />
+                        <AdminCompradoresPage
+                            setActiveSection={setActiveSection}
+                            setPropiedadSeleccionada={setPropiedadSeleccionada}
+                            setEvaluacionSeleccionadaId={setEvaluacionSeleccionadaId}/>
                     </div>
                 )}
                 {activeSection === "reportes" && (
@@ -131,6 +144,15 @@ const VendedorDashboard = () => {
                         <IndicadoresPage />
                     </div>
                 )}
+                {activeSection === "citas-resumen" && (
+                    <div className="vendedor-citas-resumen-section">
+                        <EstadisticasCitasVendedor />
+                    </div>
+                )}
+                {activeSection === "detalle-evaluacion" && evaluacionSeleccionadaId && (
+                    <EvaluacionDetalleCliente evaluacionId={evaluacionSeleccionadaId} />
+                )}
+
 
 
             </div>

@@ -1,17 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { FiUser, FiLogOut, FiHome, FiHeart } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiHome, FiBell } from 'react-icons/fi';
 import Footer from "../components/Footer.jsx";
 import Perfil from './PerfilCliente';
 import PropiedadIndividual from './PropiedadIndividual';
 import { getPropiedades } from '../services/propiedadService';
 import './ClienteDashboard.css';
-import AgendarCita from "./AgendarCita"; // Importa tu nuevo componente
+import AgendarCita from "./AgendarCita";
 import MisCitasCliente from "./MisCitasCliente.jsx";
 import FormularioEvaluacion from "./FormularioEvaluacion.jsx";
 import SimuladorFinanciamiento from "./SimuladorFinanciamiento.jsx";
-
+import { getNotificaciones } from '../services/notificacionesService';
+import { getMisCitas } from '../services/agendamientoService';
 
 
 const ClienteDashboard = () => {
@@ -20,6 +21,9 @@ const ClienteDashboard = () => {
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
     const [propiedades, setPropiedades] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
+    const [notificaciones, setNotificaciones] = useState([]);
+    const [mostrarNotificaciones, setMostrarNotificaciones] = useState(false);
+
     const propiedadesPorPagina = 4;
     const [mostrarModalFiltros, setMostrarModalFiltros] = useState(false);
     const [filtros, setFiltros] = useState({
@@ -37,8 +41,57 @@ const ClienteDashboard = () => {
             setActiveSection("ver-propiedad");
             localStorage.removeItem("propiedadSeleccionada");
         }
+
         fetchPropiedades();
+        fetchNotificaciones();
+        cargarDatos();
     }, []);
+    const cargarDatos = async () => {
+        try {
+            await getMisCitas(); // ✅ Esto dispara la lógica de recordatorios en el backend
+            await fetchPropiedades();
+            await fetchNotificaciones(); // Las trae, ya incluyendo los recordatorios generados
+        } catch (err) {
+            console.error("Error al cargar datos:", err);
+        }
+    };
+
+    const fetchNotificaciones = async () => {
+        try {
+            const res = await getNotificaciones();
+
+            const ahora = new Date();
+
+            const notificacionesFiltradas = res.data.filter((noti) => {
+                if (noti.tipo !== "recordatorio") return true;
+
+                const match = noti.mensaje.match(/hora (\d{2}:\d{2})/);
+                const matchFecha = noti.mensaje.match(/^(Hoy|Mañana)/);
+
+                if (!match || !matchFecha) return true;
+
+                const hora = match[1]; // ej. "15:30"
+                const tipoFecha = matchFecha[1]; // "Hoy" o "Mañana"
+
+                const fechaCita = new Date();
+                if (tipoFecha === "Mañana") {
+                    fechaCita.setDate(fechaCita.getDate() + 1);
+                }
+
+                // Unificar fecha y hora para comparar con "ahora"
+                const [hours, minutes] = hora.split(":").map(Number);
+                fechaCita.setHours(hours, minutes, 0, 0);
+
+                return fechaCita > ahora;
+            });
+
+            setNotificaciones(notificacionesFiltradas);
+        } catch (err) {
+            console.error("Error al obtener notificaciones:", err);
+            setNotificaciones([]);
+        }
+    };
+
 
     const fetchPropiedades = async () => {
         try {
@@ -101,18 +154,33 @@ const ClienteDashboard = () => {
                     <li onClick={() => { setActiveSection("perfil"); setPropiedadSeleccionada(null); }}>
                         <FiUser /> Perfil
                     </li>
-                    <li onClick={() => { setActiveSection("favoritos"); setPropiedadSeleccionada(null); }}>
-                        <FiHeart /> Favoritos
-                    </li>
                     <li onClick={() => { setActiveSection("mis-citas"); setPropiedadSeleccionada(null); }}>
                         📅 Mis Citas
                     </li>
-
+                    <li className="notificaciones-icono" onClick={() => setMostrarNotificaciones(!mostrarNotificaciones)}>
+                        <FiBell />
+                        {notificaciones.length > 0 && <span className="badge">{notificaciones.length}</span>}
+                    </li>
                     <li onClick={handleLogout} className="logout">
                         <FiLogOut /> Cerrar Sesión
                     </li>
                 </ul>
             </nav>
+
+            {mostrarNotificaciones && (
+                <div className="notificaciones-popup">
+                    <h4>Notificaciones</h4>
+                    {notificaciones.length === 0 ? (
+                        <p>No hay nuevos mensajes</p>
+                    ) : (
+                        <ul>
+                            {notificaciones.map((notif) => (
+                                <li key={notif._id}>{notif.mensaje}</li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
 
             <main className="cliente-main">
                 {activeSection === "inicio" && !propiedadSeleccionada && (

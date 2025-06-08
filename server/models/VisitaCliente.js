@@ -22,6 +22,10 @@ const visitaClienteSchema = new mongoose.Schema({
     duracionSegundos: {
         type: Number,
         default: 0 // tiempo que el cliente permaneció viendo la propiedad
+    },
+    estadoVisto: {
+        type: String,
+        default: null
     }
 
 });

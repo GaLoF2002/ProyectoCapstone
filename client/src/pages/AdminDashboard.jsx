@@ -5,6 +5,8 @@ import { getSellers, createSeller, updateSeller, deleteSeller } from "../service
 import Propiedades from "../pages/Propiedades.jsx";
 import CrearPropiedad from "../pages/CrearPropiedad";
 import PropiedadIndividual from "../pages/PropiedadIndividual";
+import ResumenMensualAdmin from "../pages/ResumenMensualAdmin.jsx";
+
 import "./AdminDashboard.css"; // Asegúrate que esta ruta sea correcta
 
 // Componente para la sección de Inicio del Dashboard
@@ -149,6 +151,8 @@ const AdminDashboard = () => {
                     <li><button onClick={() => setActiveSection("home")}>🏠 Inicio</button></li>
                     <li><button onClick={() => setActiveSection("sellers")}>📋 Vendedores</button></li>
                     <li><button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button></li>
+                    <li><button onClick={() => setActiveSection("resumen-citas")}>📊 Resumen Citas</button></li>
+
                     <li><button onClick={handleLogout}>🚪 Cerrar Sesión</button></li>
                 </ul>
             </nav>
@@ -267,6 +271,10 @@ const AdminDashboard = () => {
                 {activeSection === "crear-propiedad" && (
                     <CrearPropiedad setActiveSection={setActiveSection} modoEdicion={modoEdicion} propiedadEditando={propiedadSeleccionada} />
                 )}
+                {activeSection === "resumen-citas" && (
+                    <ResumenMensualAdmin />
+                )}
+
             </div>
         </div>
     );

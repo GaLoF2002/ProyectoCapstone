@@ -2,7 +2,8 @@ import express from "express";
 import {
     crearEvaluacionCompra,
     obtenerEvaluacionesPorPropiedad,
-    simularFinanciamiento
+    simularFinanciamiento,
+    obtenerEvaluacionPorId
 } from "../controllers/evaluacionController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { uploadEvaluacion } from "../config/multer.js";
@@ -17,5 +18,9 @@ router.get("/evaluacion-compra/por-propiedad/:propiedadId", authMiddleware, obte
 
 // ✅ Ruta clara para simular financiamiento
 router.post("/simular-financiamiento", authMiddleware, simularFinanciamiento);
+
+
+router.get("/evaluacion-detalle/:evaluacionId", authMiddleware, obtenerEvaluacionPorId);
+
 
 export default router;

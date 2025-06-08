@@ -2,13 +2,16 @@ import React, { useEffect, useState, useContext } from "react";
 import { getPropiedades } from "../services/propiedadService";
 import { getEvaluacionesPorPropiedad } from "../services/evaluacionService";
 import { AuthContext } from "../context/AuthContext";
+
 import "./AdminCompradoresPage.css";
 
-const AdminCompradoresPage = () => {
+const AdminCompradoresPage = ({ setActiveSection, setPropiedadSeleccionada, setEvaluacionSeleccionadaId }) => {
+
     const { user } = useContext(AuthContext);
     const [propiedades, setPropiedades] = useState([]);
     const [compradoresVisibles, setCompradoresVisibles] = useState({});
     const [evaluacionesPorPropiedad, setEvaluacionesPorPropiedad] = useState({});
+
 
     useEffect(() => {
         const cargarPropiedades = async () => {
@@ -100,6 +103,7 @@ const AdminCompradoresPage = () => {
                                         <th>Correo</th>
                                         <th>Teléfono</th>
                                         <th>Porcentaje de Compra</th>
+                                        <th>Acciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -109,11 +113,25 @@ const AdminCompradoresPage = () => {
                                             <td>{c.cliente.email}</td>
                                             <td>{c.cliente.phone || "No disponible"}</td>
                                             <td>{c.porcentaje?.toFixed(2)}%</td>
+                                            <td>
+                                                <button
+                                                    onClick={() => {
+                                                        setPropiedadSeleccionada(prop._id);
+                                                        setEvaluacionSeleccionadaId(c._id);
+                                                        setActiveSection("detalle-evaluacion");
+                                                    }}
+                                                >
+                                                    Ver información
+                                                </button>
+
+                                            </td>
+
                                         </tr>
                                     ))}
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     )}
                 </div>
