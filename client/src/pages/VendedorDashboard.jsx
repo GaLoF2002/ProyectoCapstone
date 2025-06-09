@@ -5,7 +5,7 @@ import Propiedades from "../pages/Propiedades";
 import CrearPropiedad from "../pages/CrearPropiedad";
 import PropiedadIndividual from "./PropiedadIndividual.jsx";
 import AgendamientoVendedor from "./AgendamientoVendedor.jsx";
-import "./VendedorDashboard.css";
+import "./VendedorDashboard.css"; // Make sure this path is correct
 import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
 import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
 import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
@@ -13,13 +13,61 @@ import IndicadoresPage from "../pages/IndicadoresPage";
 import EstadisticasCitasVendedor from "./EstadisticasCitasVendedor.jsx";
 import EvaluacionDetalleCliente from "./EvaluacionDetalleCliente.jsx";
 
+// Componente para la sección de Inicio del Dashboard del Vendedor
+const HomeSection = ({ onNavigate }) => {
+    return (
+        <div className="home-section">
+            <h1 className="home-title">Bienvenido al Panel del Vendedor</h1>
+            <p className="home-subtitle">Selecciona una opción del menú para comenzar.</p>
+
+            <div className="dashboard-shortcuts">
+                {/* Acceso a Propiedades */}
+                <div className="shortcut-item" onClick={() => onNavigate('propiedades')}>
+                    <span className="icon-properties">🏠</span> {/* Ícono de casa/edificio para Propiedades */}
+                    <p>Mis Propiedades</p>
+                </div>
+
+                {/* Acceso a Agendamiento */}
+                <div className="shortcut-item" onClick={() => onNavigate('agendamiento')}>
+                    <span className="icon-appointments">📅</span> {/* Ícono de calendario para Agendamiento */}
+                    <p>Agendamiento</p>
+                </div>
+
+                {/* Acceso a Citas Pendientes */}
+                <div className="shortcut-item" onClick={() => onNavigate('citas-pendientes')}>
+                    <span className="icon-pending-appointments">📋</span> {/* Ícono de lista para Citas Pendientes */}
+                    <p>Citas Pendientes</p>
+                </div>
+
+                {/* Acceso a Ver Compradores */}
+                <div className="shortcut-item" onClick={() => onNavigate('ver-compradores')}>
+                    <span className="icon-buyers">👥</span> {/* Ícono de usuarios para Compradores */}
+                    <p>Ver Compradores</p>
+                </div>
+
+                {/* Acceso a Reportes */}
+                <div className="shortcut-item" onClick={() => onNavigate('reportes')}>
+                    <span className="icon-reports">📈</span> {/* Ícono de gráfico para Reportes */}
+                    <p>Ver Reportes</p>
+                </div>
+
+                {/* Acceso a Citas Ejecutadas */}
+                <div className="shortcut-item" onClick={() => onNavigate('citas-resumen')}>
+                    <span className="icon-stats">📊</span> {/* Ícono de estadísticas para Citas Ejecutadas */}
+                    <p>Citas Ejecutadas</p>
+                </div>
+
+                {/* Puedes añadir más accesos directos aquí si tienes más secciones relevantes para el vendedor */}
+            </div>
+        </div>
+    );
+};
 
 
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [evaluacionSeleccionadaId, setEvaluacionSeleccionadaId] = useState(null);
-
 
     const [activeSection, setActiveSection] = useState("home");
     const [modoEdicion, setModoEdicion] = useState(false);
@@ -64,11 +112,7 @@ const VendedorDashboard = () => {
                     <li>
                         <button onClick={() => setActiveSection("citas-resumen")}>📊 Citas Ejecutadas</button>
                     </li>
-
-
-
                     <li>
-
                         <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
                     </li>
                 </ul>
@@ -77,10 +121,7 @@ const VendedorDashboard = () => {
             {/* Contenido Principal */}
             <div className="vendedor-main-content">
                 {activeSection === "home" && (
-                    <div className="vendedor-home-section">
-                        <h1>Bienvenido al Panel del Vendedor</h1>
-                        <p>Selecciona una opción del menú para comenzar.</p>
-                    </div>
+                    <HomeSection onNavigate={setActiveSection} />
                 )}
 
                 {activeSection === "propiedades" && (
@@ -136,7 +177,7 @@ const VendedorDashboard = () => {
                         <AdminCompradoresPage
                             setActiveSection={setActiveSection}
                             setPropiedadSeleccionada={setPropiedadSeleccionada}
-                            setEvaluacionSeleccionadaId={setEvaluacionSeleccionadaId}/>
+                            setEvaluacionSeleccionadaId={setEvaluacionSeleccionadaId} />
                     </div>
                 )}
                 {activeSection === "reportes" && (
@@ -152,9 +193,6 @@ const VendedorDashboard = () => {
                 {activeSection === "detalle-evaluacion" && evaluacionSeleccionadaId && (
                     <EvaluacionDetalleCliente evaluacionId={evaluacionSeleccionadaId} />
                 )}
-
-
-
             </div>
         </div>
     );

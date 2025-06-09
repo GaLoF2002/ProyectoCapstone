@@ -3,6 +3,7 @@ import {
     obtenerCitasDelMes,
     marcarCitaComoEjecutada
 } from "../services/estadisticasCitasService.js";
+import "./EstadisticasCitasVendedor.css"; // Importa tu archivo CSS aquí
 
 const EstadisticasCitasVendedor = () => {
     const [citas, setCitas] = useState([]);
@@ -34,7 +35,7 @@ const EstadisticasCitasVendedor = () => {
     return (
         <div className="estadisticas-citas-container">
             <h2>📅 Citas del Mes</h2>
-            <ul>
+            <ul className="citas-lista">
                 {citas.map(c => (
                     <li key={c._id} className="cita-item">
                         <p><strong>Cliente:</strong> {c.cliente.name}</p>
@@ -43,7 +44,7 @@ const EstadisticasCitasVendedor = () => {
                         <p><strong>Estado:</strong> {c.estado}</p>
                         <p><strong>Ejecutada:</strong> {c.ejecutada ? "✅" : "❌"}</p>
                         {!c.ejecutada && (
-                            <button onClick={() => marcarEjecutada(c._id)}>
+                            <button onClick={() => marcarEjecutada(c._id)} className="marcar-btn">
                                 Marcar como Ejecutada
                             </button>
                         )}
@@ -56,6 +57,3 @@ const EstadisticasCitasVendedor = () => {
 };
 
 export default EstadisticasCitasVendedor;
-
-
-// ✅ pages/ResumenMensualAdmin.jsx

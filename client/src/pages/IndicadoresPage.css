@@ -36,7 +36,7 @@
 
 .seccion h4 { /* Títulos dentro de tarjetas o subsecciones */
     font-size: 1.1rem;
-    color: #4a5568; /* Gris oscuro-medio */
+    color: black; /* Gris oscuro-medio */
     margin-top: 1rem;
     margin-bottom: 0.75rem;
 }
@@ -81,7 +81,7 @@
 .titulo-propiedad { /* Título dentro de la tarjeta de propiedad */
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1a202c;
+    color: black;
     margin-bottom: 0.75rem;
 }
 
@@ -130,7 +130,6 @@
     font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    align-self: flex-start; /* Para que no ocupe todo el ancho */
 }
 
 .tarjeta-propiedad button:hover {

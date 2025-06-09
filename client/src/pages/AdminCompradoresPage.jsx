@@ -56,7 +56,7 @@ const AdminCompradoresPage = ({ setActiveSection, setPropiedadSeleccionada, setE
             <h2>Propiedades y Compradores</h2>
 
             {propiedades.map((prop) => (
-                <div key={prop._id} className="propiedad-card">
+                <div key={prop._id} className="propiedad-card-compradores">
                     <div className="propiedad-info">
                         <h3>{prop.titulo}</h3>
                         <p><strong>Ubicación:</strong> {prop.ubicacion}</p>

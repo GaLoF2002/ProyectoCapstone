@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getEvaluacionPorId } from "../services/evaluacionService";
+import "./EvaluacionDetalleCliente.css";
 
 const EvaluacionDetalleCliente = ({ evaluacionId }) => {
     const navigate = useNavigate();
@@ -10,7 +11,6 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
     useEffect(() => {
         const fetchDatos = async () => {
             try {
-                console.log("Evaluación ID:", evaluacionId);
                 const res = await getEvaluacionPorId(evaluacionId);
                 setDatos(res.data);
             } catch (error) {
@@ -31,40 +31,110 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
     const { evaluacion, porcentaje, detalles } = datos;
 
     return (
-        <div style={{ padding: "1rem" }}>
-            <button onClick={() => navigate(-1)} style={{ marginBottom: "1rem" }}>
+        <div className="evaluacion-container">
+            <button onClick={() => navigate(-1)} className="back-button">
                 ← Regresar
             </button>
 
             <h2>Detalle de Evaluación</h2>
-            <p><strong>Cliente:</strong> {evaluacion.cliente.name}</p>
-            <p><strong>Correo:</strong> {evaluacion.cliente.email}</p>
-            <p><strong>Teléfono:</strong> {evaluacion.cliente.phone}</p>
-            <p><strong>Tipo de compra:</strong> {evaluacion.tipoCompra}</p>
-            <p><strong>Porcentaje total:</strong> {porcentaje?.toFixed(2)}%</p>
 
-            <h3>Detalle de la Puntuación</h3>
-            <ul>
-                {detalles.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                ))}
-            </ul>
+            <div className="seccion-doble">
+                <div className="tabla-contenedor">
+                    <h3>🧑 Datos del Cliente</h3>
+                    <table className="tabla-simple">
+                        <tbody>
+                        <tr>
+                            <td><strong>Nombre:</strong></td>
+                            <td>{evaluacion.cliente.name}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Correo:</strong></td>
+                            <td>{evaluacion.cliente.email}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Teléfono:</strong></td>
+                            <td>{evaluacion.cliente.phone}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tipo de compra:</strong></td>
+                            <td>{evaluacion.tipoCompra}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Porcentaje total:</strong></td>
+                            <td>{porcentaje?.toFixed(2)}%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="tabla-contenedor">
+                    <h3>📊 Detalle de la Puntuación</h3>
+                    <table className="tabla-simple">
+                        <tbody>
+                        {detalles.map((item, idx) => (
+                            <tr key={idx}>
+                                <td>{item}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             {evaluacion.tipoCompra === "credito" && (
-                <>
-                    <h4>Información Financiera</h4>
-                    <p><strong>Ingresos:</strong> ${Object.values(evaluacion.ingresos || {}).reduce((a, b) => a + (b || 0), 0)}</p>
-                    <p><strong>Egresos:</strong> ${Object.values(evaluacion.egresos || {}).reduce((a, b) => a + (b || 0), 0)}</p>
-                    <p><strong>Ahorro calculado:</strong> ${((Object.values(evaluacion.ingresos || {}).reduce((a, b) => a + (b || 0), 0)) - (Object.values(evaluacion.egresos || {}).reduce((a, b) => a + (b || 0), 0)))}</p>
-                    <p><strong>Buró:</strong> {evaluacion.buro}</p>
-                    <p><strong>Antigüedad laboral:</strong> {evaluacion.antiguedadAnios} años</p>
-                    <p><strong>Tiene inmueble:</strong> {evaluacion.tieneInmueble ? "Sí" : "No"}</p>
-                    <p><strong>Valor de inmuebles:</strong> ${evaluacion.valorTotalInmuebles}</p>
-                    <p><strong>Plazo de crédito:</strong> {evaluacion.plazoCreditoAnios} años</p>
-                </>
+                <div className="financiera seccion-doble">
+                    <div className="tabla-contenedor">
+                        <h4>💰 Información Financiera</h4>
+                        <table className="tabla-simple">
+                            <tbody>
+                            <tr>
+                                <td><strong>Ingresos:</strong></td>
+                                <td>${Object.values(evaluacion.ingresos || {}).reduce((a, b) => a + (b || 0), 0)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Egresos:</strong></td>
+                                <td>${Object.values(evaluacion.egresos || {}).reduce((a, b) => a + (b || 0), 0)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ahorro:</strong></td>
+                                <td>${(Object.values(evaluacion.ingresos || {}).reduce((a, b) => a + (b || 0), 0) -
+                                    Object.values(evaluacion.egresos || {}).reduce((a, b) => a + (b || 0), 0))}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Buró:</strong></td>
+                                <td>{evaluacion.buro}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="tabla-contenedor">
+                        <h4>🏠 Información Adicional</h4>
+                        <table className="tabla-simple">
+                            <tbody>
+                            <tr>
+                                <td><strong>Antigüedad laboral:</strong></td>
+                                <td>{evaluacion.antiguedadAnios} años</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tiene inmueble:</strong></td>
+                                <td>{evaluacion.tieneInmueble ? "Sí" : "No"}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Valor inmuebles:</strong></td>
+                                <td>${evaluacion.valorTotalInmuebles}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Plazo crédito:</strong></td>
+                                <td>{evaluacion.plazoCreditoAnios} años</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             )}
 
-            <h4>Documentos Adjuntos</h4>
+            <h4>📎 Documentos Adjuntos</h4>
             <ul>
                 {(evaluacion.documentos || []).map((doc, i) => (
                     <li key={i}>

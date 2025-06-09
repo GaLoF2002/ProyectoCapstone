@@ -10,18 +10,27 @@
     margin-bottom: 2rem;
 }
 
+.propiedad-card-compradores{
+    width: 90%;
+    margin: 3rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+}
 
-.propiedad-card:hover {
+.propiedad-card-compradores:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.propiedad-card h3 {
+.propiedad-card-compradores h3 {
     font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.propiedad-card p {
+.propiedad-card-compradores p {
     margin: 0.3rem 0;
 }
 
@@ -38,7 +47,7 @@
     transition: background-color 0.3s ease;
 }
 
-.propiedad-card button:hover {
+.propiedad-card-compradores button:hover {
     background-color: #111827;
 }
 

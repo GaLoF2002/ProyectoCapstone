@@ -29,6 +29,12 @@ const HomeSection = ({ onNavigate }) => {
                     <p>Propiedades</p>
                 </div>
 
+                {/* Acceso a Resumen Citas */}
+                <div className="shortcut-item" onClick={() => onNavigate('resumen-citas')}>
+                    <span className="icon-properties">📊</span> {/* Ícono de estadisticas para Resumen */}
+                    <p>Resumen Citas</p>
+                </div>
+
                 {/* Puedes añadir más accesos directos aquí si tienes más secciones */}
                 {/*
                 <div className="shortcut-item" onClick={() => onNavigate('Reportes')}>

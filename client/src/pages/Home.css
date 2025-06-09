@@ -191,7 +191,6 @@ button:hover {
 }
 
 .prop-details p {
-    margin-bottom: 0.5rem;
     font-size: 1rem;
     color: #555;
     overflow: hidden;
@@ -199,21 +198,20 @@ button:hover {
     white-space: nowrap;
 }
 
+.prop-details button {
+    color: #2c3e50;
+}
+
 /* Style the button */
 .prop-card button {
     background-color: #2c3e50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    margin-top: 1rem;
     font-size: 1.1em;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
-    align-self: flex-start; /* Align to the left within the details container */
-    width: fit-content; /* Adjust button width to content */
-    margin-left: 0; /* Remove default button margin */
-    margin-right: 0; /* Remove default button margin */
+    margin: 10px 50px  0; /* Margin to separate from text above */
 }
 
 .prop-card button:hover {
@@ -229,7 +227,7 @@ button:hover {
     max-width: 1200px;
     padding: 0 1rem; /* Adjust padding for better alignment with grid */
     margin-bottom: 2rem;
-    margin-top: 1rem; /* Adjusted margin-top for better spacing */
+    margin-top: 2rem; /* Adjusted margin-top for better spacing */
     box-sizing: border-box;
 }
 
@@ -394,7 +392,6 @@ button:hover {
 
     .prop-details button {
         align-self: flex-start; /* Ensure button aligns to the left */
-        margin-top: auto; /* Push button to the bottom if content is short */
     }
 }
 
