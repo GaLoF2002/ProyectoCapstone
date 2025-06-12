@@ -159,8 +159,11 @@ const ClienteDashboard = () => {
                     </li>
                     <li className="notificaciones-icono" onClick={() => setMostrarNotificaciones(!mostrarNotificaciones)}>
                         <FiBell />
+                        <span style={{ marginRight: "0.4rem" }}>Notificaciones</span>
                         {notificaciones.length > 0 && <span className="badge">{notificaciones.length}</span>}
                     </li>
+
+
                     <li onClick={handleLogout} className="logout">
                         <FiLogOut /> Cerrar Sesión
                     </li>
@@ -168,19 +171,23 @@ const ClienteDashboard = () => {
             </nav>
 
             {mostrarNotificaciones && (
-                <div className="notificaciones-popup">
-                    <h4>Notificaciones</h4>
-                    {notificaciones.length === 0 ? (
-                        <p>No hay nuevos mensajes</p>
-                    ) : (
-                        <ul>
-                            {notificaciones.map((notif) => (
-                                <li key={notif._id}>{notif.mensaje}</li>
-                            ))}
-                        </ul>
-                    )}
+                <div className="modal-notificaciones-overlay">
+                    <div className="modal-notificaciones">
+                        <h3>📢 Notificaciones</h3>
+                        <button className="cerrar-modal" onClick={() => setMostrarNotificaciones(false)}>✖</button>
+                        {notificaciones.length === 0 ? (
+                            <p>No hay nuevos mensajes</p>
+                        ) : (
+                            <ul>
+                                {notificaciones.map((notif) => (
+                                    <li key={notif._id}>{notif.mensaje}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
             )}
+
 
             <main className="cliente-main">
                 {activeSection === "inicio" && !propiedadSeleccionada && (
