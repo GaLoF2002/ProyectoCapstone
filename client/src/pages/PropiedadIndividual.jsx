@@ -3,17 +3,22 @@ import { getPropiedadPorId } from "../services/propiedadService";
 import { AuthContext } from "../context/AuthContext";
 import FormularioEvaluacion from "./FormularioEvaluacion";
 import { registrarVisita, registrarDuracionVisualizacion} from "../services/visitaService";
+import { marcarInteres, getMisIntereses, desmarcarInteres} from "../services/interesService";
+
 import "./PropiedadIndividual.css";
 
-const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
+const PropiedadIndividual = ({ propiedadId, setActiveSection,volverA }) => {
     const { user } = useContext(AuthContext);
     const [propiedad, setPropiedad] = useState(null);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [mensajeFinal, setMensajeFinal] = useState(false);
     const visitaRegistrada = useRef(false);
     const tiempoInicio = useRef(null);
+    const [yaInteresado, setYaInteresado] = useState(false);
+
 
     useEffect(() => {
+        console.log(propiedadId)
         if (!user || user.role !== "cliente") return;
 
         if (visitaRegistrada.current) return; // ✅ corta si ya registró
@@ -25,6 +30,10 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
             try {
                 const res = await getPropiedadPorId(propiedadId);
                 setPropiedad(res.data);
+                const interesesRes = await getMisIntereses();
+                const yaMarcado = interesesRes.data.some(i => i.propiedad._id === propiedadId);
+                setYaInteresado(yaMarcado);
+
                 await registrarVisita(propiedadId);
                 tiempoInicio.current = Date.now();
 
@@ -109,6 +118,30 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection }) => {
                             >
                                 💰 Simular tu compra
                             </button>
+                            <button
+                                className="btn-me-interesa"
+                                onClick={async () => {
+                                    try {
+                                        if (yaInteresado) {
+                                            await desmarcarInteres(propiedad._id);
+                                            alert("❌ Interés eliminado");
+                                            setYaInteresado(false);
+                                        } else {
+                                            await marcarInteres(propiedad._id);
+                                            alert("✔️ Interés registrado correctamente");
+                                            setYaInteresado(true);
+                                        }
+                                    } catch (err) {
+                                        alert(err.response?.data?.mensaje || "❌ Error al modificar interés");
+                                    }
+                                }}
+                            >
+                                {yaInteresado ? "❌ Quitar interés" : "❤️ Me interesa esta propiedad"}
+                            </button>
+
+
+
+
                         </>
                     )}
                 </>

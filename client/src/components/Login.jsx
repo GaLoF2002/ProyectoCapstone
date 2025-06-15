@@ -13,6 +13,8 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [notification, setNotification] = useState(null); // Estado para la notificación
+    const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
+
 
     const showNotification = (message, isError = true) => {
         setNotification({ message, isError, visible: true });
@@ -23,6 +25,10 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (!aceptaPoliticas) {
+            showNotification("Debes aceptar las políticas y condiciones para continuar.");
+            return;
+        }
         try {
             const response = await login({ email, password });
             const propiedadPendiente = localStorage.getItem("propiedadPendiente");
@@ -74,6 +80,17 @@ const Login = () => {
                                         required
                                     />
                                 </div>
+                                <div className="input-container">
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={aceptaPoliticas}
+                                            onChange={() => setAceptaPoliticas(!aceptaPoliticas)}
+                                        />
+                                        Acepto las <a href="/politicas" target="_blank">políticas y condiciones</a>
+                                    </label>
+                                </div>
+
                                 <button type="submit">Ingresar</button>
                             </form>
                             <p className="forgot-password" onClick={() => navigate("/forgot-password")}>

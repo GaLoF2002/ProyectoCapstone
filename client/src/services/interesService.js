@@ -20,6 +20,8 @@ export const getMisIntereses = async () => {
         headers: getAuthHeaders()
     });
 };
+
+
 // services/interesService.js
 export const verificarInteres = async (propiedadId) => {
     return await axios.get(`${API_URL}/mis-intereses`, {
@@ -27,3 +29,6 @@ export const verificarInteres = async (propiedadId) => {
     });
 };
 
+export const desmarcarInteres = async (propiedadId) => {
+    return await axios.delete(`${API_URL}/interes/${propiedadId}`, { headers: getAuthHeaders() });
+};

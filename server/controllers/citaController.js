@@ -90,7 +90,9 @@ export const obtenerMisCitas = async (req, res) => {
     try {
         const rol = req.user.role;
         const userId = req.user._id;
-        const query = rol === "vendedor" ? { vendedor: userId } : { cliente: userId };
+        const query = (rol === "vendedor" || rol === "admin")
+            ? { vendedor: userId }
+            : { cliente: userId };
 
         const hoy = new Date();
         hoy.setUTCHours(0, 0, 0, 0);
