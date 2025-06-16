@@ -115,16 +115,16 @@ const Propiedades = ({ setActiveSection, setPropiedadSeleccionada, setModoEdicio
             )}
             <div className="prop-list">
                 {propiedadesPaginadas.map((p) => (
-                    <div className="propiedad-card">
+                    <div className="propiedad-card" key={p._id}>
                         <div className="prop-card-content">
                             {p.imagenes && p.imagenes.length > 0 && (
-                                    <img
-                                        src={`http://localhost:5000/${p.imagenes[0]}`}
-                                        alt="Imagen de la propiedad"
-                                        className="propiedad-img-lateral"
-                                        onClick={() => navigate(`/imagen/${p._id}`)}
-                                        style={{ cursor: "pointer" }}
-                                    />
+                                <img
+                                    src={`http://localhost:5000/${p.imagenes[0]}`}
+                                    alt="Imagen de la propiedad"
+                                    className="propiedad-img-lateral"
+                                    onClick={() => navigate(`/imagen/${p._id}`)}
+                                    style={{ cursor: "pointer" }}
+                                />
                             )}
                             <div className="prop-info">
                                 <h3>{p.titulo}</h3>
@@ -135,8 +135,12 @@ const Propiedades = ({ setActiveSection, setPropiedadSeleccionada, setModoEdicio
                                     setPropiedadSeleccionada(p._id);
                                     setActiveSection("ver-propiedad");
                                 }}>
-                                    Ver más
+                                    👁 Ver más
                                 </button>
+
+
+
+
                                 <button className="delete-button" onClick={() => handleEliminarPropiedad(p._id)}>🗑 Eliminar</button>
                                 <button onClick={() => {
                                     setPropiedadSeleccionada(p);
@@ -149,6 +153,7 @@ const Propiedades = ({ setActiveSection, setPropiedadSeleccionada, setModoEdicio
                         </div>
                     </div>
                 ))}
+
             </div>
 
             {propiedades.length > propiedadesPorPagina && (

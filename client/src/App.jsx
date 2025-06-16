@@ -18,6 +18,7 @@ import FormularioEvaluacion from "./pages/FormularioEvaluacion";
 import AdminCompradoresPage from "./pages/AdminCompradoresPage.jsx";
 import IndicadoresPage from "./pages/IndicadoresPage.jsx";
 import SimuladorFinanciamiento from "./pages/SimuladorFinanciamiento.jsx";
+import VistaPublicaPropiedad from "./pages/VistaPublicaPropiedad";
 
 
 import React from "react";
@@ -54,6 +55,7 @@ function App() {
                     <Route path="/simulador-financiamiento" element={<SimuladorFinanciamiento />} />
                     <Route path="/estadistica-vendedor" element={<EstadisticasCitasVendedor />} />
                     <Route path="/resumen-mensual" element={<ResumenMensualAdmin />} />
+                    <Route path="/propiedad/:id" element={<VistaPublicaPropiedad />} />
                 </Routes>
             </Router>
         </AuthProvider>

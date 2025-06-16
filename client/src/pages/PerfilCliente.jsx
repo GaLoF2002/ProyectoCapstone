@@ -74,13 +74,6 @@ const Perfil = () => {
                         onChange={handleChange}
                         required
                     />
-                    <label>Nueva Contraseña (opcional)</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={perfil.password}
-                        onChange={handleChange}
-                    />
                     <button type="submit">Guardar Cambios</button>
                 </form>
 

@@ -1,11 +1,14 @@
 import Notificacion from "../models/Notificacion.js";
 
 // Obtener todas las notificaciones del usuario logueado
+// Obtener solo las notificaciones no leídas
 export const obtenerNotificaciones = async (req, res) => {
     try {
         const usuarioId = req.user._id;
-        const notificaciones = await Notificacion.find({ usuario: usuarioId })
-            .sort({ fecha: -1 });
+        const notificaciones = await Notificacion.find({
+            usuario: usuarioId,
+            leida: false // 👈 Solo no leídas
+        }).sort({ fecha: -1 });
 
         res.json(notificaciones);
     } catch (error) {

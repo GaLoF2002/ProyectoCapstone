@@ -1,5 +1,6 @@
 import Propiedad from '../models/Propiedad.js';
-
+import VisitaCliente from "../models/VisitaCliente.js";
+import Notificacion from "../models/Notificacion.js";
 // Crear una propiedad
 export const crearPropiedad = async (req, res) => {
     try {
@@ -107,7 +108,6 @@ export const actualizarPropiedad = async (req, res) => {
 
         await propiedad.save();
         if (req.body.estado && req.body.estado !== estadoAnterior) {
-            const VisitaCliente = (await import("../models/VisitaCliente.js")).default;
             const clientes = await VisitaCliente.find({ propiedad: propiedad._id }).distinct("cliente");
 
             await Promise.all(clientes.map(clienteId =>

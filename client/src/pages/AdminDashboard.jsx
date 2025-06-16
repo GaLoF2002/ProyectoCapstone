@@ -4,11 +4,13 @@ import { AuthContext } from '../context/AuthContext';
 import { getSellers, createSeller, updateSeller, deleteSeller } from "../services/adminService";
 import Propiedades from "../pages/Propiedades.jsx";
 import CrearPropiedad from "../pages/CrearPropiedad";
-import PropiedadIndividual from "../pages/PropiedadIndividual";
 import ResumenMensualAdmin from "../pages/ResumenMensualAdmin.jsx";
+import AgendamientoVendedor from "../pages/AgendamientoVendedor.jsx";
+import GestionarCitasVendedor from "../pages/GestionarCitasVendedor.jsx";
+import VistaPublicaPropiedad from "../pages/VistaPublicaPropiedad";
 
-import "./AdminDashboard.css"; // Asegúrate que esta ruta sea correcta
-
+import "./AdminDashboard.css";// Asegúrate que esta ruta sea correcta
+import "./VendedorDashboard.css";
 // Componente para la sección de Inicio del Dashboard
 const HomeSection = ({ onNavigate }) => {
     return (
@@ -34,6 +36,12 @@ const HomeSection = ({ onNavigate }) => {
                     <span className="icon-properties">📊</span> {/* Ícono de estadisticas para Resumen */}
                     <p>Resumen Citas</p>
                 </div>
+                <div className="shortcut-item" onClick={() => onNavigate('resumen-citas')}>
+                    <span className="icon-properties">📊</span> {/* Ícono de estadisticas para Resumen */}
+                    <p>Resumen Citas</p>
+                </div>
+
+
 
                 {/* Puedes añadir más accesos directos aquí si tienes más secciones */}
                 {/*
@@ -159,6 +167,10 @@ const AdminDashboard = () => {
                     <li><button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button></li>
                     <li><button onClick={() => setActiveSection("resumen-citas")}>📊 Resumen Citas</button></li>
 
+                    <li><button onClick={() => setActiveSection("agendamiento")}>📅 Agendamiento</button></li>
+
+                    <li><button onClick={() => setActiveSection("citas-pendientes")}>📋 Citas Pendientes</button></li>
+
                     <li><button onClick={handleLogout}>🚪 Cerrar Sesión</button></li>
                 </ul>
             </nav>
@@ -268,9 +280,11 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
+
                 {activeSection === "ver-propiedad" && propiedadSeleccionada && (
-                    <PropiedadIndividual propiedadId={propiedadSeleccionada} setActiveSection={setActiveSection} />
+                    <VistaPublicaPropiedad propiedadId={propiedadSeleccionada} />
                 )}
+
                 {activeSection === "propiedades" && (
                     <Propiedades setActiveSection={setActiveSection} setPropiedadSeleccionada={setPropiedadSeleccionada} setModoEdicion={setModoEdicion} />
                 )}
@@ -280,6 +294,23 @@ const AdminDashboard = () => {
                 {activeSection === "resumen-citas" && (
                     <ResumenMensualAdmin />
                 )}
+                {activeSection === "agendamiento" && (
+                    <div className="admin-agendamiento-section">
+                        <AgendamientoVendedor />
+                    </div>
+                )}
+
+                {activeSection === "mis-citas" && (
+                    <div className="admin-citas-section">
+                        <GestionarCitasVendedor />
+                    </div>
+                )}
+                {activeSection === "citas-pendientes" && (
+                    <div className="vendedor-citas-pendientes-section">
+                        <CitasPendientesVendedor />
+                    </div>
+                )}
+
 
             </div>
         </div>

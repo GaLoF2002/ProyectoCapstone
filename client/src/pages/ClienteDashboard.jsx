@@ -12,6 +12,10 @@ import MisCitasCliente from "./MisCitasCliente.jsx";
 import FormularioEvaluacion from "./FormularioEvaluacion.jsx";
 import SimuladorFinanciamiento from "./SimuladorFinanciamiento.jsx";
 import { getNotificaciones } from '../services/notificacionesService';
+import { marcarNotificacionComoLeida } from '../services/notificacionesService';
+
+import MisIntereses from "./MisIntereses";
+
 import { getMisCitas } from '../services/agendamientoService';
 
 
@@ -23,6 +27,7 @@ const ClienteDashboard = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [notificaciones, setNotificaciones] = useState([]);
     const [mostrarNotificaciones, setMostrarNotificaciones] = useState(false);
+
 
     const propiedadesPorPagina = 4;
     const [mostrarModalFiltros, setMostrarModalFiltros] = useState(false);
@@ -36,6 +41,7 @@ const ClienteDashboard = () => {
 
     useEffect(() => {
         const propiedadPendiente = localStorage.getItem("propiedadSeleccionada");
+
         if (propiedadPendiente) {
             setPropiedadSeleccionada(propiedadPendiente);
             setActiveSection("ver-propiedad");
@@ -43,9 +49,18 @@ const ClienteDashboard = () => {
         }
 
         fetchPropiedades();
-        fetchNotificaciones();
+        fetchNotificaciones(); // Se hace una sola vez al montar
         cargarDatos();
+
+        // Cada 2 segundos solo actualiza si hay nuevas no leídas
+        const interval = setInterval(() => {
+            fetchNotificaciones();
+        }, 2000);
+
+        // ✅ Limpiar el intervalo correctamente
+        return () => clearInterval(interval);
     }, []);
+
     const cargarDatos = async () => {
         try {
             await getMisCitas(); // ✅ Esto dispara la lógica de recordatorios en el backend
@@ -125,6 +140,7 @@ const ClienteDashboard = () => {
     const handleVerMas = (id) => {
         setPropiedadSeleccionada(id);
         setActiveSection("ver-propiedad");
+
     };
 
     const indiceInicio = (paginaActual - 1) * propiedadesPorPagina;
@@ -162,6 +178,10 @@ const ClienteDashboard = () => {
                         <span style={{ marginRight: "0.4rem" }}>Notificaciones</span>
                         {notificaciones.length > 0 && <span className="badge">{notificaciones.length}</span>}
                     </li>
+                    <li onClick={() => setActiveSection("intereses")}>
+                        ❤️ Intereses
+                    </li>
+
 
 
                     <li onClick={handleLogout} className="logout">
@@ -180,13 +200,26 @@ const ClienteDashboard = () => {
                         ) : (
                             <ul>
                                 {notificaciones.map((notif) => (
-                                    <li key={notif._id}>{notif.mensaje}</li>
+                                    <li key={notif._id} style={{ marginBottom: "1rem" }}>
+                                        <span>{notif.mensaje}</span>
+                                        <button
+                                            onClick={async () => {
+                                                await marcarNotificacionComoLeida(notif._id);
+                                                // Elimina del estado local directamente (suficiente)
+                                                setNotificaciones(prev => prev.filter(n => n._id !== notif._id));
+                                            }}
+                                            style={{ marginLeft: "1rem", padding: "2px 6px" }}
+                                        >
+                                            Marcar como leída
+                                        </button>
+                                    </li>
                                 ))}
                             </ul>
                         )}
                     </div>
                 </div>
             )}
+
 
 
             <main className="cliente-main">
@@ -293,6 +326,14 @@ const ClienteDashboard = () => {
                         setActiveSection={setActiveSection}
                     />
                 )}
+                {activeSection === "intereses" && (
+                    <MisIntereses
+                        setActiveSection={setActiveSection}
+                        setPropiedadSeleccionada={setPropiedadSeleccionada}
+                    />
+                )}
+
+
 
 
             </main>
