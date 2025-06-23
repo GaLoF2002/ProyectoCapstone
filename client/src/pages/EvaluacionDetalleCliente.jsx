@@ -28,14 +28,25 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
     if (loading) return <p>Cargando...</p>;
     if (!datos) return <p>No se encontró información de evaluación.</p>;
 
-    const { evaluacion, porcentaje, detalles } = datos;
+    const {
+        evaluacion,
+        porcentaje,
+        detalles,
+        ingresoTotal,
+        egresosTotales,
+        ahorroCalculado,
+        nivelPotencial,
+        explicacionFinal,
+        cuotaAnual,
+        ingresoAnual,
+        montoFinanciar,
+        valorPropiedad,
+        entrada30
+    } = datos;
 
     return (
         <div className="evaluacion-container">
-            <button onClick={() => navigate(-1)} className="back-button">
-                ← Regresar
-            </button>
-
+            <button onClick={() => navigate(-1)} className="back-button">← Regresar</button>
             <h2>Detalle de Evaluación</h2>
 
             <div className="seccion-doble">
@@ -43,26 +54,12 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
                     <h3>🧑 Datos del Cliente</h3>
                     <table className="tabla-simple">
                         <tbody>
-                        <tr>
-                            <td><strong>Nombre:</strong></td>
-                            <td>{evaluacion.cliente.name}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Correo:</strong></td>
-                            <td>{evaluacion.cliente.email}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Teléfono:</strong></td>
-                            <td>{evaluacion.cliente.phone}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tipo de compra:</strong></td>
-                            <td>{evaluacion.tipoCompra}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Porcentaje total:</strong></td>
-                            <td>{porcentaje?.toFixed(2)}%</td>
-                        </tr>
+                        <tr><td><strong>Nombre:</strong></td><td>{evaluacion.cliente.name}</td></tr>
+                        <tr><td><strong>Correo:</strong></td><td>{evaluacion.cliente.email}</td></tr>
+                        <tr><td><strong>Teléfono:</strong></td><td>{evaluacion.cliente.phone}</td></tr>
+                        <tr><td><strong>Tipo de compra:</strong></td><td>{evaluacion.tipoCompra}</td></tr>
+                        <tr><td><strong>Nivel Potencial:</strong></td><td>{nivelPotencial} de 15 </td></tr>
+                        <tr><td><strong>Porcentaje total:</strong></td><td>{porcentaje?.toFixed(2)}%</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -72,9 +69,7 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
                     <table className="tabla-simple">
                         <tbody>
                         {detalles.map((item, idx) => (
-                            <tr key={idx}>
-                                <td>{item}</td>
-                            </tr>
+                            <tr key={idx}><td>{item}</td></tr>
                         ))}
                         </tbody>
                     </table>
@@ -82,57 +77,41 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
             </div>
 
             {evaluacion.tipoCompra === "credito" && (
-                <div className="financiera seccion-doble">
-                    <div className="tabla-contenedor">
-                        <h4>💰 Información Financiera</h4>
-                        <table className="tabla-simple">
-                            <tbody>
-                            <tr>
-                                <td><strong>Ingresos:</strong></td>
-                                <td>${Object.values(evaluacion.ingresos || {}).reduce((a, b) => a + (b || 0), 0)}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Egresos:</strong></td>
-                                <td>${Object.values(evaluacion.egresos || {}).reduce((a, b) => a + (b || 0), 0)}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Ahorro:</strong></td>
-                                <td>${(Object.values(evaluacion.ingresos || {}).reduce((a, b) => a + (b || 0), 0) -
-                                    Object.values(evaluacion.egresos || {}).reduce((a, b) => a + (b || 0), 0))}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Buró:</strong></td>
-                                <td>{evaluacion.buro}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <>
+                    <div className="seccion-doble">
+                        <div className="tabla-contenedor">
+                            <h4>💰 Información Financiera</h4>
+                            <table className="tabla-simple">
+                                <tbody>
+                                <tr><td><strong>Ingresos:</strong></td><td>${ingresoTotal}</td></tr>
+                                <tr><td><strong>Egresos:</strong></td><td>${egresosTotales}</td></tr>
+                                <tr><td><strong>Ahorro mensual:</strong></td><td>${ahorroCalculado}</td></tr>
+                                <tr><td><strong>Ingreso anual:</strong></td><td>${ingresoAnual?.toFixed(2)}</td></tr>
+                                <tr><td><strong>Buró:</strong></td><td>{evaluacion.buro}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <div className="tabla-contenedor">
-                        <h4>🏠 Información Adicional</h4>
-                        <table className="tabla-simple">
-                            <tbody>
-                            <tr>
-                                <td><strong>Antigüedad laboral:</strong></td>
-                                <td>{evaluacion.antiguedadAnios} años</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Tiene inmueble:</strong></td>
-                                <td>{evaluacion.tieneInmueble ? "Sí" : "No"}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Valor inmuebles:</strong></td>
-                                <td>${evaluacion.valorTotalInmuebles}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Plazo crédito:</strong></td>
-                                <td>{evaluacion.plazoCreditoAnios} años</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div className="tabla-contenedor">
+                            <h4>🏠 Información del Crédito</h4>
+                            <table className="tabla-simple">
+                                <tbody>
+                                <tr><td><strong>Valor propiedad:</strong></td><td>${valorPropiedad}</td></tr>
+                                <tr><td><strong>Entrada del 30%:</strong></td><td>${entrada30}</td></tr>
+                                <tr><td><strong>Monto a financiar:</strong></td><td>${montoFinanciar}</td></tr>
+                                <tr><td><strong>Plazo del crédito:</strong></td><td>{evaluacion.plazoCreditoAnios} años</td></tr>
+                                <tr><td><strong>Cuota anual simulada:</strong></td><td>${cuotaAnual?.toFixed(2)}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                </>
             )}
+
+            <div className="explicacion-final">
+                <h4>📌 Explicación del resultado</h4>
+                <p>{explicacionFinal}</p>
+            </div>
 
             <h4>📎 Documentos Adjuntos</h4>
             <ul>
