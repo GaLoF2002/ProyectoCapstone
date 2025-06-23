@@ -98,9 +98,7 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
                                 <tbody>
                                 <tr><td><strong>Valor propiedad:</strong></td><td>${valorPropiedad}</td></tr>
                                 <tr><td><strong>Entrada del 30%:</strong></td><td>${entrada30}</td></tr>
-                                <tr><td><strong>Monto a financiar:</strong></td><td>${montoFinanciar}</td></tr>
                                 <tr><td><strong>Plazo del crédito:</strong></td><td>{evaluacion.plazoCreditoAnios} años</td></tr>
-                                <tr><td><strong>Cuota anual simulada:</strong></td><td>${cuotaAnual?.toFixed(2)}</td></tr>
                                 </tbody>
                             </table>
                         </div>
