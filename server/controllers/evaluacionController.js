@@ -17,40 +17,58 @@ const calcularNivelPotencial = (data) => {
         else if (data.tiempoCompra === "2meses") score += 1;
 
     } else if (data.tipoCompra === "credito") {
-        score += 1; // Por elegir crédito
+        score += 1;
 
         if (data.tiempoCompra === "1mes") score += 2;
         else if (data.tiempoCompra === "2meses") score += 1;
 
-        // ✅ Entrada del 30% para abonar
         if (data.tieneEntrada30) score += 1;
-
-        // ✅ Buró
         if (tieneBuenBuro) score += 1;
         else score -= 1;
 
-        // ✅ Antigüedad laboral
         if (estabilidad) score += 1;
-
-        // ✅ Tiene inmueble
         if (data.tieneInmueble) score += 1;
 
-        // ✅ Valor de inmuebles >= 30% valor propiedad
         if ((data.valorTotalInmuebles || 0) >= 0.3 * (data.valorPropiedad || 0)) {
             score += 1;
         }
 
-        // ✅ Capacidad de pago anual sin intereses
+        // ✅ Capacidad de pago mensual simulada con interés real
         const valorPropiedad = data.valorPropiedad || 0;
         const plazoAnios = data.plazoCreditoAnios || 1;
-        const montoRestante = valorPropiedad - (data.tieneEntrada30 ? 0.3 * valorPropiedad : 0);
-        const cuotaAnualSimulada = montoRestante / plazoAnios;
+        const plazoMeses = plazoAnios * 12;
+        const entrada = data.tieneEntrada30 ? 0.3 * valorPropiedad : 0;
+        const montoFinanciar = valorPropiedad - entrada;
 
-        const ingresoAnualCliente = ahorroCalculado * 12;
+        let tasa = 0;
+        if (valorPropiedad <= 90000) {
+            tasa = 6.16;
+        } else if (valorPropiedad <= 130000) {
+            if (plazoMeses <= 120) tasa = 7.22;
+            else if (plazoMeses <= 180) tasa = 8.29;
+            else tasa = 9.27;
+        } else if (valorPropiedad <= 200000) {
+            if (plazoMeses <= 120) tasa = 8.29;
+            else if (plazoMeses <= 180) tasa = 8.79;
+            else tasa = 9.38;
+        } else {
+            if (plazoMeses <= 120) tasa = 8.50;
+            else if (plazoMeses <= 180) tasa = 9.00;
+            else tasa = 9.49;
+        }
 
-        if (ingresoAnualCliente > cuotaAnualSimulada) {
+        const interesMensual = tasa / 12 / 100;
+        const cuotaMensual = montoFinanciar * (
+            interesMensual * Math.pow(1 + interesMensual, plazoMeses)
+        ) / (
+            Math.pow(1 + interesMensual, plazoMeses) - 1
+        );
+
+        const ingresoMensualDisponible = ahorroCalculado;
+
+        if (ingresoMensualDisponible > cuotaMensual) {
             score += 2;
-        } else if (Math.abs(ingresoAnualCliente - cuotaAnualSimulada) < 1e-2 || ingresoAnualCliente === cuotaAnualSimulada) {
+        } else if (Math.abs(ingresoMensualDisponible - cuotaMensual) < 1e-2 || ingresoMensualDisponible === cuotaMensual) {
             score += 1;
         }
     }
@@ -62,6 +80,7 @@ const calcularNivelPotencial = (data) => {
 
     return { nivelPotencial: normalizedScore, porcentaje };
 };
+
 
 
 export const crearEvaluacionCompra = async (req, res) => {
@@ -100,7 +119,7 @@ export const crearEvaluacionCompra = async (req, res) => {
             }
 
             if (!data.plazoCreditoAnios || data.plazoCreditoAnios <= 0) {
-                return res.status(400).json({ msg: "El plazo de crédito debe ser mayor a 0." });
+                return res.status(400).json({ msg: "El plazo de crédito debe ser mayor a 0. "  });
             }
 
         } else {
@@ -169,6 +188,7 @@ export const obtenerEvaluacionesPorPropiedad = async (req, res) => {
         res.status(500).json({ msg: "Error al obtener evaluaciones" });
     }
 };
+
 export const obtenerEvaluacionPorId = async (req, res) => {
     try {
         const { evaluacionId } = req.params;
@@ -191,9 +211,41 @@ export const obtenerEvaluacionPorId = async (req, res) => {
         const valorPropiedad = data.valorPropiedad || 0;
         const plazo = data.plazoCreditoAnios || 1;
 
+        const entrada30 = data.tieneEntrada30 ? 0.3 * valorPropiedad : 0;
+        const montoRestante = valorPropiedad - entrada30;
+        const plazoMeses = plazo * 12;
+
+        // Tasa simulada
+        let tasa = 0;
+        if (valorPropiedad <= 90000) {
+            tasa = 6.16;
+        } else if (valorPropiedad <= 130000) {
+            if (plazoMeses <= 120) tasa = 7.22;
+            else if (plazoMeses <= 180) tasa = 8.29;
+            else tasa = 9.27;
+        } else if (valorPropiedad <= 200000) {
+            if (plazoMeses <= 120) tasa = 8.29;
+            else if (plazoMeses <= 180) tasa = 8.79;
+            else tasa = 9.38;
+        } else {
+            if (plazoMeses <= 120) tasa = 8.50;
+            else if (plazoMeses <= 180) tasa = 9.00;
+            else tasa = 9.49;
+        }
+
+        const interesMensual = tasa / 12 / 100;
+        const cuotaMensual = montoRestante * (
+            interesMensual * Math.pow(1 + interesMensual, plazoMeses)
+        ) / (
+            Math.pow(1 + interesMensual, plazoMeses) - 1
+        );
+
         let score = 0;
+        let maxScore = 0;
+        let explicacion = "";
 
         if (data.tipoCompra === "contado") {
+            maxScore = 5;
             score += 3;
             detalles.push("✅ Compra al contado: +3");
 
@@ -204,7 +256,9 @@ export const obtenerEvaluacionPorId = async (req, res) => {
                 score += 1;
                 detalles.push("📆 Compra en 2 meses: +1");
             }
+
         } else if (data.tipoCompra === "credito") {
+            maxScore = 15;
             score += 1;
             detalles.push("💳 Compra con crédito: +1");
 
@@ -231,7 +285,7 @@ export const obtenerEvaluacionPorId = async (req, res) => {
 
             if (estabilidad) {
                 score += 1;
-                detalles.push("👔 Antigüedad laboral >= 2 años: +1");
+                detalles.push("👔 Antigüedad laboral ≥ 2 años: +1");
             }
 
             if (data.tieneInmueble) {
@@ -244,31 +298,57 @@ export const obtenerEvaluacionPorId = async (req, res) => {
                 detalles.push("📊 Inmuebles ≥ 30% del valor de la propiedad: +1");
             }
 
-            const montoRestante = valorPropiedad - (data.tieneEntrada30 ? 0.3 * valorPropiedad : 0);
-            const cuotaAnual = montoRestante / plazo;
-            const ingresoAnual = ingresoTotal * 12;
-
-            if (ingresoAnual > cuotaAnual) {
+            // Evaluación según cuota mensual real
+            if (ahorroCalculado > cuotaMensual) {
                 score += 2;
-                detalles.push("💵 Ingreso anual > cuota anual simulada: +2");
-            } else if (Math.abs(ingresoAnual - cuotaAnual) < 1e-2 || ingresoAnual === cuotaAnual) {
+                detalles.push(
+                    `💵 Ahorro mensual (${ahorroCalculado.toFixed(2)}) es MAYOR que la cuota mensual estimada (${cuotaMensual.toFixed(2)}): +2. ` +
+                    `Alta capacidad de pago para asumir un crédito de ${plazo} años.`
+                );
+            } else if (Math.abs(ahorroCalculado - cuotaMensual) < 1e-2 || ahorroCalculado === cuotaMensual) {
                 score += 1;
-                detalles.push("💵 Ingreso anual ≈ cuota anual simulada: +1");
+                detalles.push(
+                    `💵 Ahorro mensual (${ahorroCalculado.toFixed(2)}) es IGUAL o casi igual a la cuota mensual estimada (${cuotaMensual.toFixed(2)}): +1. ` +
+                    `Puede asumir el crédito, aunque sin mucha holgura.`
+                );
+            } else {
+                detalles.push(
+                    `⚠️ Ahorro mensual (${ahorroCalculado.toFixed(2)}) es INFERIOR a la cuota mensual estimada (${cuotaMensual.toFixed(2)}). ` +
+                    `No suma puntos por riesgo de sobreendeudamiento.`
+                );
             }
+
+            // Detalles adicionales
+            detalles.push(`📌 Valor propiedad: $${valorPropiedad.toFixed(2)}`);
+            detalles.push(`📌 Entrada del 30%: $${entrada30.toFixed(2)}`);
+            detalles.push(`📌 Monto a financiar: $${montoRestante.toFixed(2)}`);
+            detalles.push(`📌 Cuota mensual estimada: $${cuotaMensual.toFixed(2)}`);
+            detalles.push(`📌 Ahorro mensual disponible: $${ahorroCalculado.toFixed(2)}`);
         }
 
-        const maxScore = data.tipoCompra === "contado" ? 5 : 15;
         const nivelPotencial = Math.max(1, Math.min(score, maxScore));
         const porcentaje = (nivelPotencial / maxScore) * 100;
+
+        // Explicación final
+        if (data.tipoCompra === "contado") {
+            explicacion = `El cliente aplica a una compra al contado. Puntaje máximo posible: 5 puntos. Obtuvo ${nivelPotencial} puntos (${porcentaje.toFixed(1)}%). Se consideró la rapidez de la compra y el tipo de pago.`;
+        } else {
+            explicacion = `El cliente aplica a una compra por crédito. Puntaje máximo posible: 15 puntos. Una calificación excelente supera el 66.7% (10 puntos). Obtuvo ${nivelPotencial} puntos (${porcentaje.toFixed(1)}%). Se evaluaron ingresos, egresos, buró de crédito, antigüedad laboral, bienes inmuebles y su capacidad para cubrir la cuota mensual estimada en relación con su ahorro mensual disponible.`;
+        }
 
         res.json({
             evaluacion,
             ingresoTotal,
             egresosTotales,
             ahorroCalculado,
+            valorPropiedad,
+            entrada30,
+            montoRestante,
+            cuotaMensual,
             nivelPotencial,
             porcentaje,
-            detalles
+            detalles,
+            explicacion
         });
 
     } catch (error) {
