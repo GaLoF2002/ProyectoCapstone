@@ -144,6 +144,21 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
                     </li>
                 ))}
             </ul>
+
+            <div className="evaluacion-equifax">
+                <h4>🔍 ¿Quieres una evaluación más detallada?</h4>
+                <p>
+                    Puedes obtener el score financiero completo y evaluación detallada con Equifax dando clic
+                    <a
+                        href="https://www.equifax.com.ec/miscreditos/checkout?codPaquete=48&campana=0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        &nbsp;aquí
+                    </a>.
+                </p>
+            </div>
+
         </div>
     );
 };

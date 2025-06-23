@@ -139,9 +139,6 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection,volverA }) => {
                                 {yaInteresado ? "❌ Quitar interés" : "❤️ Me interesa esta propiedad"}
                             </button>
 
-
-
-
                         </>
                     )}
                 </>

@@ -10,10 +10,17 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
+    const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        if (!aceptaPoliticas) {
+            alert("Debes aceptar las políticas y condiciones para continuar.");
+            return;
+        }
+
         try {
             await axios.post('http://localhost:5000/api/auth/register', { name, email, password, phone });
             alert("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
@@ -44,6 +51,18 @@ const Register = () => {
 
                             <label>Teléfono Celular</label>
                             <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+
+                            <div className="politicas-container">
+                                <input
+                                    type="checkbox"
+                                    checked={aceptaPoliticas}
+                                    onChange={() => setAceptaPoliticas(!aceptaPoliticas)}
+                                />
+                                <label>
+                                    Acepto las <a href="/politicas" target="_blank">políticas y condiciones</a>
+                                </label>
+                            </div>
+
 
                             <button type="submit">Unirse</button>
 

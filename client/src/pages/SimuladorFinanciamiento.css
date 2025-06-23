@@ -72,6 +72,25 @@
     font-size: 0.95rem;
 }
 
+.nota-tarifario {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+    text-align: left;
+    max-width: 600px;
+}
+
+.nota-tarifario a {
+    color: #007bff;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.nota-tarifario a:hover {
+    color: #0056b3;
+}
+
+
 /* Adaptación para móviles */
 @media (max-width: 500px) {
     .campo input,
@@ -79,3 +98,4 @@
         max-width: 100%;
     }
 }
+

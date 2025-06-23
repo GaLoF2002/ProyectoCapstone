@@ -111,10 +111,9 @@ const SimuladorFinanciamiento = ({ propiedadId, setActiveSection }) => {
                     <p><strong>Cuota mensual:</strong> ${resultado.cuotaMensual.toLocaleString()}</p>
                 </div>
             )}
-            <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "#555" }}>
-                *Este cálculo se basa en la información del tarifario del BIESS 2025. Consulta el documento oficial haciendo clic <a href="https://www.biess.fin.ec/files/ley-transaparencia/tarifario/2025/tarifario/TARIFARIO-JUNIO-2025.pdf" target="_blank" rel="noopener noreferrer" style={{ color: "#007bff", textDecoration: "underline" }}>aquí</a>.
+            <p className="nota-tarifario">
+                *Este cálculo se basa en la información del tarifario del BIESS 2025. Consulta el documento oficial haciendo clic <a href="https://www.biess.fin.ec/files/ley-transaparencia/tarifario/2025/tarifario/TARIFARIO-JUNIO-2025.pdf" target="_blank" rel="noopener noreferrer">aquí</a>.
             </p>
-
 
             <button className="btn-volver" onClick={() => setActiveSection("ver-propiedad")}>
                 ← Volver a la Propiedad

@@ -1,0 +1,76 @@
+.detalle-prop-container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.titulo-propiedad {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.galeria-imagenes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.galeria-imagenes img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-propiedad {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.columna {
+    flex: 1;
+    min-width: 300px;
+}
+
+.columna p {
+    margin-bottom: 0.8rem;
+    color: #444;
+    line-height: 1.4;
+}
+
+.columna strong {
+    color: #222;
+}
+
+.btn-volver {
+    background-color: #2d3748;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: #4a5568;
+}
+
+.loading {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #777;
+}

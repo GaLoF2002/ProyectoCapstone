@@ -132,3 +132,51 @@ html, body {
     width: 100%;
     margin-top: auto;
 }
+
+@media (max-width: 380px) {
+    .login-background {
+        width: 100%;
+        margin-bottom: 60px;
+        border-radius: 20px;
+        background-position: center;
+    }
+
+    .login-box {
+        width: 80%;
+        max-width: none;
+        padding: 30px 20px;
+        box-shadow: none;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+
+    .login-box h2 {
+        font-size: 22px;
+    }
+
+    .login-box input {
+        font-size: 14px;
+        padding: 10px;
+        width: 95%;
+    }
+
+    .login-box button {
+        font-size: 14px;
+        padding: 12px;
+        width: 95%;
+    }
+
+    .forgot-password {
+        font-size: 14px;
+        margin-top: 12px;
+    }
+
+    .content-wrap {
+        padding: 1rem;
+    }
+
+    .notification {
+        bottom: 80px;
+        font-size: 14px;
+    }
+}

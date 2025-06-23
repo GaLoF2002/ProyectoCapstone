@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
+import "./VistaPublicaPropiedad.css";
+
 
 const VistaPublicaPropiedad = ({ propiedadId, volverA, setActiveSection }) => {
     const [propiedad, setPropiedad] = useState(null);
@@ -51,13 +53,10 @@ const VistaPublicaPropiedad = ({ propiedadId, volverA, setActiveSection }) => {
 
             {/* Botón de volver solo si se pasa setActiveSection (solo desde Dashboard) */}
             {setActiveSection && (
-                <button
-                    className="btn-volver"
-                    onClick={() => setActiveSection(volverA || "propiedades")}
-                    style={{ marginTop: "2rem", padding: "10px 20px" }}
-                >
+                <button className="btn-volver" onClick={() => setActiveSection(volverA || "propiedades")}>
                     🔙 Volver
                 </button>
+
             )}
         </div>
     );

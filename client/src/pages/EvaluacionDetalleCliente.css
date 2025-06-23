@@ -85,3 +85,27 @@ a:hover {
     border-radius: 12px;
     border-left: 4px solid #2196f3;
 }
+
+.evaluacion-equifax {
+    background-color: #fef9f2;
+    padding: 1.5rem;
+    border-left: 4px solid #ff9800;
+    border-radius: 12px;
+    margin-top: 2rem;
+    color: #4e3f2f;
+}
+
+.evaluacion-equifax h4 {
+    margin-bottom: 0.5rem;
+    color: #e65100;
+}
+
+.evaluacion-equifax a {
+    color: #e65100;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.evaluacion-equifax a:hover {
+    color: #bf360c;
+}

@@ -131,3 +131,28 @@ html, body {
     left: 0;
     margin-top: auto; /* Empuja el footer hacia abajo */
 }
+
+/* Estilo del checkbox y texto de políticas */
+.register-form .politicas-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+}
+
+.register-form .politicas-container input[type="checkbox"] {
+    width: 50px;
+    margin-top: 15px;
+}
+
+.register-form .politicas-container a {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+.register-form .politicas-container a:hover {
+    color: #4c51bf;
+}
+
