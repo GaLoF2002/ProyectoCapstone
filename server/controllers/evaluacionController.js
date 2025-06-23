@@ -119,7 +119,7 @@ export const crearEvaluacionCompra = async (req, res) => {
             }
 
             if (!data.plazoCreditoAnios || data.plazoCreditoAnios <= 0) {
-                return res.status(400).json({ msg: "El plazo de crédito debe ser mayor a 0." });
+                return res.status(400).json({ msg: "El plazo de crédito debe ser mayor a 0. "  });
             }
 
         } else {
