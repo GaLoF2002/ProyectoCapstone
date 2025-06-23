@@ -68,12 +68,20 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
                     <h3>📊 Detalle de la Puntuación</h3>
                     <table className="tabla-simple">
                         <tbody>
-                        {detalles.map((item, idx) => (
-                            <tr key={idx}><td>{item}</td></tr>
-                        ))}
+                        {detalles.map((item, idx) => {
+                            const [criterio, valor] = item.split(":");
+                            return (
+                                <tr key={idx}>
+                                    <td><strong>{criterio?.trim()}:</strong></td>
+                                    <td>{valor?.trim()}</td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
                 </div>
+
+
             </div>
 
             {evaluacion.tipoCompra === "credito" && (
