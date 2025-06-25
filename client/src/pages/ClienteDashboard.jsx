@@ -155,6 +155,8 @@ const ClienteDashboard = () => {
         if (indiceFin < propiedades.length) setPaginaActual(paginaActual + 1);
     };
 
+    const [menuAbierto, setMenuAbierto] = useState(false);
+
     if (!user || user.role !== "cliente") {
         return <Navigate to="/login" />;
     }
@@ -163,14 +165,19 @@ const ClienteDashboard = () => {
         <div className="cliente-dashboard">
             <nav className="cliente-navbar">
                 <h2 className="cliente-logo">Bienvenido, {user.name}</h2>
-                <ul className="cliente-nav-links">
-                    <li onClick={() => { setActiveSection("inicio"); setPropiedadSeleccionada(null); }}>
+
+                <button className="hamburger" onClick={() => setMenuAbierto(!menuAbierto)}>
+                    ☰
+                </button>
+
+                <ul className={`cliente-nav-links ${menuAbierto ? "abierto" : ""}`}>
+                    <li onClick={() => { setActiveSection("inicio"); setPropiedadSeleccionada(null); setMenuAbierto(false); }}>
                         <FiHome /> Inicio
                     </li>
-                    <li onClick={() => { setActiveSection("perfil"); setPropiedadSeleccionada(null); }}>
+                    <li onClick={() => { setActiveSection("perfil"); setPropiedadSeleccionada(null); setMenuAbierto(false); }}>
                         <FiUser /> Perfil
                     </li>
-                    <li onClick={() => { setActiveSection("mis-citas"); setPropiedadSeleccionada(null); }}>
+                    <li onClick={() => { setActiveSection("mis-citas"); setPropiedadSeleccionada(null); setMenuAbierto(false); }}>
                         📅 Mis Citas
                     </li>
                     <li className="notificaciones-icono" onClick={() => setMostrarNotificaciones(!mostrarNotificaciones)}>
@@ -178,17 +185,15 @@ const ClienteDashboard = () => {
                         <span style={{ marginRight: "0.4rem" }}>Notificaciones</span>
                         {notificaciones.length > 0 && <span className="badge">{notificaciones.length}</span>}
                     </li>
-                    <li onClick={() => setActiveSection("intereses")}>
+                    <li onClick={() => { setActiveSection("intereses"); setMenuAbierto(false); }}>
                         ❤️ Intereses
                     </li>
-
-
-
                     <li onClick={handleLogout} className="logout">
                         <FiLogOut /> Cerrar Sesión
                     </li>
                 </ul>
             </nav>
+
 
             {mostrarNotificaciones && (
                 <div className="modal-notificaciones-overlay">

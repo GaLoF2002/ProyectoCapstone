@@ -299,54 +299,93 @@
     color: #333;
 }
 
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+}
 
+@media (max-width: 380px) {
+    .home-container{
+        margin-top: 0;
+    }
 
-/* Media query para hacerlo responsive (ejemplo para pantallas pequeñas */
-@media (max-width: 600px) {
+    .modal-filtros {
+        width: 70%;
+    }
+
     .cliente-navbar {
-        padding: 0.5rem;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 0; /* Removed margin-bottom */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        padding: 0.75rem 1rem;
+        z-index: 1000;
     }
 
     .cliente-logo {
-        margin-bottom: 0.25rem;
         font-size: 1rem;
+        color: white;
+        margin: 0;
+    }
+
+    .hamburger {
+        display: block;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        z-index: 1001;
     }
 
     .cliente-nav-links {
+        display: none;
         flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 100%;
+        left: 0;
         width: 100%;
+        background-color: #2c3e50;
+        border-top: 1px solid #444;
+        padding: 0.5rem 0;
+        z-index: 999;
+    }
+
+    .cliente-nav-links.abierto {
+        display: flex;
     }
 
     .cliente-nav-links li {
-        margin-left: 0;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #eee;
-        font-size: 0.9rem;
-    }
-
-    .cliente-nav-links li:last-child {
-        border-bottom: none;
-    }
-
-    .title-and-filter {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 0; /* Removed margin-bottom */
-    }
-
-    .filtros-toggle {
-        margin-top: 0.5rem;
         width: 100%;
-        font-size: 0.9rem;
-        padding: 0.5rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #444;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .propiedades-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
+    .cliente-nav-links li svg {
+        margin-right: 0.5rem;
+    }
+
+    .filtros-toggle{
+        margin-left: 2rem;
+    }
+
+    .modal-notificaciones {
+        max-height: 70vh;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+        padding-bottom: 9rem;
     }
 
 }
+
+
+

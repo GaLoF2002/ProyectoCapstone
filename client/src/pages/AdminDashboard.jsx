@@ -8,9 +8,11 @@ import ResumenMensualAdmin from "../pages/ResumenMensualAdmin.jsx";
 import AgendamientoVendedor from "../pages/AgendamientoVendedor.jsx";
 import GestionarCitasVendedor from "../pages/GestionarCitasVendedor.jsx";
 import VistaPublicaPropiedad from "../pages/VistaPublicaPropiedad";
+import CitasPendientesVendedor from "../pages/CitasPendientesVendedor.jsx"; // Asegúrate de importar este componente
 
-import "./AdminDashboard.css";// Asegúrate que esta ruta sea correcta
-import "./VendedorDashboard.css";
+import "./AdminDashboard.css"; // Asegúrate que esta ruta sea correcta
+import "./VendedorDashboard.css"; // Puedes consolidar CSS si es posible
+
 // Componente para la sección de Inicio del Dashboard
 const HomeSection = ({ onNavigate }) => {
     return (
@@ -36,11 +38,15 @@ const HomeSection = ({ onNavigate }) => {
                     <span className="icon-properties">📊</span> {/* Ícono de estadisticas para Resumen */}
                     <p>Resumen Citas</p>
                 </div>
-                <div className="shortcut-item" onClick={() => onNavigate('resumen-citas')}>
-                    <span className="icon-properties">📊</span> {/* Ícono de estadisticas para Resumen */}
-                    <p>Resumen Citas</p>
+                {/* Repetido, considera si es intencional o un error. Si no, quita uno. */}
+                <div className="shortcut-item" onClick={() => onNavigate('agendamiento')}>
+                    <span className="icon-calendar">📅</span> {/* Nuevo ícono para Agendamiento */}
+                    <p>Agendamiento</p>
                 </div>
-
+                <div className="shortcut-item" onClick={() => onNavigate('citas-pendientes')}>
+                    <span className="icon-pending-appointments">📋</span> {/* Nuevo ícono para Citas Pendientes */}
+                    <p>Citas Pendientes</p>
+                </div>
 
 
                 {/* Puedes añadir más accesos directos aquí si tienes más secciones */}
@@ -70,6 +76,7 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [modoEdicion, setModoEdicion] = useState(false);
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Nuevo estado para el sidebar en móvil
 
     const handleLogout = () => {
         logout();
@@ -157,28 +164,35 @@ const AdminDashboard = () => {
     // Determina qué datos mostrar en el formulario (creación o edición)
     const formData = editSeller || newSeller;
 
+    // Función para cambiar de sección y cerrar el sidebar en móvil
+    const handleSectionChange = (section) => {
+        setActiveSection(section);
+        setIsSidebarOpen(false); // Cierra el sidebar después de seleccionar una opción
+    };
+
     return (
         <div className="dashboard-container">
-            <nav className="sidebar">
+            {/* Botón de hamburguesa para móvil */}
+            <button className="hamburger-menu" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                ☰
+            </button>
+
+            <nav className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                 <h2>Admin Panel</h2>
                 <ul>
-                    <li><button onClick={() => setActiveSection("home")}>🏠 Inicio</button></li>
-                    <li><button onClick={() => setActiveSection("sellers")}>📋 Vendedores</button></li>
-                    <li><button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button></li>
-                    <li><button onClick={() => setActiveSection("resumen-citas")}>📊 Resumen Citas</button></li>
-
-                    <li><button onClick={() => setActiveSection("agendamiento")}>📅 Agendamiento</button></li>
-
-                    <li><button onClick={() => setActiveSection("citas-pendientes")}>📋 Citas Pendientes</button></li>
-
+                    <li><button onClick={() => handleSectionChange("home")}>🏠 Inicio</button></li>
+                    <li><button onClick={() => handleSectionChange("sellers")}>📋 Vendedores</button></li>
+                    <li><button onClick={() => handleSectionChange("propiedades")}>🏘️ Propiedades</button></li>
+                    <li><button onClick={() => handleSectionChange("resumen-citas")}>📊 Resumen Citas</button></li>
+                    <li><button onClick={() => handleSectionChange("agendamiento")}>📅 Agendamiento</button></li>
+                    <li><button onClick={() => handleSectionChange("citas-pendientes")}>📋 Citas Pendientes</button></li>
                     <li><button onClick={handleLogout}>🚪 Cerrar Sesión</button></li>
                 </ul>
             </nav>
 
             <div className="main-content">
                 {activeSection === "home" && (
-                    // Renderiza el nuevo componente HomeSection con accesos por iconos
-                    <HomeSection onNavigate={setActiveSection} />
+                    <HomeSection onNavigate={handleSectionChange} />
                 )}
 
                 {activeSection === "sellers" && (
@@ -205,9 +219,9 @@ const AdminDashboard = () => {
                                                 <th>Nombre</th>
                                                 <th>Email</th>
                                                 <th>Teléfono</th>
-                                                <th>Código</th>
-                                                <th>Inmobiliaria</th>
-                                                <th>Género</th>
+                                                <th className="hide-on-mobile">Código</th> {/* Ocultar en móvil */}
+                                                <th className="hide-on-mobile">Inmobiliaria</th> {/* Ocultar en móvil */}
+                                                <th className="hide-on-mobile">Género</th> {/* Ocultar en móvil */}
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
@@ -217,9 +231,9 @@ const AdminDashboard = () => {
                                                     <td data-label="Nombre">{seller.name}</td>
                                                     <td data-label="Email">{seller.email}</td>
                                                     <td data-label="Teléfono">{seller.phone}</td>
-                                                    <td data-label="Código">{seller.codigoVendedor || "-"}</td>
-                                                    <td data-label="Inmobiliaria">{seller.inmobiliaria || "-"}</td>
-                                                    <td data-label="Género">{seller.genero || "-"}</td>
+                                                    <td data-label="Código" className="hide-on-mobile">{seller.codigoVendedor || "-"}</td>
+                                                    <td data-label="Inmobiliaria" className="hide-on-mobile">{seller.inmobiliaria || "-"}</td>
+                                                    <td data-label="Género" className="hide-on-mobile">{seller.genero || "-"}</td>
                                                     <td data-label="Acciones" className="actions-cell">
                                                         <button className="action-button edit-button" onClick={() => handleEditSellerClick(seller)}>✏️</button>
                                                         <button className="action-button delete-button" onClick={() => handleDeleteSeller(seller._id)}>🗑️</button>
@@ -286,10 +300,10 @@ const AdminDashboard = () => {
                 )}
 
                 {activeSection === "propiedades" && (
-                    <Propiedades setActiveSection={setActiveSection} setPropiedadSeleccionada={setPropiedadSeleccionada} setModoEdicion={setModoEdicion} />
+                    <Propiedades setActiveSection={handleSectionChange} setPropiedadSeleccionada={setPropiedadSeleccionada} setModoEdicion={setModoEdicion} />
                 )}
                 {activeSection === "crear-propiedad" && (
-                    <CrearPropiedad setActiveSection={setActiveSection} modoEdicion={modoEdicion} propiedadEditando={propiedadSeleccionada} />
+                    <CrearPropiedad setActiveSection={handleSectionChange} modoEdicion={modoEdicion} propiedadEditando={propiedadSeleccionada} />
                 )}
                 {activeSection === "resumen-citas" && (
                     <ResumenMensualAdmin />
@@ -300,6 +314,7 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
+                {/* Tenías "mis-citas" y "citas-pendientes" en el menú y luego solo "mis-citas" como render condicional. Asegurémonos de que "citas-pendientes" esté correctamente renderizado. */}
                 {activeSection === "mis-citas" && (
                     <div className="admin-citas-section">
                         <GestionarCitasVendedor />

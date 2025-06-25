@@ -97,7 +97,6 @@ const Register = () => {
                     </div>
                 </div>
             )}
-
             <Footer />
         </div>
 
