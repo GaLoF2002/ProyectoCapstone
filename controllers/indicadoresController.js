@@ -136,7 +136,7 @@ export const obtenerEstadisticasPorPropiedad = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("❌ Error obteniendo estadísticas por propiedad:", error);
+        console.error("❌ Error obteniendo estadísticas por propiedad: ", error);
         res.status(500).json({ msg: "Error obteniendo estadísticas por propiedad" });
     }
 };
