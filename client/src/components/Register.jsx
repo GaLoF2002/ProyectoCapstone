@@ -13,7 +13,8 @@ const Register = () => {
     const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
     const navigate = useNavigate();
     const [mostrarModal, setMostrarModal] = useState(false);
-    const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
+    const API_URL = import.meta.env.VITE_API_URL + "/auth";
+
 
 
     const handleRegister = async (e) => {
@@ -31,7 +32,7 @@ const Register = () => {
             alert("Error en registro: " + error.response?.data?.error || error.message);
         }
     };
-    console.log(import.meta.env.VITE_API_URL);
+    console.log(API_URL);
 
 
     return (
