@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -9,6 +9,11 @@
     "heroku-postbuild": "cd client && yarn && yarn build",
     "test": "node_modules/.bin/jest"
   },
+  "engines": {
+    "node": "22.x",
+    "yarn": "1.22.x"
+  },
+
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
