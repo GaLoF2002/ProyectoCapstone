@@ -5,6 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd ../client && yarn && yarn build",
     "test": "jest"
   },
   "dependencies": {
