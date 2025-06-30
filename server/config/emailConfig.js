@@ -11,9 +11,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Verifica si las variables de entorno se cargaron
-console.log(">>> GMAIL_USER:", process.env.GMAIL_USER);
-console.log(">>> GMAIL_PASS:", process.env.GMAIL_PASS); // solo para pruebas locales
 
 export const sendEmail = async (to, subject, html) => {
     await transporter.sendMail({

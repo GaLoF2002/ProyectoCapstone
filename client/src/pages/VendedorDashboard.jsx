@@ -12,6 +12,7 @@ import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
 import IndicadoresPage from "../pages/IndicadoresPage";
 import EstadisticasCitasVendedor from "./EstadisticasCitasVendedor.jsx";
 import EvaluacionDetalleCliente from "./EvaluacionDetalleCliente.jsx";
+import VistaPublicaPropiedad from "./VistaPublicaPropiedad.jsx";
 
 const HomeSection = ({ onNavigate }) => {
     return (
@@ -40,7 +41,7 @@ const HomeSection = ({ onNavigate }) => {
                     <p>Ver Compradores</p>
                 </div>
 
-                <div className="shortcut-item" onClick={() => onNavigate('reportes')}>
+                <div className="shortcut-item" onClick={() => onNavigate('repoortes')}>
                     <span className="icon-reports">📈</span>
                     <p>Ver Reportes</p>
                 </div>
@@ -147,10 +148,9 @@ const VendedorDashboard = () => {
                         />
                     </div>
                 )}
+
                 {activeSection === "ver-propiedad" && propiedadSeleccionada && (
-                    <div className="vendedor-ver-propiedad-section">
-                        <PropiedadIndividual propiedadId={propiedadSeleccionada} setActiveSection={handleSectionChange} />
-                    </div>
+                    <VistaPublicaPropiedad propiedadId={propiedadSeleccionada} />
                 )}
 
                 {activeSection === "perfil" && (
