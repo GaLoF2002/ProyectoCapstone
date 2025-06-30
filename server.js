@@ -72,10 +72,15 @@ app.use('/api/estadisticas-citas', estadisticasCitasRoutes);
 app.use("/api/interes", interesRoutes);
 
 // Servir frontend de producción correctamente (desde /server/client)
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
+const clientPath = path.join(__dirname, 'client', 'dist');
+app.use(express.static(clientPath));
+
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+    if (!req.originalUrl.startsWith('/api') && !req.originalUrl.startsWith('/uploads')) {
+        res.sendFile(path.join(clientPath, 'index.html'));
+    }
 });
+
 
 
 
