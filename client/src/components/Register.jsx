@@ -13,6 +13,7 @@ const Register = () => {
     const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
     const navigate = useNavigate();
     const [mostrarModal, setMostrarModal] = useState(false);
+    const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 
     const handleRegister = async (e) => {
@@ -22,13 +23,12 @@ const Register = () => {
             alert("Debes aceptar las políticas y condiciones para continuar.");
             return;
         }
-
         try {
-            await axios.post('http://localhost:5000/api/auth/register', { name, email, password, phone });
+            await axios.post(`${API_URL}/register`, { name, email, password, phone });
             alert("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
             navigate('/login');
         } catch (error) {
-            alert("Error en registro: " + error.response?.data?.error);
+            alert("Error en registro: " + error.response?.data?.error || error.message);
         }
     };
 
