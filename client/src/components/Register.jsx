@@ -13,7 +13,8 @@ const Register = () => {
     const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
     const navigate = useNavigate();
     const [mostrarModal, setMostrarModal] = useState(false);
-    const API_URL = import.meta.env.VITE_API_URL + "/auth";
+    const API_BASE = import.meta.env.VITE_API_URL || "";
+    const API_URL = `${API_BASE}/auth`;
 
 
 
@@ -29,7 +30,8 @@ const Register = () => {
             alert("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
             navigate('/login');
         } catch (error) {
-            alert("Error en registro: " + error.response?.data?.error || error.message);
+            const msg = error.response?.data?.error || error.message || "Error desconocido";
+            alert("Error en registro: " + msg);
         }
     };
     console.log(API_URL);
