@@ -5,7 +5,7 @@ import * as path from "node:path";
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../server/client',   // 💡 Aquí se copia el frontend al backend
+    outDir: '../client/dist',
     emptyOutDir: true
   },
   resolve: {
