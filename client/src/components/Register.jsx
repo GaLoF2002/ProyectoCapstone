@@ -31,6 +31,8 @@ const Register = () => {
             alert("Error en registro: " + error.response?.data?.error || error.message);
         }
     };
+    console.log(import.meta.env.VITE_API_URL);
+
 
     return (
         <div className="page-container">
