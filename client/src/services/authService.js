@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// ✅ Usar VITE_API_URL asegura que funcione en local y en Heroku
+// ✅ Se adapta automáticamente al entorno (local o producción)
 const API_URL = import.meta.env.VITE_API_URL + "/auth";
 
 // Registrar usuario
@@ -14,8 +14,8 @@ export const login = async (userData) => {
 };
 
 // Enviar email de recuperación
-export const enviarEmailRecuperacion = (email) => {
-    return axios.post(`${API_URL}/forgot-password`, { email });
+export const enviarEmailRecuperacion = async (email) => {
+    return await axios.post(`${API_URL}/forgot-password`, { email });
 };
 
 // Resetear contraseña

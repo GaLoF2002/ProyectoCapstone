@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/evaluacion'; // sin "evaluaciones"
-
+// Usar variable de entorno para API base
+const API_URL = import.meta.env.VITE_API_URL + '/evaluacion';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
@@ -20,13 +20,14 @@ export const crearEvaluacion = async (formData) => {
     });
 };
 
-// 🔹 Obtener evaluaciones por ID de propiedad (contado/credito ordenados)
+// 🔹 Obtener evaluaciones por ID de propiedad
 export const getEvaluacionesPorPropiedad = async (propiedadId) => {
     return await axios.get(`${API_URL}/evaluacion-compra/por-propiedad/${propiedadId}`, {
         headers: getAuthHeaders()
     });
 };
 
+// 🔹 Simular financiamiento
 export const simularFinanciamiento = async ({ propiedadId, porcentajeEntrada, plazoAnios }) => {
     return await axios.post(`${API_URL}/simular-financiamiento`, {
         propiedadId,
@@ -39,6 +40,8 @@ export const simularFinanciamiento = async ({ propiedadId, porcentajeEntrada, pl
         }
     });
 };
+
+// 🔹 Obtener evaluación por ID
 export const getEvaluacionPorId = async (evaluacionId) => {
     return await axios.get(`${API_URL}/evaluacion-detalle/${evaluacionId}`, {
         headers: getAuthHeaders()

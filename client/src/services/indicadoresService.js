@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/indicadores';
+// Usar la variable de entorno que se adapta a local y producción
+const API_URL = import.meta.env.VITE_API_URL + '/indicadores';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
@@ -9,7 +10,7 @@ const getAuthHeaders = () => {
     };
 };
 
-// Obtener indicadores de visitas del mes actual
+// 🔹 Obtener indicadores de visitas del mes actual
 export const getIndicadores = async () => {
     return await axios.get(API_URL, {
         headers: getAuthHeaders()
@@ -22,4 +23,3 @@ export const getIndicadoresPorPropiedad = async (propiedadId) => {
         headers: getAuthHeaders()
     });
 };
-

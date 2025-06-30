@@ -28,7 +28,8 @@ const Register = () => {
             alert("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
             navigate('/login');
         } catch (error) {
-            alert("Error en registro: " + error.response?.data?.error);
+            console.error(error);
+            alert("Error en registro: " + (error.response?.data?.error || "Intenta de nuevo más tarde"));
         }
     };
 

@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:5000/api/user";
+// ✅ Usa la variable de entorno para adaptarse a Heroku o localhost
+const API_URL = import.meta.env.VITE_API_URL + "/user";
 
 // Obtener el perfil del usuario
 export const obtenerPerfilCliente = async () => {
     const token = localStorage.getItem("token");
-    console.log("Token:", localStorage.getItem("token"));
-
     return await axios.get(`${API_URL}/profile`, {
         headers: {
             "Authorization": `Bearer ${token}`
