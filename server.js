@@ -48,7 +48,7 @@ const createAdminUser = async () => {
 };
 
 createAdminUser();
-// Administrador creado: admin@example.com / admin123
+// console.log("Administrador creado: admin@example.com / admin123");
 
 
 const app = express();
