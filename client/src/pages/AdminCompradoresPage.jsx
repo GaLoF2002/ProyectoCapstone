@@ -19,7 +19,7 @@ const AdminCompradoresPage = ({ setActiveSection, setPropiedadSeleccionada, setE
                 const res = await getPropiedades();
                 setPropiedades(res.data);
             } catch (err) {
-                console.error("Error al cargar propiedades:", err);
+                console.error("Error al cargar propiedades: ", err);
             }
         };
         cargarPropiedades();
