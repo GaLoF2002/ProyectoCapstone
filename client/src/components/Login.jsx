@@ -83,18 +83,6 @@ const Login = () => {
                                     />
                                 </div>
 
-                                {/* 🔒 Comentado: Sección de políticas deshabilitada
-                                <div className="input-container">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            checked={aceptaPoliticas}
-                                            onChange={() => setAceptaPoliticas(!aceptaPoliticas)}
-                                        />
-                                        Acepto las <a href="/politicas" target="_blank">políticas y condiciones</a>
-                                    </label>
-                                </div> */}
-
                                 <button type="submit">Ingresar</button>
                             </form>
                             <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
