@@ -13,7 +13,7 @@ const Register = () => {
     const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
     const navigate = useNavigate();
     const [mostrarModal, setMostrarModal] = useState(false);
-    const API_URL = import.meta.env.VITE_API_URL + "/auth";
+
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -24,12 +24,11 @@ const Register = () => {
         }
 
         try {
-            await axios.post(`${API_URL}/register`, { name, email, password, phone });
+            await axios.post('http://localhost:5000/api/auth/register', { name, email, password, phone });
             alert("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
             navigate('/login');
         } catch (error) {
-            console.error(error);
-            alert("Error en registro: " + (error.response?.data?.error || "Intenta de nuevo más tarde"));
+            alert("Error en registro: " + error.response?.data?.error);
         }
     };
 

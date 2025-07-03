@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// Compatible con local y Heroku
-const API_URL = import.meta.env.VITE_API_URL + '/notificaciones';
+const API_URL = 'http://localhost:5000/api/notificaciones';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');

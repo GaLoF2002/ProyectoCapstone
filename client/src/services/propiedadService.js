@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// ✅ Se adapta automáticamente a /api/propiedades en producción
-const API_URL = import.meta.env.VITE_API_URL + '/propiedades';
+const API_URL = 'http://localhost:5000/api/propiedades';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
@@ -10,7 +9,7 @@ const getAuthHeaders = () => {
     };
 };
 
-// Obtener todas las propiedades con filtros
+// Obtener todas las propiedades
 export const getPropiedades = async (filtros = {}) => {
     const params = new URLSearchParams(filtros).toString();
     return await axios.get(`${API_URL}?${params}`, {
@@ -25,22 +24,25 @@ export const getPropiedadPorId = async (id) => {
 
 // Crear una nueva propiedad con imágenes
 export const crearPropiedad = async (formData) => {
+    const token = localStorage.getItem('token');
     return await axios.post(API_URL, formData, {
         headers: {
-            ...getAuthHeaders(),
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data' // muy importante
         }
     });
 };
 
-// Actualizar una propiedad (sin imágenes nuevas)
+
+// Actualizar una propiedad (sin imágenes nuevas, por simplicidad)
 export const actualizarPropiedad = async (id, data) => {
     return await axios.put(`${API_URL}/${id}`, data, {
         headers: getAuthHeaders()
     });
 };
 
-// Eliminar una propiedad
+
+
 export const eliminarPropiedad = async (id) => {
     return await axios.delete(`${API_URL}/${id}`, {
         headers: getAuthHeaders()

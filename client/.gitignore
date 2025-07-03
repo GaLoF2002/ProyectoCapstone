@@ -50,4 +50,3 @@ Thumbs.db
 .yarn/patches/
 .yarn/releases/
 .yarn/plugins/
-package-lock.json

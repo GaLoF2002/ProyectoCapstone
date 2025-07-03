@@ -1,14 +1,14 @@
+// services/agendamientoService.js
 import axios from 'axios';
 
-// ✅ Compatible con local y producción
-const API_URL = import.meta.env.VITE_API_URL + "/agendamiento";
+const API_URL = 'http://localhost:5000/api/agendamiento';
 
-// 🔐 Función común para headers con token
-const getAuthHeaders = () => ({
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-});
-
-// ==================== DISPONIBILIDAD ====================
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+        Authorization: `Bearer ${token}`
+    };
+};
 
 // Crear nueva disponibilidad (solo vendedor)
 export const crearDisponibilidad = async (disponibilidadData) => {
@@ -24,7 +24,8 @@ export const getDisponibilidadPorVendedor = async (vendedorId) => {
     });
 };
 
-// ======================= CITAS =======================
+
+// ========== CITAS ========== //
 
 // Crear una cita (cliente)
 export const crearCita = async (citaData) => {
@@ -35,10 +36,11 @@ export const crearCita = async (citaData) => {
 
 // Obtener todas las citas del usuario logueado (cliente o vendedor)
 export const getMisCitas = async () => {
-    return await axios.get(`${API_URL}/citas`, {
-        headers: getAuthHeaders()
-    });
+    const headers = getAuthHeaders();
+    console.log("🔑 Headers enviados en getMisCitas:", headers);
+    return await axios.get(`${API_URL}/citas`, { headers });
 };
+
 
 // Cambiar estado de una cita (aceptar / cancelar)
 export const cambiarEstadoCita = async (citaId, nuevoEstado) => {
@@ -56,6 +58,7 @@ export const reagendarCita = async (citaId, nuevaFecha, nuevaHora) => {
         headers: getAuthHeaders()
     });
 };
+
 
 // Eliminar una cita (opcional)
 export const eliminarCita = async (citaId) => {
