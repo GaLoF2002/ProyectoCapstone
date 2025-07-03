@@ -19,13 +19,12 @@ import AdminCompradoresPage from "./pages/AdminCompradoresPage.jsx";
 import IndicadoresPage from "./pages/IndicadoresPage.jsx";
 import SimuladorFinanciamiento from "./pages/SimuladorFinanciamiento.jsx";
 import VistaPublicaPropiedad from "./pages/VistaPublicaPropiedad";
-
-
-import React from "react";
 import PropiedadIndividual from "./pages/PropiedadIndividual.jsx";
 import MisCitasCliente from "./pages/MisCitasCliente.jsx";
 import ResumenMensualAdmin from "./pages/ResumenMensualAdmin.jsx";
 import EstadisticasCitasVendedor from "./pages/EstadisticasCitasVendedor.jsx";
+import About from './components/About.jsx'; // Import the About component
+import Contact from "./components/Contact.jsx";
 
 function App() {
     return (
@@ -37,8 +36,8 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/vendedor" element={<SellerDashboard />} />
-                    <Route path="/cliente" element={<ClienteDashboard/>} />
-                    <Route path="/perfil" element={<Perfil/>} />
+                    <Route path="/cliente" element={<ClienteDashboard />} />
+                    <Route path="/perfil" element={<Perfil />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/propiedades" element={<Propiedades />} />
@@ -56,6 +55,8 @@ function App() {
                     <Route path="/estadistica-vendedor" element={<EstadisticasCitasVendedor />} />
                     <Route path="/resumen-mensual" element={<ResumenMensualAdmin />} />
                     <Route path="/propiedad/:id" element={<VistaPublicaPropiedad />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
                 </Routes>
             </Router>
         </AuthProvider>

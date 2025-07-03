@@ -133,7 +133,7 @@ const Home = () => {
                     ))}
                 </div>
                 {propiedades.length > propiedadesPorPagina && (
-                    <div className="paginacion">
+                    <div className="Home-paginacion">
                         <button onClick={paginaAnterior} disabled={paginaActual === 1}>◀ Anterior</button>
                         <span>Página {paginaActual}</span>
                         <button onClick={paginaSiguiente} disabled={indiceFin >= propiedades.length}>Siguiente ▶</button>

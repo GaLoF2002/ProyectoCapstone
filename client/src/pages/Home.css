@@ -315,17 +315,16 @@ button:hover {
 }
 
 /* Pagination styles */
-.paginacion {
+.Home-paginacion {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
-    margin-bottom: 2rem; /* Space before footer */
+    margin-bottom: 4rem; /* Space before footer */
     gap: 15px;
 }
 
-.paginacion button {
-    background-color: #2c3e50;
+.Home-paginacion button {
+    background-color: #4caf50;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -335,16 +334,16 @@ button:hover {
     font-size: 1em;
 }
 
-.paginacion button:disabled {
+.Home-paginacion button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-.paginacion button:hover:enabled {
+.Home-paginacion button:hover:enabled {
     background-color: #609115;
 }
 
-.paginacion span {
+.Home-paginacion span {
     font-size: 1.1em;
     color: #333;
     font-weight: bold;
