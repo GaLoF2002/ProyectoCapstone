@@ -127,23 +127,3 @@
     margin-top: 0;
 }
 
-@media (max-width: 380px) {
-    .mensaje-cita-confirmacion {
-        width: 100%;
-        order: 1;
-        margin-top: 0.75rem;
-        text-align: center;
-    }
-
-    .confirmacion-container {
-        flex-direction: column;
-    }
-
-    .confirmar-boton,
-    .cancelar-boton {
-        width: 100%;
-    }
-}
-
-
-

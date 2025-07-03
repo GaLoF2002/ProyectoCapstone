@@ -1,6 +1,6 @@
+
 import { useEffect, useState } from "react";
 import { getMisIntereses } from "../services/interesService";
-import './MisIntereses.css';
 
 const MisIntereses = ({ setActiveSection, setPropiedadSeleccionada }) => {
     const [intereses, setIntereses] = useState([]);
@@ -23,37 +23,36 @@ const MisIntereses = ({ setActiveSection, setPropiedadSeleccionada }) => {
     };
 
     return (
-        <div className="mis-intereses-container">
+        <div style={{ padding: "1.5rem" }}>
             <h2>Propiedades que te interesan</h2>
             {intereses.length === 0 ? (
                 <p>No tienes propiedades marcadas como interesantes aún.</p>
             ) : (
-                <div className="grid-intereses">
-                    {intereses.map((interes) => (
-                        <div key={interes._id} className="propiedad-card">
-                            <h4>{interes.propiedad.titulo}</h4>
-                            <p>{interes.propiedad.ubicacion}</p>
-                            <p>${interes.propiedad.precio}</p>
-                            <p>{interes.propiedad.descripcion}</p>
+                intereses.map((interes) => (
+                    <div key={interes._id} className="propiedad-card">
+                        <h4>{interes.propiedad.titulo}</h4>
+                        <p>{interes.propiedad.ubicacion}</p>
+                        <p>${interes.propiedad.precio}</p>
+                        <p>{interes.propiedad.descripcion}</p>
 
-                            {interes.propiedad.imagenes?.length > 0 && (
-                                <div className="galeria-imagenes">
-                                    {interes.propiedad.imagenes.map((img, idx) => (
-                                        <img
-                                            key={idx}
-                                            src={`http://localhost:5000/${img}`}
-                                            alt="Propiedad"
-                                        />
-                                    ))}
-                                </div>
-                            )}
+                        {interes.propiedad.imagenes?.length > 0 && (
+                            <div className="galeria-imagenes">
+                                {interes.propiedad.imagenes.map((img, idx) => (
+                                    <img
+                                        key={idx}
+                                        src={`http://localhost:5000/${img}`}
+                                        alt="Propiedad"
+                                        style={{ width: "150px", marginRight: "10px" }}
+                                    />
+                                ))}
+                            </div>
+                        )}
 
-                            <button onClick={() => handleVerMas(interes.propiedad._id)}>
-                                Saber más
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                        <button onClick={() => handleVerMas(interes.propiedad._id)}>
+                            Saber más
+                        </button>
+                    </div>
+                ))
             )}
         </div>
     );

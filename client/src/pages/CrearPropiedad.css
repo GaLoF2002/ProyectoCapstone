@@ -187,102 +187,37 @@
     margin-right: 0;
 }
 
-@media screen and (max-width: 380px) {
+/* Responsividad */
+@media screen and (max-width: 900px) {
     .crear-propiedad-container {
-        padding-top: 10px; /* Less padding from top */
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
     }
 
     .crear-propiedad-form-container {
-        width: 98%; /* Take almost full width */
-        padding: 10px; /* Reduced padding */
-        gap: 10px; /* Reduced gap */
-        margin-right: 15px;
-    }
-
-    .crear-propiedad-form-container h2 {
-        font-size: 1.4rem; /* Smaller title */
-        margin-bottom: 10px;
+        width: 90%;
+        max-height: 800px;
     }
 
     .crear-propiedad-form {
-        gap: 15px; /* Reduced gap between form sections */
-        padding: 0 5px; /* Reduced horizontal padding */
+        grid-template-columns: 1fr;
     }
 
-    .form-column,
-    .form-full {
-        gap: 5px; /* Reduced gap between labels and inputs */
-            width: 72%; /* Ensure full width */
+    .form-column {
+        width: 100%;
     }
 
-    .crear-propiedad-form label {
-        font-size: 12px; /* Smaller label font */
+    .form-column:nth-child(2) {
+        margin-left: 0;
     }
 
-    .input-box,
-    .input-long {
-        width: 100%; /* Full width inputs */
-        padding: 8px; /* Reduced padding */
-        font-size: 12px; /* Smaller font for inputs */
-    }
-
-    /* Adjust button group */
-    .button-group {
-        flex-direction: column; /* Stack buttons vertically */
-        gap: 10px; /* Space between stacked buttons */
-        width: 90%;
-    }
-
-    .crear-propiedad-form button {
-        padding: 10px; /* Larger touch area for buttons */
-        font-size: 14px; /* Slightly larger font for buttons */
-        margin-top: 0; /* Remove extra margin on second button to align with stacked */
-    }
-
-    .crear-propiedad-form button:last-child {
-        margin-top: 0; /* Override the 8px margin from desktop styles */
-    }
-
-    /* Image upload section */
     .file-upload-container {
-        flex-direction: column; /* Stack label, input, previews */
-        align-items: flex-start; /* Align elements to the start */
-        gap: 10px;
-    }
-
-    .choose-files {
-        width: 100%; /* Full width for file input */
-        padding: 6px 10px; /* Adjust padding */
-        font-size: 12px; /* Smaller font */
-        box-sizing: border-box; /* Include padding in width */
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .preview-container {
-        flex-wrap: wrap; /* Allow image previews to wrap to the next line */
-        justify-content: flex-start; /* Align wrapped images to the start */
-        gap: 5px; /* Smaller gap between images */
-        width: 100%; /* Ensure container takes full width to allow wrapping */
-    }
-
-    .preview-wrapper {
-        position: relative; /* Keep for button positioning */
-        width: 60px; /* Smaller image wrapper */
-        height: 60px;
-        flex-shrink: 0; /* Prevent shrinking too much */
-    }
-
-    .preview-image {
-        width: 100%; /* Make image fill wrapper */
-        height: 100%;
-        margin-right: 0; /* Remove specific margin-right */
-    }
-
-    .remove-image-button {
-        top: -5px; /* Adjust button position */
-        right: -5px;
-        width: 18px; /* Smaller button */
-        height: 18px;
-        font-size: 0.7rem; /* Smaller font */
-        padding: 0; /* Remove padding */
+        max-width: 100%;
     }
 }
