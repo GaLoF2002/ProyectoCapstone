@@ -80,7 +80,7 @@ app.get('*', (req, res) => {
         res.sendFile(path.join(clientPath, 'index.html'));
     }
 });
-
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 
 

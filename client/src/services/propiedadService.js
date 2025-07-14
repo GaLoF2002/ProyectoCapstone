@@ -32,13 +32,16 @@ export const crearPropiedad = async (formData) => {
         }
     });
 };
-
-// Actualizar una propiedad (sin imágenes nuevas)
-export const actualizarPropiedad = async (id, data) => {
-    return await axios.put(`${API_URL}/${id}`, data, {
-        headers: getAuthHeaders()
+// Actualizar una propiedad (con imágenes nuevas también si las hay)
+export const actualizarPropiedad = async (id, formData) => {
+    return await axios.put(`${API_URL}/${id}`, formData, {
+        headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'multipart/form-data'
+        }
     });
 };
+
 
 // Eliminar una propiedad
 export const eliminarPropiedad = async (id) => {
