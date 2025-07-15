@@ -73,7 +73,7 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection,volverA }) => {
                     <h2 className="titulo-propiedad">{propiedad.titulo}</h2>
 
                     {propiedad.imagenes && propiedad.imagenes.length > 0 && (
-                        <div className="galeria-imagenes">
+                        <div className="galeria-imagenes-propiedad">
                             {propiedad.imagenes.map((img, i) => (
                                 <img key={i} src={`http://localhost:5000/${img}`} alt="Propiedad" />
                             ))}

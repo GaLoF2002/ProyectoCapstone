@@ -63,6 +63,7 @@
     font-size: 14px;
     font-weight: bold;
     color: #333;
+    text-align: start;
 }
 
 /* Inputs y selects */
@@ -149,7 +150,7 @@
     border-radius: 5px;
     background-color: #f9f9f9;
     cursor: pointer;
-    width: 105px; /* Asegura que el input ocupe todo el ancho disponible */
+    width: 200px; /* Asegura que el input ocupe todo el ancho disponible */
 }
 
 .choose-files::-webkit-file-upload-button {

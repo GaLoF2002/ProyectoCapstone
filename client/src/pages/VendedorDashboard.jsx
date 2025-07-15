@@ -98,9 +98,6 @@ const VendedorDashboard = () => {
                         <button onClick={() => handleSectionChange("home")}>🏠 Inicio</button>
                     </li>
                     <li>
-                        <button onClick={() => handleSectionChange("perfil")}>👤 Perfil</button>
-                    </li>
-                    <li>
                         <button onClick={() => handleSectionChange("propiedades")}>🏘️ Propiedades</button>
                     </li>
                     <li>

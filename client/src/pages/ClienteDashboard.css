@@ -219,6 +219,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0;
+    margin: 0;
 }
 
 .paginacion button {
@@ -383,6 +384,34 @@
         overflow-y: auto;
         padding-right: 0.5rem;
         padding-bottom: 9rem;
+    }
+
+    .paginacion {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        margin-bottom: 3rem;
+    }
+
+    .paginacion button {
+        padding: 0.25rem 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #4caf50;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .paginacion button:hover:not(:disabled) {
+        background-color: #f0f0f0;
+    }
+
+    .paginacion button:disabled {
+        color: #9e9e9e;
+        cursor: not-allowed;
     }
 
 }
