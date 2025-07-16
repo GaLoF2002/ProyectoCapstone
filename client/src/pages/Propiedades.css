@@ -189,7 +189,7 @@
     border-radius: 12px; /* More rounded */
     width: 90%;
     max-width: 550px; /* Increased max-width */
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
     display: flex;
     flex-direction: column;
     gap: 25px; /* Increased gap */
@@ -311,4 +311,156 @@
     font-size: 17px;
     font-weight: bold;
     color: #555;
+}
+
+
+@media (max-width: 380px) {
+
+    .header-container{
+        color: red;
+    }
+
+    .propiedades-container {
+        padding: 10px; /* Reduce overall padding */
+        margin-right: 20px;
+    }
+
+    .header-container {
+        flex-direction: column; /* Stack title and button vertically */
+        align-items: center;
+        width: 100%; /* Take full width */
+        margin-bottom: 15px;
+    }
+
+    .header-container h2 {
+        font-size: 24px; /* Smaller font size for title */
+        margin-bottom: 10px; /* Space between title and button */
+    }
+
+    .header-container button {
+        width: 80%; /* Full width button */
+        padding: 12px; /* Larger touch area */
+        font-size: 15px;
+    }
+
+    .boton-filtro-container {
+        width: 90%; /* Full width */
+        justify-content: center; /* Center the filter button */
+        margin-bottom: 10px;
+    }
+
+    .filtros-toggle {
+        width: 50%; /* Full width button */
+        padding: 12px;
+        font-size: 15px;
+        margin-right: 25px;
+    }
+
+    .prop-list {
+        width: 100%; /* Take full width */
+        gap: 15px; /* Reduce gap between cards */
+    }
+
+    .propiedad-card {
+        width: 100%; /* Take full width of its container */
+        padding: 1rem; /* Reduce card padding */
+        margin-bottom: 1rem; /* Reduce margin between cards */
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+
+    .prop-card-content {
+        flex-direction: column; /* Stack image and info vertically */
+        gap: 15px; /* Adjust gap for vertical stacking */
+        align-items: center; /* Center items when stacked */
+    }
+
+    .propiedad-img-lateral {
+        width: 100%; /* Make image full width */
+        height: 200px; /* Adjust height for mobile */
+        margin: 0; /* Remove specific margins */
+    }
+
+    .prop-info {
+        text-align: center; /* Center text info */
+        gap: 5px; /* Smaller gap for info lines */
+        width: 100%; /* Ensure it takes full width */
+    }
+
+    .prop-info h3 {
+        font-size: 20px; /* Smaller title */
+        margin-bottom: 8px;
+    }
+
+    .prop-info p {
+        font-size: 14px; /* Smaller text */
+    }
+
+    .prop-info p:nth-of-type(2) {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .prop-info button {
+        width: 100%; /* Make buttons full width */
+        padding: 10px;
+        font-size: 13px;
+        margin-top: 8px; /* Adjust space between buttons */
+    }
+
+    /* Modal styles for mobile */
+    .modal-filtros-overlay {
+        padding: 10px; /* Add padding to overlay */
+    }
+
+    .modal-filtros {
+        padding: 20px; /* Reduce modal padding */
+        width: 80%; /* Make modal almost full width */
+        gap: 20px; /* Adjust gap */
+        margin-right: 30px;
+        margin-left: 20px;
+    }
+
+    .modal-filtros h3 {
+        font-size: 20px; /* Smaller modal title */
+    }
+
+    .filtros-grid {
+        grid-template-columns: 1fr; /* Stack filter inputs vertically */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .modal-filtros input,
+    .modal-filtros select {
+        padding: 12px; /* Slightly larger input padding for touch */
+        font-size: 14px;
+    }
+
+    .modal-filtros-botones {
+        flex-direction: column; /* Stack modal buttons vertically */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .modal-filtros-botones button {
+        width: 100%; /* Full width buttons */
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    /* Pagination for mobile */
+    .paginacion {
+        flex-direction: column; /* Stack pagination buttons/text vertically */
+        gap: 10px; /* Reduce gap */
+        margin-top: 20px; /* Adjust top margin */
+        margin-bottom: 10px; /* Adjust bottom margin */
+    }
+
+    .paginacion button {
+        width: 100%; /* Full width pagination buttons */
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .paginacion span {
+        font-size: 16px; /* Slightly smaller text */
+    }
 }

@@ -267,3 +267,148 @@
 .tabla-filtros th {
     text-align: center;
 }
+
+@media (max-width: 380px) {
+    .indicadores-container {
+        padding: 1rem; /* Reduced padding */
+        margin-right: 20px; /* Adjusted margin */
+    }
+
+    .indicadores-container .titulo-principal {
+        font-size: 1.6rem; /* Smaller heading */
+        margin-bottom: 1.5rem;
+    }
+
+    .seccion {
+        padding: 1rem; /* Reduced padding */
+        margin-bottom: 1.5rem; /* Reduced margin */
+        box-shadow: none; /* Remove shadow for lighter feel */
+    }
+
+    .seccion h3.titulo-seccion {
+        font-size: 1.3rem; /* Smaller heading */
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        text-align: center; /* Center align section titles */
+        width: 100%; /* Ensure it takes full width for centering */
+    }
+
+    .seccion h4 {
+        font-size: 1rem; /* Smaller sub-headings */
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .seccion p:not(.info-paginacion) {
+        font-size: 0.875rem; /* Smaller paragraph text */
+    }
+
+    /* Chart adjustments */
+    .seccion .recharts-wrapper {
+        height: 250px !important; /* Force smaller height for charts */
+    }
+    .seccion .recharts-surface {
+        margin: auto; /* Center the chart within its container */
+    }
+    .recharts-legend-wrapper {
+        padding-top: 10px !important; /* Adjust legend padding */
+    }
+    .recharts-tooltip-wrapper {
+        font-size: 0.75rem; /* Smaller tooltip font */
+    }
+
+
+    /* Property List (tarjetas) */
+    .lista-propiedades {
+        grid-template-columns: 1fr; /* Stack properties vertically */
+        gap: 1rem; /* Reduced gap */
+    }
+
+    .tarjeta-propiedad {
+        padding: 0.8rem; /* Reduced padding */
+    }
+
+    .titulo-propiedad {
+        font-size: 1rem; /* Smaller title */
+        text-align: center; /* Center property title */
+    }
+
+    .contenedor-imagen {
+        height: 150px; /* Slightly smaller image height */
+    }
+
+    .tarjeta-propiedad p {
+        font-size: 0.8rem; /* Smaller text within property card */
+    }
+
+    .tarjeta-propiedad button {
+        width: 100%; /* Full width button */
+        padding: 0.6rem 0.8rem; /* Adjusted padding */
+        font-size: 0.85rem; /* Smaller font for button */
+    }
+
+    /* Pagination */
+    .paginacion {
+        flex-direction: column; /* Stack pagination buttons/text */
+        gap: 0.5rem; /* Reduced gap */
+        margin-top: 1.5rem;
+    }
+
+    .boton-pagina {
+        width: 100%; /* Full width buttons */
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .numero-pagina {
+        font-size: 0.9rem;
+    }
+
+    .info-paginacion {
+        font-size: 0.75rem;
+    }
+
+    /* Detail Report Section */
+    .reporte-detalle {
+        padding: 1rem; /* Reduced padding */
+        border-left: 3px solid #6366f1; /* Thinner border */
+    }
+
+    .reporte-detalle p,
+    .reporte-detalle h4 {
+        font-size: 0.9rem; /* Smaller text */
+    }
+
+    .grid-ul {
+        grid-template-columns: 1fr; /* Stack list items vertically */
+        gap: 0.5rem; /* Reduced gap */
+    }
+
+    .grid-ul li {
+        padding: 0.5rem 0.7rem; /* Reduced padding */
+        font-size: 0.8rem; /* Smaller font */
+    }
+
+    /* Filters Table */
+    .tabla-filtros {
+        margin-top: 1rem; /* Reduced margin */
+        overflow-x: auto; /* Enable horizontal scrolling for the table */
+        display: block; /* Important for overflow-x on tables */
+        width: 100%; /* Ensure it respects container width */
+    }
+
+    .tabla-filtros table {
+        min-width: 320px; /* Ensure table has a minimum width to enable scrolling */
+        width: 100%; /* Fill available space */
+    }
+
+    .tabla-filtros th,
+    .tabla-filtros td {
+        padding: 0.5rem 0.6rem; /* Reduced padding */
+        font-size: 0.8rem; /* Smaller font */
+    }
+
+    .tabla-filtros th {
+        font-size: 0.85rem; /* Adjust header font size */
+    }
+}

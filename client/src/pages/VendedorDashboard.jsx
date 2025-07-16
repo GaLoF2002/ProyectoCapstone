@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Propiedades from "../pages/Propiedades";
 import CrearPropiedad from "../pages/CrearPropiedad";
+import PropiedadIndividual from "./PropiedadIndividual.jsx";
 import AgendamientoVendedor from "./AgendamientoVendedor.jsx";
 import "./VendedorDashboard.css"; // This CSS file will be updated
 import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
@@ -11,7 +12,6 @@ import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
 import IndicadoresPage from "../pages/IndicadoresPage";
 import EstadisticasCitasVendedor from "./EstadisticasCitasVendedor.jsx";
 import EvaluacionDetalleCliente from "./EvaluacionDetalleCliente.jsx";
-import VistaPublicaPropiedad from "./VistaPublicaPropiedad.jsx";
 
 const HomeSection = ({ onNavigate }) => {
     return (
@@ -145,7 +145,9 @@ const VendedorDashboard = () => {
                     </div>
                 )}
                 {activeSection === "ver-propiedad" && propiedadSeleccionada && (
-                    <VistaPublicaPropiedad propiedadId={propiedadSeleccionada} />
+                    <div className="vendedor-ver-propiedad-section">
+                        <PropiedadIndividual propiedadId={propiedadSeleccionada} setActiveSection={handleSectionChange} />
+                    </div>
                 )}
 
                 {activeSection === "perfil" && (

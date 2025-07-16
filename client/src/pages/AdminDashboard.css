@@ -3,8 +3,9 @@
     display: flex;
     height: 100vh;
     width: 100vw;
-    overflow: hidden; /* Oculta el desbordamiento principal del dashboard */
+    overflow: hidden;
     font-family: 'Segoe UI', sans-serif;
+    position: relative; /* Necesario para el menú de hamburguesa posicionado absolutamente */
 }
 
 /* Sidebar */
@@ -16,8 +17,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    flex-shrink: 0; /* Evita que el sidebar se encoja */
-    box-sizing: border-box; /* Incluir padding en el ancho */
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out; /* Transición para abrir/cerrar */
 }
 
 .sidebar h2 {
@@ -52,24 +54,44 @@
     background: #555;
 }
 
+/* Botón de Hamburguesa */
+.hamburger-menu {
+    display: none; /* Oculto por defecto en escritorio */
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #5a67d8;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001; /* Asegura que esté por encima del contenido */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+
 /* Contenido Principal */
 .main-content {
     flex-grow: 1;
     padding: 20px;
     background: #f4f4f4;
-    overflow-y: auto; /* Permite el scroll vertical dentro del main-content */
+    overflow-y: auto;
     width: calc(100vw - 250px); /* Ancho para escritorio */
-    box-sizing: border-box; /* Incluir padding en el ancho */
+    box-sizing: border-box;
+    transition: margin-left 0.3s ease-in-out; /* Transición para cuando el sidebar se abre/cierra */
 }
+
 
 /* --- SECCIÓN DE INICIO (HOME) --- */
 
 .home-section {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    justify-content: center; /* Centra el contenido verticalmente si es necesario */
-    min-height: calc(100vh - 40px); /* Ajusta a la altura del main-content, restando el padding */
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px);
     text-align: center;
     padding: 30px;
     box-sizing: border-box;
@@ -90,12 +112,12 @@
 
 .dashboard-shortcuts {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan */
-    justify-content: center; /* Centra los atajos */
-    gap: 40px; /* Espacio entre los atajos */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
     margin-top: 20px;
-    width: 100%; /* Ocupar el ancho disponible */
-    max-width: 900px; /* Limitar el ancho máximo para una mejor presentación */
+    width: 100%;
+    max-width: 900px;
 }
 
 .shortcut-item {
@@ -109,26 +131,24 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    width: 160px; /* Ancho fijo para cada atajo */
-    height: 160px; /* Altura fija para cada atajo */
+    width: 160px;
+    height: 160px;
     text-align: center;
     box-sizing: border-box;
 }
 
 .shortcut-item:hover {
-    transform: translateY(-8px); /* Efecto de levitación */
+    transform: translateY(-8px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo para los íconos (caracteres Unicode en este caso) */
 .shortcut-item span {
     font-size: 70px;
     margin-bottom: 10px;
-    color: #5a67d8; /* Un tono de azul/púrpura */
+    color: #5a67d8;
     line-height: 1;
 }
 
-/* Estilo para el texto debajo de los íconos */
 .shortcut-item p {
     font-size: 16px;
     color: #333;
@@ -142,26 +162,24 @@
     text-align: center;
     margin-bottom: 30px;
     color: #333;
-    font-size: 50px; /* Ajustar tamaño de título */
+    font-size: 50px;
 }
 
-/* Contenedor principal de vendedores: Siempre en columna */
 .sellers-container {
     display: flex;
-    flex-direction: column; /* Apila la lista y el formulario */
-    align-items: center; /* Centra los elementos apilados horizontalmente */
-    gap: 30px; /* Espacio entre la lista y el formulario */
-    width: 100%; /* Asegura que ocupe el ancho del main-content */
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
     padding-top: 10px;
     margin-bottom: 70px;
 }
 
-/* Contenedor de la Lista de Vendedores */
 .sellers-list-container {
-    flex: 0 0 auto; /* No crecer, no encoger, tamaño automático */
-    width: 100%; /* Ocupa el 100% del sellers-container */
-    max-width: 900px; /* Ancho máximo para la lista en pantallas grandes */
-    min-width: 300px; /* Ancho mínimo para que no se haga demasiado pequeño */
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 900px;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
 }
@@ -188,7 +206,7 @@
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Permitir que los filtros se envuelvan */
+    flex-wrap: wrap;
 }
 
 .filters input[type="text"],
@@ -199,15 +217,15 @@
     font-size: 16px;
     background-color: #fff !important;
     color: #000 !important;
-    flex-grow: 1; /* Permitir que crezcan y ocupen espacio */
-    min-width: 120px; /* Para que no se hagan demasiado pequeños */
+    flex-grow: 1;
+    min-width: 120px;
     box-sizing: border-box;
 }
 
 /* Tabla de Vendedores */
 .table-responsive {
     width: 100%;
-    overflow-x: auto; /* Permite scroll horizontal si la tabla es más ancha */
+    overflow-x: auto;
     margin-top: 15px;
 }
 
@@ -215,7 +233,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
-    white-space: nowrap; /* Evita que el texto de la tabla se rompa en varias líneas en las columnas */
+    /* white-space: nowrap; */ /* Esto puede ser problemático en móvil, lo ajustaremos con media queries */
 }
 
 .sellers-table th,
@@ -224,7 +242,7 @@
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
     vertical-align: middle;
-    color: black; /* Asegura que el texto sea negro en las celdas */
+    color: black;
 }
 
 .sellers-table th {
@@ -261,10 +279,10 @@
 
 /* Contenedor del Formulario */
 .register-form-container {
-    flex: 0 0 auto; /* No crecer, no encoger, tamaño automático */
-    width: 100%; /* Ocupa el 100% del sellers-container */
-    max-width: 600px; /* Ancho máximo para el formulario en pantallas grandes */
-    min-width: 280px; /* Ancho mínimo para que no se haga demasiado pequeño */
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 600px;
+    min-width: 280px;
     background: white;
     padding: 25px;
     border-radius: 10px;
@@ -353,188 +371,172 @@
     background-color: #5a6268;
 }
 
+/* ======================================= */
+/* MEDIA QUERIES PARA ADAPTACIÓN MÓVIL */
+/* ======================================= */
 
-/* --- Responsividad --- */
-@media screen and (max-width: 900px) {
+@media (max-width: 380px) {
     .dashboard-container {
-        flex-direction: column;
-        overflow-y: auto; /* Permite el scroll vertical en todo el dashboard */
+        flex-direction: column; /* Apila el sidebar y el contenido principal */
+        overflow-y: auto; /* Permite scroll vertical en*/
+    }
+
+    .hamburger-menu {
+        display: block; /* Muestra el botón de hamburguesa en móvil */
     }
 
     .sidebar {
-        width: 100%;
-        height: auto;
-        flex-direction: row; /* Convierte la sidebar en una fila */
-        justify-content: center;
-        gap: 10px;
-        padding: 10px;
-        position: static; /* Asegura que no tenga posiciones fijas */
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra para separar del contenido */
+        position: fixed; /* Fija el sidebar */
+        top: 0;
+        left: 0;
+        width: 250px; /* Ancho del sidebar cuando está abierto */
+        height: 100%;
+        transform: translateX(-100%); /* Oculta el sidebar por defecto */
+        z-index: 1000; /* Asegura que esté por encima del main-content */
+        box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     }
 
-    .sidebar h2 {
-        display: none; /* Ocultar "Admin Panel" en móvil para ahorrar espacio */
-    }
-
-    .sidebar ul {
-        flex-wrap: wrap; /* Permite que los ítems se envuelvan */
-        justify-content: center;
-        gap: 5px;
-    }
-
-    .sidebar ul li {
-        margin: 5px;
-    }
-
-    .sidebar ul li button {
-        font-size: 14px;
-        padding: 8px;
+    .sidebar.open {
+        transform: translateX(0); /* Muestra el sidebar cuando está abierto */
     }
 
     .main-content {
-        width: 100%;
-        padding: 15px; /* Ajustar padding general */
-        overflow-y: visible; /* El contenido puede empujar el scroll del body */
-        min-height: calc(100vh - 60px); /* Ajusta min-height para compensar el sidebar en móvil */
+        width: 100vw; /* Ocupa todo el ancho en móvil */
+        padding-top: 70px; /* Deja espacio para el botón de hamburguesa */
+        margin-left: 0; /* Asegura que no haya margen izquierdo */
     }
 
-    /* Sección de Inicio en móvil */
     .home-section {
-        padding: 20px;
-        min-height: unset; /* Reiniciar min-height para que se ajuste al contenido */
+        min-height: auto; /* Ajusta la altura del home-section para móvil */
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
+
     .home-section .home-title {
         font-size: 28px;
     }
+
     .home-section .home-subtitle {
         font-size: 16px;
-        margin-bottom: 30px;
     }
+
+    .sidebar h2{
+        margin-top: 70px;
+    }
+
     .dashboard-shortcuts {
-        gap: 20px; /* Reducir espacio entre atajos en móvil */
+        gap: 20px; /* Reduce el espacio entre atajos */
+        padding: 0 10px;
     }
+
     .shortcut-item {
-        width: 120px; /* Ancho más pequeño en móvil */
-        height: 120px; /* Altura más pequeña en móvil */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 140px; /* Reduce el ancho de los atajos */
+        height: 140px; /* Reduce la altura de los atajos */
+        padding: 20px; /* Reduce el padding */
     }
+
     .shortcut-item span {
-        font-size: 50px; /* Íconos más pequeños en móvil */
-        margin-bottom: 8px;
-    }
-    .shortcut-item p {
-        font-size: 14px; /* Texto más pequeño en móvil */
+        font-size: 60px; /* Reduce el tamaño del ícono */
     }
 
-
-    /* Sección de Vendedores en móvil */
+    /* Sección de Vendedores */
     .sellers-section .h1Sellers h1 {
-        font-size: 24px;
+        font-size: 32px; /* Reduce el tamaño del título de vendedores */
         margin-bottom: 20px;
     }
 
-    /* sellers-container ya es column por defecto, solo ajustamos el gap */
-    .sellers-container {
-        gap: 25px; /* Ajustar la separación entre los contenedores apilados en móvil */
-    }
-
-    .sellers-list-container,
-    .register-form-container {
-        width: 100%; /* Asegura que ocupen todo el ancho disponible */
-        max-width: 100%; /* Eliminar límites máximos para que se ajusten bien */
-        min-width: unset; /* Quitar min-width para flexibilidad total */
-        padding: 15px; /* Ajustar padding interno */
-    }
-
-    .sellers-list h2, .register-form-container h2 {
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
-
     .filters {
-        flex-direction: column; /* Apilar filtros */
-        align-items: stretch;
-        gap: 8px;
-        margin-bottom: 15px;
+        flex-direction: column; /* Apila los filtros */
+        align-items: stretch; /* Estira los filtros para ocupar el ancho completo */
     }
 
     .filters input[type="text"],
     .filters select {
-        font-size: 14px;
-        padding: 8px;
+        min-width: unset; /* Reinicia el min-width */
+        width: 100%; /* Ocupa el 100% del contenedor */
     }
 
-    /* Tabla: Transición a diseño "tarjeta" en móvil */
-    .table-responsive {
-        overflow-x: hidden; /* Ocultar scroll horizontal cuando se transforma la tabla */
-    }
     .sellers-table {
-        font-size: 13px;
-        width: 100%;
-        display: block;
-        white-space: normal; /* Permitir que el texto de la tabla se rompa en varias líneas */
+        font-size: 12px; /* Reduce el tamaño de la fuente de la tabla */
+        /* white-space: normal; */ /* Permite que el texto se rompa en múltiples líneas */
     }
 
-    .sellers-table thead {
-        display: none; /* Ocultar el encabezado de la tabla */
+    .sellers-table th,
+    .sellers-table td {
+        padding: 8px 10px; /* Reduce el padding de las celdas */
     }
+
+    /* Ocultar columnas menos importantes en móvil */
+    .sellers-table .hide-on-mobile {
+        display: none;
+    }
+
+    /* Para que el table-responsive funcione mejor con menos columnas */
+    .sellers-table td[data-label]::before {
+        content: attr(data-label); /* Muestra el encabezado como etiqueta en móvil */
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
     .sellers-table tr {
-        display: block; /* Cada fila se convierte en un bloque (una "tarjeta") */
+        display: block; /* Cada fila se comporta como un bloque */
         margin-bottom: 15px;
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-    }
-    .sellers-table td {
-        display: block;
-        text-align: right;
-        border-bottom: 1px dotted #eee;
-        padding: 8px 10px;
-        padding-left: 45%; /* Espacio para la etiqueta */
-        position: relative;
-        font-size: 13px;
-    }
-    .sellers-table td:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-    .sellers-table td:before {
-        content: attr(data-label); /* Usa el data-label como la "etiqueta" del campo */
-        position: absolute;
-        left: 10px;
-        width: calc(45% - 20px);
-        font-weight: bold;
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .sellers-table td.actions-cell {
-        text-align: center;
-        padding-left: 10px;
-    }
-    .sellers-table td.actions-cell:before {
-        display: none;
-    }
-    .sellers-table .action-button {
-        font-size: 18px;
-        padding: 8px;
+        background-color: white;
     }
 
-    /* Formulario en móvil */
+    .sellers-table thead {
+        display: none; /* Oculta el thead en móvil */
+    }
+
+    .sellers-table tbody tr td {
+        display: block; /* Cada celda se comporta como un bloque */
+        text-align: right !important; /* Alinea el contenido a la derecha */
+        padding-left: 50%; /* Espacio para la etiqueta */
+        position: relative;
+    }
+
+    .sellers-table tbody tr td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .sellers-table .actions-cell {
+        text-align: right !important; /* Asegura que los botones de acción se alineen a la derecha */
+        padding-left: 0;
+    }
+    .sellers-table .actions-cell::before {
+        display: none; /* Oculta la etiqueta "Acciones" */
+    }
+
+    .register-form-container {
+        padding: 20px; /* Reduce el padding del formulario */
+    }
+
     .register-form label {
         font-size: 13px;
     }
-    .register-form input,
+
+    .register-form input[type="text"],
+    .register-form input[type="email"],
+    .register-form input[type="password"],
+    .register-form input[type="tel"],
     .register-form select {
-        font-size: 15px;
-        padding: 10px;
+        font-size: 14px; /* Reduce el tamaño de la fuente de los inputs */
+        padding: 8px;
     }
+
     .register-form button {
-        font-size: 15px;
-        padding: 10px;
+        padding: 10px; /* Reduce el padding de los botones */
+        font-size: 14px;
     }
 }
