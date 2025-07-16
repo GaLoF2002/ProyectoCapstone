@@ -36,7 +36,7 @@ const GestionarCitasVendedor = () => {
             });
             setHorasOcupadas(ocupadas);
         } catch (error) {
-            console.error("❌ Error al obtener citas:", error.response ? error.response.data : error.message);
+            console.error("❌ Error al obtener citas: ", error.response ? error.response.data : error.message);
         }
     };
 
