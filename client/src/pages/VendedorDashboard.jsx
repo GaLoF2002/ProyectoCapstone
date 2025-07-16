@@ -5,7 +5,7 @@ import Propiedades from "../pages/Propiedades";
 import CrearPropiedad from "../pages/CrearPropiedad";
 import PropiedadIndividual from "./PropiedadIndividual.jsx";
 import AgendamientoVendedor from "./AgendamientoVendedor.jsx";
-import "./VendedorDashboard.css"; // Make sure this path is correct
+import "./VendedorDashboard.css"; // This CSS file will be updated
 import GestionarCitasVendedor from "./GestionarCitasVendedor.jsx";
 import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
 import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
@@ -13,7 +13,6 @@ import IndicadoresPage from "../pages/IndicadoresPage";
 import EstadisticasCitasVendedor from "./EstadisticasCitasVendedor.jsx";
 import EvaluacionDetalleCliente from "./EvaluacionDetalleCliente.jsx";
 
-// Componente para la sección de Inicio del Dashboard del Vendedor
 const HomeSection = ({ onNavigate }) => {
     return (
         <div className="home-section">
@@ -21,57 +20,49 @@ const HomeSection = ({ onNavigate }) => {
             <p className="home-subtitle">Selecciona una opción del menú para comenzar.</p>
 
             <div className="dashboard-shortcuts">
-                {/* Acceso a Propiedades */}
                 <div className="shortcut-item" onClick={() => onNavigate('propiedades')}>
-                    <span className="icon-properties">🏠</span> {/* Ícono de casa/edificio para Propiedades */}
+                    <span className="icon-properties">🏠</span>
                     <p>Mis Propiedades</p>
                 </div>
 
-                {/* Acceso a Agendamiento */}
                 <div className="shortcut-item" onClick={() => onNavigate('agendamiento')}>
-                    <span className="icon-appointments">📅</span> {/* Ícono de calendario para Agendamiento */}
+                    <span className="icon-appointments">📅</span>
                     <p>Agendamiento</p>
                 </div>
 
-                {/* Acceso a Citas Pendientes */}
                 <div className="shortcut-item" onClick={() => onNavigate('citas-pendientes')}>
-                    <span className="icon-pending-appointments">📋</span> {/* Ícono de lista para Citas Pendientes */}
+                    <span className="icon-pending-appointments">📋</span>
                     <p>Citas Pendientes</p>
                 </div>
 
-                {/* Acceso a Ver Compradores */}
                 <div className="shortcut-item" onClick={() => onNavigate('ver-compradores')}>
-                    <span className="icon-buyers">👥</span> {/* Ícono de usuarios para Compradores */}
+                    <span className="icon-buyers">👥</span>
                     <p>Ver Compradores</p>
                 </div>
 
-                {/* Acceso a Reportes */}
                 <div className="shortcut-item" onClick={() => onNavigate('reportes')}>
-                    <span className="icon-reports">📈</span> {/* Ícono de gráfico para Reportes */}
+                    <span className="icon-reports">📈</span>
                     <p>Ver Reportes</p>
                 </div>
 
-                {/* Acceso a Citas Ejecutadas */}
                 <div className="shortcut-item" onClick={() => onNavigate('citas-resumen')}>
-                    <span className="icon-stats">📊</span> {/* Ícono de estadísticas para Citas Ejecutadas */}
+                    <span className="icon-stats">📊</span>
                     <p>Citas Ejecutadas</p>
                 </div>
-
-                {/* Puedes añadir más accesos directos aquí si tienes más secciones relevantes para el vendedor */}
             </div>
         </div>
     );
 };
 
-
 const VendedorDashboard = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [evaluacionSeleccionadaId, setEvaluacionSeleccionadaId] = useState(null);
-
     const [activeSection, setActiveSection] = useState("home");
     const [modoEdicion, setModoEdicion] = useState(false);
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
+    // Keep menuAbierto, but it will now control the entire sidebar sliding
+    const [menuAbierto, setMenuAbierto] = useState(false);
 
     if (!user || user.role !== "vendedor") {
         return <Navigate to="/" />;
@@ -82,52 +73,63 @@ const VendedorDashboard = () => {
         navigate("/login");
     };
 
+    // This function will also close the sidebar on mobile when a menu item is clicked
+    const handleSectionChange = (section) => {
+        setActiveSection(section);
+        setMenuAbierto(false); // Close the sidebar
+    };
+
     return (
         <div className="vendedor-dashboard-container">
-            {/* Sidebar */}
-            <nav className="vendedor-sidebar">
-                <h2>Vendedor Panel</h2>
-                <ul>
+            {/* Hamburger button: Now outside the sidebar, shown only on mobile */}
+            <button className="vendedor-hamburger-menu" onClick={() => setMenuAbierto(!menuAbierto)} aria-label="Abrir menú">
+                ☰
+            </button>
+
+            {/* Sidebar: Apply 'abierto' class directly to the nav for slide-in/out effect */}
+            <nav className={`vendedor-sidebar ${menuAbierto ? "abierto" : ""}`}>
+                {/* Remove the internal sidebar-header div and hamburger button from here */}
+                <h2 className="vendedor-logo">Vendedor Panel</h2>
+
+                {/* No conditional class on ul anymore, as the whole nav slides */}
+                <ul className="vendedor-nav-links">
                     <li>
-                        <button onClick={() => setActiveSection("home")}>🏠 Inicio</button>
+                        {/* Use handleSectionChange to also close the menu */}
+                        <button onClick={() => handleSectionChange("home")}>🏠 Inicio</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("perfil")}>👤 Perfil</button>
+                        <button onClick={() => handleSectionChange("propiedades")}>🏘️ Propiedades</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button>
+                        <button onClick={() => handleSectionChange("agendamiento")}>📅 Agendamiento</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("agendamiento")}>📅 Agendamiento</button>
+                        <button onClick={() => handleSectionChange("citas-pendientes")}>📋 Citas Pendientes</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("citas-pendientes")}>📋 Citas Pendientes</button>
+                        <button onClick={() => handleSectionChange("ver-compradores")}>🧾 Ver Compradores</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("ver-compradores")}>🧾 Ver Compradores</button>
+                        <button onClick={() => handleSectionChange("reportes")}>📈 Ver Reportes</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("reportes")}>📈 Ver Reportes</button>
+                        <button onClick={() => handleSectionChange("citas-resumen")}>📊 Citas Ejecutadas</button>
                     </li>
                     <li>
-                        <button onClick={() => setActiveSection("citas-resumen")}>📊 Citas Ejecutadas</button>
-                    </li>
-                    <li>
-                        <button onClick={handleLogout}>🚪 Cerrar Sesión</button>
+                        {/* Ensure logout also closes the menu */}
+                        <button onClick={() => { handleLogout(); setMenuAbierto(false); }}>🚪 Cerrar Sesión</button>
                     </li>
                 </ul>
             </nav>
 
             {/* Contenido Principal */}
             <div className="vendedor-main-content">
-                {activeSection === "home" && (
-                    <HomeSection onNavigate={setActiveSection} />
-                )}
+                {activeSection === "home" && <HomeSection onNavigate={handleSectionChange} />}
 
                 {activeSection === "propiedades" && (
                     <div className="vendedor-propiedades-section">
                         <Propiedades
-                            setActiveSection={setActiveSection}
+                            setActiveSection={handleSectionChange}
                             setPropiedadSeleccionada={setPropiedadSeleccionada}
                             setModoEdicion={setModoEdicion}
                         />
@@ -136,7 +138,7 @@ const VendedorDashboard = () => {
                 {activeSection === "crear-propiedad" && (
                     <div className="vendedor-crear-propiedad-section">
                         <CrearPropiedad
-                            setActiveSection={setActiveSection}
+                            setActiveSection={handleSectionChange}
                             modoEdicion={modoEdicion}
                             propiedadEditando={propiedadSeleccionada}
                         />
@@ -144,10 +146,7 @@ const VendedorDashboard = () => {
                 )}
                 {activeSection === "ver-propiedad" && propiedadSeleccionada && (
                     <div className="vendedor-ver-propiedad-section">
-                        <PropiedadIndividual
-                            propiedadId={propiedadSeleccionada}
-                            setActiveSection={setActiveSection}
-                        />
+                        <PropiedadIndividual propiedadId={propiedadSeleccionada} setActiveSection={handleSectionChange} />
                     </div>
                 )}
 
@@ -175,9 +174,10 @@ const VendedorDashboard = () => {
                 {activeSection === "ver-compradores" && (
                     <div className="vendedor-compradores-section">
                         <AdminCompradoresPage
-                            setActiveSection={setActiveSection}
+                            setActiveSection={handleSectionChange}
                             setPropiedadSeleccionada={setPropiedadSeleccionada}
-                            setEvaluacionSeleccionadaId={setEvaluacionSeleccionadaId} />
+                            setEvaluacionSeleccionadaId={setEvaluacionSeleccionadaId}
+                        />
                     </div>
                 )}
                 {activeSection === "reportes" && (

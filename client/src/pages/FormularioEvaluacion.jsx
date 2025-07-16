@@ -153,7 +153,7 @@ const FormularioEvaluacion = ({ propiedadId, onFinalizar }) => {
                     </div>
 
                     <div className="campo archivo">
-                        <label className="etiqueta">Adjunta documentos (PDF):</label>
+                        <label className="etiqueta">Adjunta documentos (Aprobaciones préstamos bancarios, etc. en formato PDF)</label>
                         <input type="file" className="input-archivo" multiple accept="application/pdf" onChange={e => setDocumentos([...e.target.files])} />
                     </div>
 

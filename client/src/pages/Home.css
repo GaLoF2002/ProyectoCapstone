@@ -405,6 +405,8 @@ button:hover {
     }
 }
 
+
+
 @media (max-width: 380px) {
     /* Contenedor del contenido principal */
     .home-container {
@@ -593,21 +595,39 @@ button:hover {
     }
 
     /* Pagination styles */
-    .paginacion {
-        margin-top: 0rem;
-        margin-bottom: 5rem;
+    .Home-paginacion {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 7rem; /* Space before footer */
+        gap: 15px;
     }
 
-    .paginacion button {
-        padding: 8px 12px;
-        font-size: 0.9em;
-    }
-
-    .paginacion span {
+    .Home-paginacion button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
         font-size: 1em;
     }
 
+    .Home-paginacion button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .Home-paginacion button:hover:enabled {
+        background-color: #609115;
+    }
+
+    .Home-paginacion span {
+        font-size: 1.1em;
+        color: #333;
+        font-weight: bold;
+        text-align: center;
+    }
+
 }
-
-
-
