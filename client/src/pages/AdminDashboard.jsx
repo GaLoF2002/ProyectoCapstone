@@ -11,7 +11,11 @@ import VistaPublicaPropiedad from "../pages/VistaPublicaPropiedad";
 import CitasPendientesVendedor from "../pages/CitasPendientesVendedor.jsx"; // Asegúrate de importar este componente
 
 import "./AdminDashboard.css"; // Asegúrate que esta ruta sea correcta
-import "./VendedorDashboard.css"; // Puedes consolidar CSS si es posible
+import "./VendedorDashboard.css";
+import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
+import IndicadoresPage from "./IndicadoresPage.jsx";
+import EstadisticasCitasVendedor from "./EstadisticasCitasVendedor.jsx";
+import EvaluacionDetalleCliente from "./EvaluacionDetalleCliente.jsx"; // Puedes consolidar CSS si es posible
 
 // Componente para la sección de Inicio del Dashboard
 const HomeSection = ({ onNavigate }) => {
@@ -67,6 +71,7 @@ const AdminDashboard = () => {
     const [sellers, setSellers] = useState([]);
     const [search, setSearch] = useState("");
     const [sortOrder, setSortOrder] = useState("asc");
+    const [evaluacionSeleccionadaId, setEvaluacionSeleccionadaId] = useState(null);
     const [newSeller, setNewSeller] = useState({
         name: "", email: "", phone: "", password: "",
         codigoVendedor: "", inmobiliaria: "", genero: ""
@@ -184,6 +189,12 @@ const AdminDashboard = () => {
                     <li><button onClick={() => handleSectionChange("sellers")}>📋 Vendedores</button></li>
                     <li><button onClick={() => handleSectionChange("propiedades")}>🏘️ Propiedades</button></li>
                     <li><button onClick={() => handleSectionChange("resumen-citas")}>📊 Resumen Citas</button></li>
+                    <li>
+                        <button onClick={() => handleSectionChange("ver-compradores")}>🧾 Ver Compradores</button>
+                    </li>
+                    <li>
+                        <button onClick={() => handleSectionChange("reportes")}>📈 Ver Reportes</button>
+                    </li>
                     <li><button onClick={() => handleSectionChange("agendamiento")}>📅 Agendamiento</button></li>
                     <li><button onClick={() => handleSectionChange("citas-pendientes")}>📋 Citas Pendientes</button></li>
                     <li><button onClick={handleLogout}>🚪 Cerrar Sesión</button></li>
@@ -324,6 +335,28 @@ const AdminDashboard = () => {
                     <div className="vendedor-citas-pendientes-section">
                         <CitasPendientesVendedor />
                     </div>
+                )}
+                {activeSection === "ver-compradores" && (
+                    <div className="vendedor-compradores-section">
+                        <AdminCompradoresPage
+                            setActiveSection={setActiveSection}
+                            setPropiedadSeleccionada={setPropiedadSeleccionada}
+                            setEvaluacionSeleccionadaId={setEvaluacionSeleccionadaId}
+                        />
+                    </div>
+                )}
+                {activeSection === "reportes" && (
+                    <div className="vendedor-reportes-section">
+                        <IndicadoresPage />
+                    </div>
+                )}
+                {activeSection === "citas-resumen" && (
+                    <div className="vendedor-citas-resumen-section">
+                        <EstadisticasCitasVendedor />
+                    </div>
+                )}
+                {activeSection === "detalle-evaluacion" && evaluacionSeleccionadaId && (
+                    <EvaluacionDetalleCliente evaluacionId={evaluacionSeleccionadaId} />
                 )}
 
 
