@@ -73,8 +73,8 @@ const Home = () => {
 
     return (
         <div className="page-container">
+            <Header />
             <div className="home-container">
-                <Header />
                 <div className="title-and-filter">
                     <h2 className="propiedades-title">Nuestras Propiedades</h2>
                     <button className="filtros-toggle" onClick={() => setMostrarModalFiltros(true)}>
@@ -112,12 +112,14 @@ const Home = () => {
                 <div className="propiedades-grid">
                     {propiedadesPaginadas.map((p) => (
                         <div key={p._id} className="prop-card">
-                            {p.imagenes && p.imagenes.length > 0 && (
+                            {p.imagenes && p.imagenes.length > 0 ? (
                                 <img
                                     src={`http://localhost:5000/${p.imagenes[0]}`}
                                     alt="Imagen propiedad"
                                     className="propiedad-img-lateral"
                                 />
+                            ) : (
+                                <div className="placeholder-img">No Image</div>
                             )}
                             <div className="prop-details">
                                 <h3>{p.titulo}</h3>
@@ -131,14 +133,14 @@ const Home = () => {
                     ))}
                 </div>
                 {propiedades.length > propiedadesPorPagina && (
-                    <div className="paginacion">
+                    <div className="Home-paginacion">
                         <button onClick={paginaAnterior} disabled={paginaActual === 1}>◀ Anterior</button>
                         <span>Página {paginaActual}</span>
                         <button onClick={paginaSiguiente} disabled={indiceFin >= propiedades.length}>Siguiente ▶</button>
                     </div>
                 )}
-                <Footer />
             </div>
+            <Footer />
         </div>
     );
 };

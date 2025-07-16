@@ -4,6 +4,9 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    background-color: #f4f4f4; /* Added a background color for the page */
+    min-height: 100vh; /* Ensure it takes at least full viewport height */
+    box-sizing: border-box; /* Include padding in element's total width and height */
 }
 
 /* Contenedor del título y botón */
@@ -11,27 +14,53 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 800px;
-    max-width: 1200px;
+    width: 90%; /* Adjusted width to be more flexible */
+    max-width: 900px; /* Max width for larger screens */
     margin-bottom: 20px;
 }
 
 .header-container h2 {
-    font-size: 24px;
-    color: #1a1a1a;
+    font-size: 28px; /* Slightly larger heading */
+    color: #333;
+    margin: 0;
 }
 
 .header-container button {
-    background-color: #5a67d8;
+    background-color: #007bff; /* Blue, common for primary actions */
     color: white;
-    padding: 10px 15px;
+    padding: 10px 18px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .header-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Botón de filtro principal */
+.boton-filtro-container {
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.filtros-toggle {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtros-toggle:hover {
     background-color: #0056b3;
 }
 
@@ -39,44 +68,211 @@
 .prop-list {
     display: flex;
     flex-direction: column;
-    width: 800px;
-    max-width: 1200px;
-    gap: 15px;
-    color: #1a1a1a;
+    width: 90%;
+    max-width: 900px;
+    gap: 20px; /* Increased gap between cards */
+    color: #333;
     text-align: start;
 }
 
-/* Tarjeta de propiedad */
-.prop-card {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
-    width: 100%;
-}
 
 .prop-card-content {
     display: flex;
-    gap: 15px;
-    align-items: flex-start;
+    flex-wrap: nowrap; /* Prevents wrapping to a new line on smaller screens, keeps side-by-side */
+    gap: 25px; /* Increased gap between image and text content */
+    align-items: flex-start; /* Aligns content to the top */
+}
+
+.propiedad-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+    width: 750px;
 }
 
 /* Imagen lateral */
 .propiedad-img-lateral {
-    width: 300px;
-    height: 280px;
+    width: 350px; /* Significantly larger width for the image */
+    height: 250px; /* Adjusted height to maintain aspect ratio and fill space */
     object-fit: cover;
-    border-radius: 8px;
-    flex-shrink: 0;
+    border-radius: 8px; /* Rounded corners for the image */
+    flex-shrink: 0; /* Crucial: Prevents the image from shrinking below its defined width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for the image */
+    cursor: pointer; /* Indicates it's clickable */
+    transition: transform 0.2s ease;
+    margin: 70px 0 70px 0;
+}
+
+.propiedad-img-lateral:hover {
+    transform: scale(1.02); /* Slight zoom on hover */
 }
 
 /* Información de la propiedad */
 .prop-info {
-    flex: 1;
+    flex-grow: 1; /* Allows it to grow if there's extra space */
+    flex-shrink: 1; /* Allows it to shrink if needed, but the image is protected by flex-shrink: 0 */
+    flex-basis: 0; /* Allows it to shrink effectively, while respecting content */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 8px; /* Gap between info lines */
+    margin: 0; /* Ensure no external margins on prop-info itself */
+    padding: 0; /* Ensure no external padding on prop-info itself */
+}
+
+.prop-info h3 {
+    margin: 0 0 5px 0; /* Adjust margin for heading */
+    font-size: 22px;
+    color: #333;
+    font-weight: bold;
+}
+
+.prop-info p {
+    margin: 0; /* Ensure no external margins on paragraphs */
+    font-size: 15px;
+    color: #555;
+}
+
+.prop-info p:nth-of-type(2) { /* Targeting the price paragraph (Precio: $1222222) */
+    font-weight: bold;
+    color: #28a745; /* Green color for price */
+    font-size: 16px;
+    margin-bottom: 10px; /* Space before buttons start */
+}
+
+/* Buttons within prop-info */
+.prop-info button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px; /* Space between buttons */
+    width: fit-content; /* Make button width fit its content */
+    transition: background-color 0.3s ease;
+}
+
+.prop-info button:hover {
+    background-color: #0056b3;
+}
+
+.prop-info .delete-button {
+    background-color: #dc3545; /* Red for delete */
+}
+
+.prop-info .delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styles */
+.modal-filtros-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.modal-filtros {
+    background-color: white;
+    padding: 30px; /* More padding */
+    border-radius: 12px; /* More rounded */
+    width: 90%;
+    max-width: 550px; /* Increased max-width */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow */
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased gap */
+    color: #333;
+}
+
+.modal-filtros h3 {
+    margin-top: 0;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjusted min width for inputs */
+    gap: 15px; /* Increased gap */
+}
+
+.modal-filtros input,
+.modal-filtros select {
+    padding: 10px; /* More padding for inputs */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-filtros input:focus,
+.modal-filtros select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.modal-filtros-botones {
+    display: flex;
+    justify-content: space-around; /* Distribute buttons evenly */
+    flex-wrap: wrap;
+    gap: 15px; /* Increased gap */
+    margin-top: 15px;
+}
+
+.modal-filtros-botones button {
+    padding: 10px 20px; /* Larger buttons */
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    flex-grow: 1;
+    min-width: 120px; /* Minimum width for buttons */
+    transition: background-color 0.3s ease;
+}
+
+.modal-filtros-botones button:not(.cerrar):not(.limpiar) {
+    background-color: #007bff; /* Apply button styles to 'Aplicar' */
+    color: white;
+}
+
+.modal-filtros-botones button:hover:not(.cerrar):not(.limpiar) {
+    background-color: #0056b3;
+}
+
+.modal-filtros-botones .limpiar {
+    background-color: #ffc107; /* Orange for clear filters */
+    color: #333;
+}
+
+.modal-filtros-botones .limpiar:hover {
+    background-color: #e0a800;
+}
+
+.modal-filtros-botones .cerrar {
+    background-color: #6c757d; /* Gray for close button */
+    color: white;
+}
+
+.modal-filtros-botones .cerrar:hover {
+    background-color: #545b62;
 }
 
 /* Controles de paginación */
@@ -84,206 +280,187 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    color: #1a1a1a;
+    gap: 15px; /* Increased gap */
+    margin-top: 30px; /* More space above pagination */
+    margin-bottom: 20px; /* Space below pagination */
+    color: #333;
 }
 
 .paginacion button {
-    background-color: #5a67d8;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.paginacion button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.paginacion span {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.filtros {
-    background-color: #f9f9f9;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    width: 800px;
-    max-width: 1200px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    align-items: end;
-}
-
-.filtros input,
-.filtros select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-}
-
-.filtros input:focus,
-.filtros select:focus {
-    border-color: #5a67d8;
-    outline: none;
-}
-
-.filtros button {
-    background-color: #5a67d8;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    grid-column: span 2;
-}
-
-.filtros button:hover {
-    background-color: #434190;
-}
-
-.boton-filtro-container {
-    width: 800px;
-    max-width: 1200px;
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-}
-
-.filtros-toggle {
-    background-color: #5a67d8;
+    background-color: #007bff;
     color: white;
     padding: 10px 18px;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 5px;
+    font-size: 15px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
-.filtros-toggle:hover {
-    background-color: #434190;
+.paginacion button:hover:not(:disabled) {
+    background-color: #0056b3;
 }
 
-.modal-filtros-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+.paginacion button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
-.modal-filtros {
-    background-color: white;
-    padding: 25px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    color: black;
-}
-
-.filtros-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
-}
-
-.modal-filtros input,
-.modal-filtros select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.modal-filtros-botones {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.modal-filtros-botones button {
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    flex-grow: 1;
-    min-width: 100px;
-}
-
-.modal-filtros-botones .cerrar {
-    background-color: #ccc;
-    color: black;
-}
-
-.modal-filtros-botones .limpiar {
-    background-color: #e53e3e;
-    color: white;
-}
-
-.modal-filtros-botones button:not(.cerrar):not(.limpiar) {
-    background-color: #5a67d8;
-    color: white;
-}
-
-.modal-filtros-botones button:hover:not(.cerrar):not(.limpiar) {
-    background-color: #434190;
-}
-
-.modal-filtros-botones .limpiar:hover {
-    background-color: #c53030;
+.paginacion span {
+    font-size: 17px;
+    font-weight: bold;
+    color: #555;
 }
 
 
-.modal-filtros-botones button {
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-}
+@media (max-width: 380px) {
 
-.modal-filtros-botones .cerrar {
-    background-color: #ccc;
-    color: black;
-}
+    .header-container{
+        color: red;
+    }
 
-.modal-filtros-botones button:not(.cerrar) {
-    background-color: #5a67d8;
-    color: white;
-}
+    .propiedades-container {
+        padding: 10px; /* Reduce overall padding */
+        margin-right: 20px;
+    }
 
-.modal-filtros-botones button:hover:not(.cerrar) {
-    background-color: #434190;
-}
+    .header-container {
+        flex-direction: column; /* Stack title and button vertically */
+        align-items: center;
+        width: 100%; /* Take full width */
+        margin-bottom: 15px;
+    }
 
+    .header-container h2 {
+        font-size: 24px; /* Smaller font size for title */
+        margin-bottom: 10px; /* Space between title and button */
+    }
+
+    .header-container button {
+        width: 80%; /* Full width button */
+        padding: 12px; /* Larger touch area */
+        font-size: 15px;
+    }
+
+    .boton-filtro-container {
+        width: 90%; /* Full width */
+        justify-content: center; /* Center the filter button */
+        margin-bottom: 10px;
+    }
+
+    .filtros-toggle {
+        width: 50%; /* Full width button */
+        padding: 12px;
+        font-size: 15px;
+        margin-right: 25px;
+    }
+
+    .prop-list {
+        width: 100%; /* Take full width */
+        gap: 15px; /* Reduce gap between cards */
+    }
+
+    .propiedad-card {
+        width: 100%; /* Take full width of its container */
+        padding: 1rem; /* Reduce card padding */
+        margin-bottom: 1rem; /* Reduce margin between cards */
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+
+    .prop-card-content {
+        flex-direction: column; /* Stack image and info vertically */
+        gap: 15px; /* Adjust gap for vertical stacking */
+        align-items: center; /* Center items when stacked */
+    }
+
+    .propiedad-img-lateral {
+        width: 100%; /* Make image full width */
+        height: 200px; /* Adjust height for mobile */
+        margin: 0; /* Remove specific margins */
+    }
+
+    .prop-info {
+        text-align: center; /* Center text info */
+        gap: 5px; /* Smaller gap for info lines */
+        width: 100%; /* Ensure it takes full width */
+    }
+
+    .prop-info h3 {
+        font-size: 20px; /* Smaller title */
+        margin-bottom: 8px;
+    }
+
+    .prop-info p {
+        font-size: 14px; /* Smaller text */
+    }
+
+    .prop-info p:nth-of-type(2) {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .prop-info button {
+        width: 100%; /* Make buttons full width */
+        padding: 10px;
+        font-size: 13px;
+        margin-top: 8px; /* Adjust space between buttons */
+    }
+
+    /* Modal styles for mobile */
+    .modal-filtros-overlay {
+        padding: 10px; /* Add padding to overlay */
+    }
+
+    .modal-filtros {
+        padding: 20px; /* Reduce modal padding */
+        width: 80%; /* Make modal almost full width */
+        gap: 20px; /* Adjust gap */
+        margin-right: 30px;
+        margin-left: 20px;
+    }
+
+    .modal-filtros h3 {
+        font-size: 20px; /* Smaller modal title */
+    }
+
+    .filtros-grid {
+        grid-template-columns: 1fr; /* Stack filter inputs vertically */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .modal-filtros input,
+    .modal-filtros select {
+        padding: 12px; /* Slightly larger input padding for touch */
+        font-size: 14px;
+    }
+
+    .modal-filtros-botones {
+        flex-direction: column; /* Stack modal buttons vertically */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .modal-filtros-botones button {
+        width: 100%; /* Full width buttons */
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    /* Pagination for mobile */
+    .paginacion {
+        flex-direction: column; /* Stack pagination buttons/text vertically */
+        gap: 10px; /* Reduce gap */
+        margin-top: 20px; /* Adjust top margin */
+        margin-bottom: 10px; /* Adjust bottom margin */
+    }
+
+    .paginacion button {
+        width: 100%; /* Full width pagination buttons */
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .paginacion span {
+        font-size: 16px; /* Slightly smaller text */
+    }
+}

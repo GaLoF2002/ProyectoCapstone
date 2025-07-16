@@ -199,3 +199,51 @@
 .campo.archivo {
     margin-top: 25px;
 }
+
+@media (max-width: 380px) {
+    .form-evaluacion-container {
+        padding: 20px 15px; /* Reduce padding for smaller screens */
+    }
+
+    .paso {
+        margin-left: 0; /* Ensure no left margin */
+        padding: 0 10px; /* Adjust padding for content inside steps */
+    }
+
+    .opciones-compra {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+
+    .boton-opcion,
+    .boton-siguiente,
+    .boton-enviar {
+        width: 100%; /* Ensure all buttons take full width */
+        padding: 10px 15px; /* Adjust button padding */
+    }
+
+    .input-field,
+    .selector-tiempo,
+    .selector-buro,
+    .selector-entrada,
+    .selector-inmueble,
+    .input-archivo {
+        width: 100%; /* Ensure all input fields take full width */
+        padding: 10px; /* Adjust input padding */
+        font-size: 15px; /* Slightly reduce font size for inputs */
+    }
+
+    .form-evaluacion-container h2 {
+        font-size: 1.5em; /* Adjust heading size */
+        margin-bottom: 20px;
+    }
+
+    .subtitulo {
+        font-size: 1.1em; /* Adjust subtitle size */
+        margin-bottom: 15px;
+    }
+
+    .pregunta,
+    .etiqueta {
+        font-size: 1em; /* Adjust text size */
+    }
+}

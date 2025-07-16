@@ -131,3 +131,146 @@ html, body {
     left: 0;
     margin-top: auto; /* Empuja el footer hacia abajo */
 }
+
+/* Estilo del checkbox y texto de políticas */
+.register-form .politicas-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+}
+
+.register-form .politicas-container input[type="checkbox"] {
+    width: 50px;
+    margin-top: 15px;
+}
+
+.register-form .politicas-container a {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+.register-form .politicas-container a:hover {
+    color: #4c51bf;
+}
+
+
+.link-button {
+    background: none;
+    border: none;
+    color: #007bff; /* azul */
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font: inherit; /* hereda el tamaño de fuente del texto */
+    display: inline;
+}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.modal-content {
+    background-color: #fff;
+    color: #1a202c;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    overflow-y: auto;
+    max-height: 80vh;
+    position: relative;
+}
+
+.modal-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2d3748;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.modal-content p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.modal-content strong {
+    color: #2b6cb0;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background-color: #609115;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+.cerrar-modal:hover {
+    background-color: #609115;
+}
+
+@media (max-width: 380px) {
+    .register-container {
+        padding: 20px;
+    }
+
+    .register-image {
+        display: none;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        z-index: 9999; /* más alto para estar encima de todo */
+    }
+
+    .modal-content {
+        margin: 1rem auto;
+        padding: 2.5rem;
+        width: 95%;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        max-height: none;
+        border-radius: 10px;
+    }
+
+    .modal-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .cerrar-modal {
+        top: 0.5rem;
+        right: 1rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}

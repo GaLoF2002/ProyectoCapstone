@@ -26,3 +26,21 @@ export const getEvaluacionesPorPropiedad = async (propiedadId) => {
         headers: getAuthHeaders()
     });
 };
+
+export const simularFinanciamiento = async ({ propiedadId, porcentajeEntrada, plazoAnios }) => {
+    return await axios.post(`${API_URL}/simular-financiamiento`, {
+        propiedadId,
+        porcentajeEntrada,
+        plazoAnios
+    }, {
+        headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json'
+        }
+    });
+};
+export const getEvaluacionPorId = async (evaluacionId) => {
+    return await axios.get(`${API_URL}/evaluacion-detalle/${evaluacionId}`, {
+        headers: getAuthHeaders()
+    });
+};

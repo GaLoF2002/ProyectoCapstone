@@ -3,7 +3,8 @@ import bcrypt from 'bcryptjs';
 
 
 export const crearVendedor = async (req, res) => {
-        const { name, email, password, phone } = req.body;
+        const { name, email, password, phone, codigoVendedor, inmobiliaria, genero } = req.body;
+
         try {
                 const userExists = await User.findOne({ email });
                 if (userExists) {
@@ -11,20 +12,24 @@ export const crearVendedor = async (req, res) => {
                 }
 
                 const hashedPassword = await bcrypt.hash(password, 10);
+
                 const seller = new User({
                         name,
                         email,
                         password: hashedPassword,
                         phone,
-                        role: "vendedor"
+                        role: "vendedor",
+                        codigoVendedor,
+                        inmobiliaria,
+                        genero
                 });
+
                 await seller.save();
                 res.status(201).json({ message: "Vendedor creado correctamente" });
         } catch (error) {
                 res.status(500).json({ error: "Error al crear el vendedor" });
         }
 };
-
 
 
 export const obtenerVendedores = async (req, res) => {

@@ -10,10 +10,19 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
+    const [aceptaPoliticas, setAceptaPoliticas] = useState(false);
     const navigate = useNavigate();
+    const [mostrarModal, setMostrarModal] = useState(false);
+
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        if (!aceptaPoliticas) {
+            alert("Debes aceptar las políticas y condiciones para continuar.");
+            return;
+        }
+
         try {
             await axios.post('http://localhost:5000/api/auth/register', { name, email, password, phone });
             alert("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
@@ -45,6 +54,23 @@ const Register = () => {
                             <label>Teléfono Celular</label>
                             <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required />
 
+                            <div className="politicas-container">
+                                <input
+                                    type="checkbox"
+                                    checked={aceptaPoliticas}
+                                    onChange={() => setAceptaPoliticas(!aceptaPoliticas)}
+                                />
+                                <label>
+                                    Acepto las <a href="/politicas" onClick={(e) => {
+                                    e.preventDefault();
+                                    setMostrarModal(true);
+                                }} className="link-text">políticas y condiciones</a>
+                                </label>
+                            </div>
+
+
+
+
                             <button type="submit">Unirse</button>
 
                             <p>¿Ya estás registrado? <a href="/login">Inicia sesión</a></p>
@@ -52,8 +78,28 @@ const Register = () => {
                     </div>
                 </div>
             </div>
+            {mostrarModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Política de Tratamiento de Datos Personales</h3>
+                        <p>
+                            Al continuar con este proceso, usted declara que ha leído y acepta los términos y condiciones establecidos.
+                            Autorizo expresamente la recopilación, almacenamiento, tratamiento y uso de mis datos personales con fines
+                            estrictamente relacionados con la evaluación de mi perfil como cliente, el análisis de capacidad de compra,
+                            el ofrecimiento de productos o servicios inmobiliarios, el contacto comercial y la mejora de la experiencia del usuario.
+                        </p>
+                        <p>
+                            Mis datos serán tratados conforme a lo establecido en la <strong>Ley Orgánica de Protección de Datos Personales del Ecuador</strong>,
+                            garantizando su confidencialidad, integridad y un uso legítimo y responsable. En ningún caso mis datos serán vendidos ni
+                            compartidos con terceros sin mi consentimiento previo, salvo en los casos establecidos por la ley.
+                        </p>
+                        <button onClick={() => setMostrarModal(false)} className="cerrar-modal">Cerrar</button>
+                    </div>
+                </div>
+            )}
             <Footer />
         </div>
+
     );
 };
 

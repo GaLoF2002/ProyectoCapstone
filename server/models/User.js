@@ -6,6 +6,12 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     phone: { type: String, required: true }, //
     role: { type: String, default: 'cliente', enum: ['admin', 'vendedor', 'cliente'] },
+
+    // 🔹 Nuevos campos opcionales para vendedores
+    codigoVendedor: { type: String },
+    inmobiliaria: { type: String },
+    genero: { type: String, enum: ['masculino', 'femenino', 'otro'] },
+
     resetToken: { type: String },
     resetTokenExpires: { type: Date }
 });

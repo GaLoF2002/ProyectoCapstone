@@ -4,6 +4,8 @@
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    position: relative; /* Necesario para el menú de hamburguesa posicionado absolutamente */
 }
 
 /* Sidebar */
@@ -15,11 +17,15 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out; /* Transición para abrir/cerrar */
 }
 
 .sidebar h2 {
     text-align: center;
     margin-bottom: 20px;
+    font-size: 24px;
 }
 
 .sidebar ul {
@@ -48,62 +54,150 @@
     background: #555;
 }
 
+/* Botón de Hamburguesa */
+.hamburger-menu {
+    display: none; /* Oculto por defecto en escritorio */
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #5a67d8;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001; /* Asegura que esté por encima del contenido */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+
 /* Contenido Principal */
 .main-content {
     flex-grow: 1;
     padding: 20px;
     background: #f4f4f4;
     overflow-y: auto;
-    width: calc(100vw - 250px);
+    width: calc(100vw - 250px); /* Ancho para escritorio */
+    box-sizing: border-box;
+    transition: margin-left 0.3s ease-in-out; /* Transición para cuando el sidebar se abre/cierra */
 }
 
-/* Sección de Inicio */
+
+/* --- SECCIÓN DE INICIO (HOME) --- */
+
 .home-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px);
     text-align: center;
-    padding: 50px;
+    padding: 30px;
+    box-sizing: border-box;
 }
 
-.home-section h1 {
-    font-size: 32px;
+.home-section .home-title {
+    font-size: 36px;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
-.home-section p {
+.home-section .home-subtitle {
     font-size: 18px;
     color: #666;
+    margin-bottom: 40px;
 }
 
-/* Gestión de Vendedores */
-.sellers-section h1 {
+.dashboard-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.shortcut-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 160px;
+    height: 160px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.shortcut-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.shortcut-item span {
+    font-size: 70px;
+    margin-bottom: 10px;
+    color: #5a67d8;
+    line-height: 1;
+}
+
+.shortcut-item p {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* --- SECCIÓN DE VENDEDORES --- */
+
+.sellers-section .h1Sellers h1 {
     text-align: center;
     margin-bottom: 30px;
+    color: #333;
+    font-size: 50px;
 }
 
-/* Contenedor en dos columnas */
 .sellers-container {
     display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    padding-top: 25px;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    padding-top: 10px;
+    margin-bottom: 70px;
 }
 
-/* Columna Izquierda - Lista de Vendedores */
 .sellers-list-container {
-    flex: 1;
-    max-width: 50%;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 900px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Columna Derecha - Formulario */
-.register-form-container {
-    flex: 1;
-    max-width: 50%;
+.sellers-list {
     background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sellers-list h2 {
     text-align: center;
-    align-items: center;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    font-size: 24px;
 }
 
 /* Filtros */
@@ -112,219 +206,337 @@
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 20px;
-    padding: 20px;
+    flex-wrap: wrap;
 }
 
-.filters input {
-    width: 400px;
-
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
+.filters input[type="text"],
 .filters select {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    background-color: #fff !important;
+    color: #000 !important;
+    flex-grow: 1;
+    min-width: 120px;
+    box-sizing: border-box;
 }
 
-/* Contenedor de dos columnas centrado */
-.sellers-container {
-    display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center; /* Centra el contenido verticalmente */
-    gap: 40px; /* Espacio entre columnas */
+/* Tabla de Vendedores */
+.table-responsive {
     width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
 }
 
-/* Columna Izquierda - Lista de Vendedores */
-.sellers-list-container {
-    flex: 1;
-    max-width: 45%; /* Se redujo un poco para más espacio */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.sellers-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    /* white-space: nowrap; */ /* Esto puede ser problemático en móvil, lo ajustaremos con media queries */
 }
 
-/* Lista de Vendedores */
-.sellers-list {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.sellers-list h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #1a1a1a;
-}
-
-.sellers-list ul {
-    list-style: none;
-    align-items: center;
-}
-
-.sellers-list li {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    border-bottom: 1px solid #ccc;
-    font-size: 16px;
+.sellers-table th,
+.sellers-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
     color: black;
 }
 
-.sellers-list li:last-child {
-    border-bottom: none;
+.sellers-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
 }
 
-/* Botones de Editar y Eliminar */
-.edit-button {
-    background-color: #007bff;
-    color: white;
+.sellers-table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.sellers-table .actions-cell {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.sellers-table .action-button {
+    background: none;
     border: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    padding: 5px;
+    margin: 0 3px;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
 }
 
-.edit-button:hover {
-    background-color: #0056b3;
+.sellers-table .edit-button { color: #007bff; }
+.sellers-table .delete-button { color: #e53e3e; }
+.sellers-table .edit-button:hover { background-color: rgba(0, 123, 255, 0.1); }
+.sellers-table .delete-button:hover { background-color: rgba(229, 62, 62, 0.1); }
+
+
+/* Contenedor del Formulario */
+.register-form-container {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 600px;
+    min-width: 280px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
-.delete-button {
-    background-color: #e53e3e;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.delete-button:hover {
-    background-color: #c53030;
-}
-
-/* Formulario de Registro */
 .register-form-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #1a1a1a;
+    font-size: 24px;
 }
 
+/* Formulario de Registro */
 .register-form {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    padding: 15px;
-    align-items: center;
+    width: 100%;
 }
 
-.register-form-container {
-    flex: 1;
-    max-width: 45%; /* Se redujo un poco para más espacio */
-    background: white;
-    padding: 25px; /* Aumenta el padding para mejor presentación */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.register-form label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
 }
 
-.register-form input {
-    width: 90%;
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"],
+.register-form input[type="tel"],
+.register-form select {
+    width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin-bottom: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
+    box-sizing: border-box;
+    background-color: #fff !important;
+    color: #000 !important;
 }
 
-.register-form input:focus {
+.register-form input::placeholder {
+    color: #888;
+}
+
+.register-form input:focus,
+.register-form select:focus {
     border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
 }
 
-/* Botón de Crear */
+/* Botones del Formulario */
 .register-form button {
     width: 100%;
-    background-color: #5a67d8 !important;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.register-form button:hover {
-    background-color: #434190; /* Color más oscuro al pasar el mouse */
-}
-
-
-.register-form button:last-child {
-    background-color: #ccc;
+    transition: background-color 0.3s ease, transform 0.1s ease;
     margin-top: 10px;
 }
-
-.register-form button:last-child:hover {
-    background-color: #999;
+.register-form button:active {
+    transform: translateY(1px);
 }
 
-/* Responsividad */
-@media screen and (max-width: 900px) {
+.register-form .Submmitbutton {
+    background-color: #5a67d8 !important;
+}
+.register-form .Submmitbutton:hover {
+    background-color: #434190 !important;
+}
+
+.register-form .Cancelbutton {
+    background-color: #6c757d;
+    margin-top: 10px;
+}
+.register-form .Cancelbutton:hover {
+    background-color: #5a6268;
+}
+
+/* ======================================= */
+/* MEDIA QUERIES PARA ADAPTACIÓN MÓVIL */
+/* ======================================= */
+
+@media (max-width: 380px) {
     .dashboard-container {
-        flex-direction: column;
+        flex-direction: column; /* Apila el sidebar y el contenido principal */
+        overflow-y: auto; /* Permite scroll vertical en todo el contenedor */
+    }
+
+    .hamburger-menu {
+        display: block; /* Muestra el botón de hamburguesa en móvil */
     }
 
     .sidebar {
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 10px;
-        padding: 10px;
+        position: fixed; /* Fija el sidebar */
+        top: 0;
+        left: 0;
+        width: 250px; /* Ancho del sidebar cuando está abierto */
+        height: 100%;
+        transform: translateX(-100%); /* Oculta el sidebar por defecto */
+        z-index: 1000; /* Asegura que esté por encima del main-content */
+        box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     }
 
-    .sidebar ul {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
+    .sidebar.open {
+        transform: translateX(0); /* Muestra el sidebar cuando está abierto */
     }
 
     .main-content {
-        width: 100%;
-        padding: 10px;
+        width: 100vw; /* Ocupa todo el ancho en móvil */
+        padding-top: 70px; /* Deja espacio para el botón de hamburguesa */
+        margin-left: 0; /* Asegura que no haya margen izquierdo */
     }
 
-    .sellers-container {
-        flex-direction: column;
-        align-items: center;
+    .home-section {
+        min-height: auto; /* Ajusta la altura del home-section para móvil */
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 
-    .sellers-list-container,
-    .register-form-container {
-        max-width: 100%;
+    .home-section .home-title {
+        font-size: 28px;
+    }
+
+    .home-section .home-subtitle {
+        font-size: 16px;
+    }
+
+    .sidebar h2{
+        margin-top: 70px;
+    }
+
+    .dashboard-shortcuts {
+        gap: 20px; /* Reduce el espacio entre atajos */
+        padding: 0 10px;
+    }
+
+    .shortcut-item {
+        width: 140px; /* Reduce el ancho de los atajos */
+        height: 140px; /* Reduce la altura de los atajos */
+        padding: 20px; /* Reduce el padding */
+    }
+
+    .shortcut-item span {
+        font-size: 60px; /* Reduce el tamaño del ícono */
+    }
+
+    /* Sección de Vendedores */
+    .sellers-section .h1Sellers h1 {
+        font-size: 32px; /* Reduce el tamaño del título de vendedores */
+        margin-bottom: 20px;
     }
 
     .filters {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Apila los filtros */
+        align-items: stretch; /* Estira los filtros para ocupar el ancho completo */
     }
 
-    .filters input,
+    .filters input[type="text"],
     .filters select {
-        width: 100%;
+        min-width: unset; /* Reinicia el min-width */
+        width: 100%; /* Ocupa el 100% del contenedor */
+    }
+
+    .sellers-table {
+        font-size: 12px; /* Reduce el tamaño de la fuente de la tabla */
+        /* white-space: normal; */ /* Permite que el texto se rompa en múltiples líneas */
+    }
+
+    .sellers-table th,
+    .sellers-table td {
+        padding: 8px 10px; /* Reduce el padding de las celdas */
+    }
+
+    /* Ocultar columnas menos importantes en móvil */
+    .sellers-table .hide-on-mobile {
+        display: none;
+    }
+
+    /* Para que el table-responsive funcione mejor con menos columnas */
+    .sellers-table td[data-label]::before {
+        content: attr(data-label); /* Muestra el encabezado como etiqueta en móvil */
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    .sellers-table tr {
+        display: block; /* Cada fila se comporta como un bloque */
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: white;
+    }
+
+    .sellers-table thead {
+        display: none; /* Oculta el thead en móvil */
+    }
+
+    .sellers-table tbody tr td {
+        display: block; /* Cada celda se comporta como un bloque */
+        text-align: right !important; /* Alinea el contenido a la derecha */
+        padding-left: 50%; /* Espacio para la etiqueta */
+        position: relative;
+    }
+
+    .sellers-table tbody tr td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .sellers-table .actions-cell {
+        text-align: right !important; /* Asegura que los botones de acción se alineen a la derecha */
+        padding-left: 0;
+    }
+    .sellers-table .actions-cell::before {
+        display: none; /* Oculta la etiqueta "Acciones" */
+    }
+
+    .register-form-container {
+        padding: 20px; /* Reduce el padding del formulario */
+    }
+
+    .register-form label {
+        font-size: 13px;
+    }
+
+    .register-form input[type="text"],
+    .register-form input[type="email"],
+    .register-form input[type="password"],
+    .register-form input[type="tel"],
+    .register-form select {
+        font-size: 14px; /* Reduce el tamaño de la fuente de los inputs */
+        padding: 8px;
+    }
+
+    .register-form button {
+        padding: 10px; /* Reduce el padding de los botones */
+        font-size: 14px;
     }
 }

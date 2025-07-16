@@ -1,5 +1,6 @@
 import Propiedad from '../models/Propiedad.js';
-
+import VisitaCliente from "../models/VisitaCliente.js";
+import Notificacion from "../models/Notificacion.js";
 // Crear una propiedad
 export const crearPropiedad = async (req, res) => {
     try {
@@ -75,6 +76,7 @@ export const obtenerPropiedadPorId = async (req, res) => {
 export const actualizarPropiedad = async (req, res) => {
     try {
         const propiedad = await Propiedad.findById(req.params.id);
+        const estadoAnterior = propiedad.estado;
         if (!propiedad) {
             return res.status(404).json({ msg: 'Propiedad no encontrada' });
         }
@@ -105,6 +107,17 @@ export const actualizarPropiedad = async (req, res) => {
         }
 
         await propiedad.save();
+        if (req.body.estado && req.body.estado !== estadoAnterior) {
+            const clientes = await VisitaCliente.find({ propiedad: propiedad._id }).distinct("cliente");
+
+            await Promise.all(clientes.map(clienteId =>
+                Notificacion.create({
+                    usuario: clienteId,
+                    mensaje: `La propiedad "${propiedad.titulo}" que visitaste ha cambiado su estado a "${req.body.estado}".`,
+                    tipo: "estado-propiedad"
+                })
+            ));
+        }
 
         res.json({ msg: 'Propiedad actualizada correctamente', propiedad });
 

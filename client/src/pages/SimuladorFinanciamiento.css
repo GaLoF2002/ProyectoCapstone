@@ -1,0 +1,101 @@
+.simulador-container {
+    padding: 2rem;
+    background-color: white; /* Gris claro, similar al fondo actual */
+    color: #1e1e2f;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: 2rem auto;
+    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 100px;
+}
+
+.titulo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #1e1e2f;
+}
+
+.resumen-propiedad p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.formulario {
+    margin-top: 1.5rem;
+    background-color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+}
+
+.campo {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.campo label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    color: #1e1e2f;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1.5px solid #d1d5db; /* gris claro */
+    border-radius: 0.65rem;
+    background-color: #f9fafb;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    outline: none;
+    color: #111827;
+}
+
+/* Efecto de enfoque */
+.campo input:focus,
+.campo select:focus {
+    border-color: #6366f1; /* morado */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    background-color: #ffffff;
+}
+
+/* Placeholder más suave */
+.campo input::placeholder {
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+.nota-tarifario {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+    text-align: left;
+    max-width: 600px;
+}
+
+.nota-tarifario a {
+    color: #007bff;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.nota-tarifario a:hover {
+    color: #0056b3;
+}
+
+
+/* Adaptación para móviles */
+@media (max-width: 500px) {
+    .campo input,
+    .campo select {
+        max-width: 100%;
+    }
+}
+

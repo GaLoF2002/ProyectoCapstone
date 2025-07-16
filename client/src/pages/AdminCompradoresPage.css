@@ -10,26 +10,27 @@
     margin-bottom: 2rem;
 }
 
-.propiedad-card {
+.propiedad-card-compradores{
+    width: 90%;
+    margin: 3rem;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    margin-bottom: 2rem;
     padding: 1.5rem;
     transition: box-shadow 0.3s ease;
 }
 
-.propiedad-card:hover {
+.propiedad-card-compradores:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.propiedad-card h3 {
+.propiedad-card-compradores h3 {
     font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.propiedad-card p {
+.propiedad-card-compradores p {
     margin: 0.3rem 0;
 }
 
@@ -46,7 +47,7 @@
     transition: background-color 0.3s ease;
 }
 
-.propiedad-card button:hover {
+.propiedad-card-compradores button:hover {
     background-color: #111827;
 }
 
@@ -84,4 +85,62 @@
 
 .tabla-compradores tr:hover {
     background-color: #f9fafb;
+}
+
+@media (max-width: 380px) {
+    .admin-compradores-container {
+        padding: 1rem; /* Reduced padding */
+        margin-right: 20px;
+    }
+
+    .admin-compradores-container h2 {
+        font-size: 1.6rem; /* Smaller heading */
+        margin-bottom: 1.5rem;
+        text-align: center; /* Center align for mobile */
+    }
+
+    .propiedad-card-compradores {
+        width: 100%; /* Take full width */
+        margin: 1.5rem 0; /* Reduced vertical margin, no horizontal */
+        padding: 1rem; /* Reduced padding */
+        box-sizing: border-box; /* Include padding in width */
+    }
+
+    .propiedad-card-compradores h3 {
+        font-size: 1.2rem; /* Smaller heading inside card */
+    }
+
+    .propiedad-card-compradores p {
+        font-size: 0.9rem; /* Smaller text for info */
+    }
+
+    .propiedad-card-compradores button {
+        width: 100%; /* Make buttons full width */
+        padding: 0.8rem 1rem; /* Adjust padding for touch */
+        font-size: 0.9rem; /* Smaller font size */
+        margin-top: 0.8rem; /* Adjust margin top */
+        box-sizing: border-box;
+    }
+
+    .tabla-compradores {
+        margin-top: 1rem; /* Reduce top margin */
+        overflow-x: auto; /* Enable horizontal scroll for tables */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    .tabla-compradores h4 {
+        font-size: 1rem; /* Smaller subheading for table sections */
+        margin-top: 0.8rem; /* Adjust margin top */
+        padding-bottom: 0.3rem; /* Adjust padding */
+    }
+
+    .tabla-compradores table {
+        font-size: 0.8rem; /* Significantly smaller font for table content */
+        min-width: 320px; /* Ensure table has a minimum width for scrolling */
+    }
+
+    .tabla-compradores th,
+    .tabla-compradores td {
+        padding: 0.5rem; /* Reduced padding for table cells */
+    }
 }

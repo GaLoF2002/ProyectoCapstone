@@ -169,3 +169,80 @@
     padding: 15px; /* Reducimos el padding general de la sección */
     margin-top: 150px;
 }
+
+@media (max-width: 380px) {
+    .agendamiento-vendedor-container {
+        padding: 10px; /* Smaller padding */
+        box-shadow: none; /* Remove shadow to make it lighter */
+        margin-right: 30px;
+    }
+
+    .agendamiento-vendedor-container h2 {
+        font-size: 1.5rem; /* Smaller heading */
+        margin-bottom: 15px;
+    }
+
+    .formulario-disponibilidad {
+        grid-template-columns: 1fr; /* Stack all items in a single column */
+        grid-template-rows: auto; /* Auto rows */
+        gap: 15px; /* Increase gap between stacked elements */
+    }
+
+    .campo-disponibilidad {
+        flex-direction: column; /* Stack label and input/select */
+        align-items: flex-start; /* Align label/input to the left */
+        gap: 5px; /* Smaller gap between label and input */
+    }
+
+    .campo-disponibilidad label {
+        width: 100%; /* Label takes full width */
+        text-align: left;
+        margin-right: 0; /* Remove margin */
+    }
+
+    .campo-disponibilidad input[type="time"],
+    .campo-disponibilidad select {
+        width: 100%; /* Inputs/select take full width */
+        max-width: 100%; /* Ensure they don't exceed container width */
+        padding: 10px; /* Slightly more padding for touch */
+    }
+
+    .boton-guardar {
+        grid-column: auto; /* Remove specific grid column */
+        grid-row: auto; /* Remove specific grid row */
+        width: 100%; /* Make button full width */
+        margin-left: 0; /* Remove left margin */
+        padding: 12px; /* Larger padding for touch */
+        font-size: 1rem; /* Adjust font size */
+    }
+
+    /* Reset specific grid placements for mobile */
+    .campo-dia-semana,
+    .campo-hora-inicio,
+    .campo-hora-fin {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .disponibilidad-registrada {
+        width: 100%; /* Full width for registered availability section */
+        margin-left: 0; /* Remove auto margins */
+        margin-right: 0;
+        padding: 10px; /* Reduce padding */
+    }
+
+    .disponibilidad-registrada h3 {
+        font-size: 1.2rem; /* Smaller heading */
+    }
+
+    .lista-disponibilidad .item-disponibilidad {
+        font-size: 0.95rem; /* Smaller text for list items */
+        padding: 6px 0; /* Adjust padding */
+    }
+
+    /* Adjustment for Agendamiento section within the main content of the dashboard */
+    .vendedor-main-content .vendedor-agendamiento-section {
+        padding: 10px; /* Reduce padding for the section within the dashboard */
+        margin-top: 20px; /* Adjust top margin if needed, depends on overall dashboard layout */
+    }
+}

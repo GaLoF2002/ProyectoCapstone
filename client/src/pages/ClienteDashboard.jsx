@@ -1,16 +1,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { FiUser, FiLogOut, FiHome, FiHeart } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiHome, FiBell } from 'react-icons/fi';
 import Footer from "../components/Footer.jsx";
 import Perfil from './PerfilCliente';
 import PropiedadIndividual from './PropiedadIndividual';
 import { getPropiedades } from '../services/propiedadService';
 import './ClienteDashboard.css';
-import AgendarCita from "./AgendarCita"; // Importa tu nuevo componente
+import AgendarCita from "./AgendarCita";
 import MisCitasCliente from "./MisCitasCliente.jsx";
 import FormularioEvaluacion from "./FormularioEvaluacion.jsx";
+import SimuladorFinanciamiento from "./SimuladorFinanciamiento.jsx";
+import { getNotificaciones } from '../services/notificacionesService';
+import { marcarNotificacionComoLeida } from '../services/notificacionesService';
 
+import MisIntereses from "./MisIntereses";
+
+import { getMisCitas } from '../services/agendamientoService';
 
 
 const ClienteDashboard = () => {
@@ -19,6 +25,10 @@ const ClienteDashboard = () => {
     const [propiedadSeleccionada, setPropiedadSeleccionada] = useState(null);
     const [propiedades, setPropiedades] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
+    const [notificaciones, setNotificaciones] = useState([]);
+    const [mostrarNotificaciones, setMostrarNotificaciones] = useState(false);
+
+
     const propiedadesPorPagina = 4;
     const [mostrarModalFiltros, setMostrarModalFiltros] = useState(false);
     const [filtros, setFiltros] = useState({
@@ -31,13 +41,72 @@ const ClienteDashboard = () => {
 
     useEffect(() => {
         const propiedadPendiente = localStorage.getItem("propiedadSeleccionada");
+
         if (propiedadPendiente) {
             setPropiedadSeleccionada(propiedadPendiente);
             setActiveSection("ver-propiedad");
             localStorage.removeItem("propiedadSeleccionada");
         }
+
         fetchPropiedades();
+        fetchNotificaciones(); // Se hace una sola vez al montar
+        cargarDatos();
+
+        // Cada 2 segundos solo actualiza si hay nuevas no leídas
+        const interval = setInterval(() => {
+            fetchNotificaciones();
+        }, 2000);
+
+        // ✅ Limpiar el intervalo correctamente
+        return () => clearInterval(interval);
     }, []);
+
+    const cargarDatos = async () => {
+        try {
+            await getMisCitas(); // ✅ Esto dispara la lógica de recordatorios en el backend
+            await fetchPropiedades();
+            await fetchNotificaciones(); // Las trae, ya incluyendo los recordatorios generados
+        } catch (err) {
+            console.error("Error al cargar datos:", err);
+        }
+    };
+
+    const fetchNotificaciones = async () => {
+        try {
+            const res = await getNotificaciones();
+
+            const ahora = new Date();
+
+            const notificacionesFiltradas = res.data.filter((noti) => {
+                if (noti.tipo !== "recordatorio") return true;
+
+                const match = noti.mensaje.match(/hora (\d{2}:\d{2})/);
+                const matchFecha = noti.mensaje.match(/^(Hoy|Mañana)/);
+
+                if (!match || !matchFecha) return true;
+
+                const hora = match[1]; // ej. "15:30"
+                const tipoFecha = matchFecha[1]; // "Hoy" o "Mañana"
+
+                const fechaCita = new Date();
+                if (tipoFecha === "Mañana") {
+                    fechaCita.setDate(fechaCita.getDate() + 1);
+                }
+
+                // Unificar fecha y hora para comparar con "ahora"
+                const [hours, minutes] = hora.split(":").map(Number);
+                fechaCita.setHours(hours, minutes, 0, 0);
+
+                return fechaCita > ahora;
+            });
+
+            setNotificaciones(notificacionesFiltradas);
+        } catch (err) {
+            console.error("Error al obtener notificaciones:", err);
+            setNotificaciones([]);
+        }
+    };
+
 
     const fetchPropiedades = async () => {
         try {
@@ -71,6 +140,7 @@ const ClienteDashboard = () => {
     const handleVerMas = (id) => {
         setPropiedadSeleccionada(id);
         setActiveSection("ver-propiedad");
+
     };
 
     const indiceInicio = (paginaActual - 1) * propiedadesPorPagina;
@@ -85,6 +155,8 @@ const ClienteDashboard = () => {
         if (indiceFin < propiedades.length) setPaginaActual(paginaActual + 1);
     };
 
+    const [menuAbierto, setMenuAbierto] = useState(false);
+
     if (!user || user.role !== "cliente") {
         return <Navigate to="/login" />;
     }
@@ -93,25 +165,67 @@ const ClienteDashboard = () => {
         <div className="cliente-dashboard">
             <nav className="cliente-navbar">
                 <h2 className="cliente-logo">Bienvenido, {user.name}</h2>
-                <ul className="cliente-nav-links">
-                    <li onClick={() => { setActiveSection("inicio"); setPropiedadSeleccionada(null); }}>
+
+                <button className="hamburger" onClick={() => setMenuAbierto(!menuAbierto)}>
+                    ☰
+                </button>
+
+                <ul className={`cliente-nav-links ${menuAbierto ? "abierto" : ""}`}>
+                    <li onClick={() => { setActiveSection("inicio"); setPropiedadSeleccionada(null); setMenuAbierto(false); }}>
                         <FiHome /> Inicio
                     </li>
-                    <li onClick={() => { setActiveSection("perfil"); setPropiedadSeleccionada(null); }}>
+                    <li onClick={() => { setActiveSection("perfil"); setPropiedadSeleccionada(null); setMenuAbierto(false); }}>
                         <FiUser /> Perfil
                     </li>
-                    <li onClick={() => { setActiveSection("favoritos"); setPropiedadSeleccionada(null); }}>
-                        <FiHeart /> Favoritos
-                    </li>
-                    <li onClick={() => { setActiveSection("mis-citas"); setPropiedadSeleccionada(null); }}>
+                    <li onClick={() => { setActiveSection("mis-citas"); setPropiedadSeleccionada(null); setMenuAbierto(false); }}>
                         📅 Mis Citas
                     </li>
-
+                    <li className="notificaciones-icono" onClick={() => setMostrarNotificaciones(!mostrarNotificaciones)}>
+                        <FiBell />
+                        <span style={{ marginRight: "0.4rem" }}>Notificaciones</span>
+                        {notificaciones.length > 0 && <span className="badge">{notificaciones.length}</span>}
+                    </li>
+                    <li onClick={() => { setActiveSection("intereses"); setMenuAbierto(false); }}>
+                        ❤️ Intereses
+                    </li>
                     <li onClick={handleLogout} className="logout">
                         <FiLogOut /> Cerrar Sesión
                     </li>
                 </ul>
             </nav>
+
+
+            {mostrarNotificaciones && (
+                <div className="modal-notificaciones-overlay">
+                    <div className="modal-notificaciones">
+                        <h3>📢 Notificaciones</h3>
+                        <button className="cerrar-modal" onClick={() => setMostrarNotificaciones(false)}>✖</button>
+                        {notificaciones.length === 0 ? (
+                            <p>No hay nuevos mensajes</p>
+                        ) : (
+                            <ul>
+                                {notificaciones.map((notif) => (
+                                    <li key={notif._id} style={{ marginBottom: "1rem" }}>
+                                        <span>{notif.mensaje}</span>
+                                        <button
+                                            onClick={async () => {
+                                                await marcarNotificacionComoLeida(notif._id);
+                                                // Elimina del estado local directamente (suficiente)
+                                                setNotificaciones(prev => prev.filter(n => n._id !== notif._id));
+                                            }}
+                                            style={{ marginLeft: "1rem", padding: "2px 6px" }}
+                                        >
+                                            Marcar como leída
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+            )}
+
+
 
             <main className="cliente-main">
                 {activeSection === "inicio" && !propiedadSeleccionada && (
@@ -211,6 +325,21 @@ const ClienteDashboard = () => {
                         }}
                     />
                 )}
+                {activeSection === "simulador" && propiedadSeleccionada && (
+                    <SimuladorFinanciamiento
+                        propiedadId={propiedadSeleccionada}
+                        setActiveSection={setActiveSection}
+                    />
+                )}
+                {activeSection === "intereses" && (
+                    <MisIntereses
+                        setActiveSection={setActiveSection}
+                        setPropiedadSeleccionada={setPropiedadSeleccionada}
+                    />
+                )}
+
+
+
 
             </main>
 

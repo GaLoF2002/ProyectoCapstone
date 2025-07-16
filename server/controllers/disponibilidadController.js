@@ -6,9 +6,14 @@ import Cita from '../models/Cita.js';
 export const crearDisponibilidad = async (req, res) => {
     try {
         const { diaSemana, horaInicio, horaFin } = req.body;
-        const vendedor = req.user._id; // Asumiendo que el vendedor ya está autenticado
+        const rol = req.user.role;
 
-        // Verificar si ya existe una disponibilidad para ese día y vendedor
+        if (rol !== "vendedor" && rol !== "admin") {
+            return res.status(403).json({ msg: "Solo vendedores o administradores pueden registrar disponibilidad" });
+        }
+
+        const vendedor = req.user._id; // puede ser admin también
+
         const existe = await Disponibilidad.findOne({ vendedor, diaSemana });
         if (existe) {
             return res.status(400).json({ msg: 'Ya tienes registrada disponibilidad para ese día' });
@@ -35,9 +40,3 @@ export const obtenerDisponibilidadPorVendedor = async (req, res) => {
     }
 };
 
-// Funcionalidad que podría usarse en citaController: validar cruce de citas
-export const validarDisponibilidad = async (vendedorId, fecha, hora) => {
-    // Buscar citas existentes para ese vendedor en esa fecha y hora
-    const citaExistente = await Cita.findOne({ vendedor: vendedorId, fecha, hora, estado: { $ne: "cancelada" } });
-    return !citaExistente; // true si está disponible
-};

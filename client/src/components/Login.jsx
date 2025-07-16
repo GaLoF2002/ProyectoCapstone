@@ -12,17 +12,25 @@ const Login = () => {
     const { user, logout, login: loginUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const [notification, setNotification] = useState(null); // Estado para la notificación
+    const [notification, setNotification] = useState(null);
+
+    // const [aceptaPoliticas, setAceptaPoliticas] = useState(false); // 🔒 Comentado: ya no se usa
 
     const showNotification = (message, isError = true) => {
         setNotification({ message, isError, visible: true });
         setTimeout(() => {
             setNotification(prev => ({ ...prev, visible: false }));
-        }, 3000); // La notificación desaparece después de 3 segundos
+        }, 3000);
     };
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        // if (!aceptaPoliticas) {
+        //     showNotification("Debes aceptar las políticas y condiciones para continuar.");
+        //     return;
+        // }
+
         try {
             const response = await login({ email, password });
             const propiedadPendiente = localStorage.getItem("propiedadPendiente");
@@ -74,6 +82,19 @@ const Login = () => {
                                         required
                                     />
                                 </div>
+
+                                {/* 🔒 Comentado: Sección de políticas deshabilitada
+                                <div className="input-container">
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={aceptaPoliticas}
+                                            onChange={() => setAceptaPoliticas(!aceptaPoliticas)}
+                                        />
+                                        Acepto las <a href="/politicas" target="_blank">políticas y condiciones</a>
+                                    </label>
+                                </div> */}
+
                                 <button type="submit">Ingresar</button>
                             </form>
                             <p className="forgot-password" onClick={() => navigate("/forgot-password")}>

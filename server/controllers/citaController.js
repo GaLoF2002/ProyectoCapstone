@@ -2,6 +2,7 @@
 import Cita from "../models/Cita.js";
 import DisponibilidadVendedor from "../models/DisponibilidadVendedor.js";
 import Propiedad from "../models/Propiedad.js";
+import Notificacion from "../models/Notificacion.js";
 
 // Utilidad: Verifica si hay conflicto con disponibilidad y otras citas
 const esHoraDisponible = async (vendedorId, fecha, hora) => {
@@ -16,7 +17,6 @@ const esHoraDisponible = async (vendedorId, fecha, hora) => {
     }
     console.log("🔍 Día buscado:", diaSemana);
     console.log("📊 Comparando:", { hora, horaInicio: disponibilidad.horaInicio, horaFin: disponibilidad.horaFin });
-
 
     // 🔁 Convertimos las horas a minutos
     console.log(disponibilidad)
@@ -72,6 +72,11 @@ export const crearCita = async (req, res) => {
         });
 
         await nuevaCita.save();
+        await Notificacion.create({
+            usuario: vendedorId,
+            mensaje: `Has recibido una nueva solicitud de cita para tu propiedad "${propiedadInfo.titulo}".`,
+            tipo: "cita"
+        });
         res.status(201).json({ msg: "Cita creada correctamente", cita: nuevaCita });
     } catch (error) {
         console.error("Error al crear cita:", error);
@@ -84,12 +89,61 @@ export const crearCita = async (req, res) => {
 export const obtenerMisCitas = async (req, res) => {
     try {
         const rol = req.user.role;
-        const query = rol === "vendedor" ? { vendedor: req.user._id } : { cliente: req.user._id };
+        const userId = req.user._id;
+        const query = (rol === "vendedor" || rol === "admin")
+            ? { vendedor: userId }
+            : { cliente: userId };
 
-        const citas = await Cita.find(query)
-            .populate("propiedad", "titulo")  // Solo trae el título de la propiedad
-            .populate("cliente", "name")      // Solo trae el nombre del cliente
-            .populate("vendedor", "name");    // Trae nombre del vendedor si quieres mostrar
+        const hoy = new Date();
+        hoy.setUTCHours(0, 0, 0, 0);
+
+        const manana = new Date(hoy);
+        manana.setUTCDate(hoy.getUTCDate() + 1);
+
+        const citas = await Cita.find({
+            ...query,
+            fecha: { $gte: hoy }
+        })
+            .populate("propiedad", "titulo")
+            .populate("cliente", "name")
+            .populate("vendedor", "name");
+
+        const hoyStr = hoy.toISOString().split("T")[0];
+        const mananaStr = manana.toISOString().split("T")[0];
+
+        for (const cita of citas) {
+            if (cita.estado === "cancelada") continue;
+
+            const ahora = new Date();
+            const citaFechaHora = new Date(`${cita.fecha.toISOString().split("T")[0]}T${cita.hora}`);
+
+            if (citaFechaHora < ahora) continue;
+
+            const fechaStr = cita.fecha.toISOString().split("T")[0];
+            let tipoMensaje = null;
+
+            if (fechaStr === hoyStr) tipoMensaje = "Hoy tienes una cita";
+            else if (fechaStr === mananaStr) tipoMensaje = "Mañana tienes una cita";
+
+            if (tipoMensaje) {
+                const mensajeExacto = `${tipoMensaje} con hora ${cita.hora} en la propiedad "${cita.propiedad.titulo}".`;
+
+                const yaExiste = await Notificacion.findOne({
+                    usuario: userId,
+                    mensaje: mensajeExacto,
+                    tipo: "recordatorio",
+                    leida: false
+                });
+
+                if (!yaExiste) {
+                    await Notificacion.create({
+                        usuario: userId,
+                        mensaje: mensajeExacto,
+                        tipo: "recordatorio"
+                    });
+                }
+            }
+        }
 
         res.json(citas);
     } catch (error) {
@@ -106,10 +160,16 @@ export const cambiarEstadoCita = async (req, res) => {
         const { estado } = req.body;
 
         const cita = await Cita.findById(id);
+        cita.estado = estado;
         if (!cita) return res.status(404).json({ msg: "Cita no encontrada" });
 
         cita.estado = estado;
         await cita.save();
+        await Notificacion.create({
+            usuario: cita.cliente,
+            mensaje: `Tu cita fue ${estado}.`,
+            tipo: "cita"
+        });
 
         res.json({ msg: `Cita ${estado} correctamente`, cita });
     } catch (error) {
@@ -162,4 +222,3 @@ export const reagendarCita = async (req, res) => {
         res.status(500).json({ error: "Error al reagendar cita" });
     }
 };
-
