@@ -229,3 +229,18 @@
     color: black;
     text-align: center;
 }
+.vendedor-hamburger-menu {
+    display: none; /* Hidden by default for desktop */
+    position: absolute; /* Position it outside the sidebar */
+    top: 15px; /* Adjust as needed */
+    left: 15px; /* Adjust as needed */
+    background: #5a67d8; /* Example color, adjust to your preference */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001; /* Ensure it's above other content */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}

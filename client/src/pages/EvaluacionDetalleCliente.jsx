@@ -37,8 +37,6 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
         ahorroCalculado,
         nivelPotencial,
         explicacionFinal,
-        cuotaAnual,
-        ingresoAnual,
         montoFinanciar,
         valorPropiedad,
         entrada30
@@ -94,7 +92,6 @@ const EvaluacionDetalleCliente = ({ evaluacionId }) => {
                                 <tr><td><strong>Ingresos:</strong></td><td>${ingresoTotal}</td></tr>
                                 <tr><td><strong>Egresos:</strong></td><td>${egresosTotales}</td></tr>
                                 <tr><td><strong>Ahorro mensual:</strong></td><td>${ahorroCalculado}</td></tr>
-                                <tr><td><strong>Ingreso anual:</strong></td><td>${ingresoAnual?.toFixed(2)}</td></tr>
                                 <tr><td><strong>Buró:</strong></td><td>{evaluacion.buro}</td></tr>
                                 </tbody>
                             </table>

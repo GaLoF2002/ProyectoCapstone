@@ -8,9 +8,13 @@ import ResumenMensualAdmin from "../pages/ResumenMensualAdmin.jsx";
 import AgendamientoVendedor from "../pages/AgendamientoVendedor.jsx";
 import GestionarCitasVendedor from "../pages/GestionarCitasVendedor.jsx";
 import VistaPublicaPropiedad from "../pages/VistaPublicaPropiedad";
+import CitasPendientesVendedor from "./CitasPendientesVendedor.jsx";
+
 
 import "./AdminDashboard.css";// Asegúrate que esta ruta sea correcta
 import "./VendedorDashboard.css";
+import AdminCompradoresPage from "./AdminCompradoresPage.jsx";
+import IndicadoresPage from "./IndicadoresPage.jsx";
 // Componente para la sección de Inicio del Dashboard
 const HomeSection = ({ onNavigate }) => {
     return (
@@ -41,15 +45,6 @@ const HomeSection = ({ onNavigate }) => {
                     <p>Resumen Citas</p>
                 </div>
 
-
-
-                {/* Puedes añadir más accesos directos aquí si tienes más secciones */}
-                {/*
-                <div className="shortcut-item" onClick={() => onNavigate('Reportes')}>
-                    <span className="icon-reports">📊</span>
-                    <p>Reportes</p>
-                </div>
-                */}
             </div>
         </div>
     );
@@ -62,6 +57,7 @@ const AdminDashboard = () => {
     const [search, setSearch] = useState("");
     const [sortOrder, setSortOrder] = useState("asc");
     const [newSeller, setNewSeller] = useState({
+
         name: "", email: "", phone: "", password: "",
         codigoVendedor: "", inmobiliaria: "", genero: ""
     });
@@ -166,6 +162,12 @@ const AdminDashboard = () => {
                     <li><button onClick={() => setActiveSection("sellers")}>📋 Vendedores</button></li>
                     <li><button onClick={() => setActiveSection("propiedades")}>🏘️ Propiedades</button></li>
                     <li><button onClick={() => setActiveSection("resumen-citas")}>📊 Resumen Citas</button></li>
+                    <li>
+                        <button onClick={() => setActiveSection("ver-compradores")}>🧾 Ver Compradores</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setActiveSection("reportes")}>📈 Ver Reportes</button>
+                    </li>
 
                     <li><button onClick={() => setActiveSection("agendamiento")}>📅 Agendamiento</button></li>
 
@@ -297,6 +299,20 @@ const AdminDashboard = () => {
                 {activeSection === "agendamiento" && (
                     <div className="admin-agendamiento-section">
                         <AgendamientoVendedor />
+                    </div>
+                )}
+                {activeSection === "ver-compradores" && (
+                    <div className="vendedor-compradores-section">
+                        <AdminCompradoresPage
+                            setActiveSection={setActiveSection}
+                            setPropiedadSeleccionada={setPropiedadSeleccionada}
+                        />
+
+                    </div>
+                )}
+                {activeSection === "reportes" && (
+                    <div className="vendedor-reportes-section">
+                        <IndicadoresPage />
                     </div>
                 )}
 
