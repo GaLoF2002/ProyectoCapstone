@@ -1,34 +1,34 @@
-# === Node ===
+# Node
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# === Environments ===
+# Envs
 .env
 .env.*
 server/.env
 client/.env
 
-# === Builds ===
+# Builds
 dist/
 build/
 .out/
 .vite/
 .next/
 
-# === Uploads / Archivos locales ===
+# Uploads/local
 uploads/
 tmp/
 cache/
 
-# === System / IDE ===
-.DS_Store
-Thumbs.db
+# IDE/Sistema
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
 
-# === Yarn ===
+# Yarn
 .yarn/*
 .yarn/cache
 .yarn/unplugged
