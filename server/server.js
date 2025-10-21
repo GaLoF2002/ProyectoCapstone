@@ -18,12 +18,13 @@ import notificacionesRoutes from './routes/notificacionesRoutes.js';
 import estadisticasCitasRoutes from './routes/estadisticasCitasRoutes.js';
 import interesRoutes from "./routes/interesRoutes.js";
 
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
 
-dotenv.config();
+
 connectDB();
 
 
@@ -52,7 +53,10 @@ createAdminUser();
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -70,6 +74,8 @@ app.use("/api/indicadores", indicadoresRoutes);
 app.use('/api/notificaciones', notificacionesRoutes);
 app.use('/api/estadisticas-citas', estadisticasCitasRoutes);
 app.use("/api/interes", interesRoutes);
+app.get('/ping', (req, res) => res.send('Servidor activo y Cloudinary configurado 🔥'));
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
