@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { getPropiedadPorId } from "../services/propiedadService";
 import "./VistaPublicaPropiedad.css";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 const VistaPublicaPropiedad = ({ propiedadId, volverA, setActiveSection }) => {
     const [propiedad, setPropiedad] = useState(null);
+
 
     useEffect(() => {
         if (!propiedadId) return;
@@ -26,14 +27,14 @@ const VistaPublicaPropiedad = ({ propiedadId, volverA, setActiveSection }) => {
         <div className="detalle-prop-container">
             <h2 className="titulo-propiedad">{propiedad.titulo}</h2>
 
-            {propiedad.imagenes && propiedad.imagenes.length > 0 && (
+            {propiedad.imagenes?.length > 0 && (
                 <div className="galeria-imagenes">
-                    {propiedad.imagenes.map((img, i) => (
-                        <img key={i} src={`http://localhost:5000/${img}`} alt="Propiedad" />
-                    ))}
+                    {propiedad.imagenes.map((img, i) => {
+                        const src = img?.startsWith('http') ? img : `${API_URL}/${img}`;
+                        return <img key={i} src={src} alt={`Propiedad ${i+1}`} />;
+                    })}
                 </div>
             )}
-
             <div className="info-propiedad">
                 <div className="columna">
                     <p><strong>Descripción:</strong> {propiedad.descripcion}</p>

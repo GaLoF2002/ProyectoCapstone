@@ -15,6 +15,7 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection,volverA }) => {
     const visitaRegistrada = useRef(false);
     const tiempoInicio = useRef(null);
     const [yaInteresado, setYaInteresado] = useState(false);
+    const API_URL = import.meta.env.VITE_API_URL; // ej: https://tu-app.herokuapp.com
 
 
     useEffect(() => {
@@ -72,13 +73,15 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection,volverA }) => {
                 <>
                     <h2 className="titulo-propiedad">{propiedad.titulo}</h2>
 
-                    {propiedad.imagenes && propiedad.imagenes.length > 0 && (
-                        <div className="galeria-imagenes-propiedad">
-                            {propiedad.imagenes.map((img, i) => (
-                                <img key={i} src={`http://localhost:5000/${img}`} alt="Propiedad" />
-                            ))}
+                    {propiedad.imagenes?.length > 0 && (
+                        <div className="galeria-imagenes">
+                            {propiedad.imagenes.map((img, i) => {
+                                const src = img?.startsWith('http') ? img : `${API_URL}/${img}`;
+                                return <img key={i} src={src} alt={`Propiedad ${i+1}`} />;
+                            })}
                         </div>
                     )}
+
 
                     <div className="info-propiedad">
                         <div className="columna">

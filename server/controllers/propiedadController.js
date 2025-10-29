@@ -24,6 +24,8 @@ export const crearPropiedad = async (req, res) => {
         console.error("Error al crear propiedad:", error);
         res.status(500).json({ error: 'Error al crear propiedad' });
     }
+    console.log('FILES ==> ', req.files);
+    console.log('BODY  ==> ', req.body);
 };
 
 export const obtenerPropiedades = async (req, res) => {
