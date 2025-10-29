@@ -119,7 +119,7 @@ const PropiedadIndividual = ({ propiedadId, setActiveSection,volverA }) => {
                                 className="btn-simular"
                                 onClick={() => setActiveSection("simulador")}
                             >
-                                💰 Simular tu compra
+                                💰 Simular tu compra:
                             </button>
                             <button
                                 className="btn-me-interesa"
