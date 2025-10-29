@@ -18,7 +18,7 @@ const Home = () => {
         metrosMin: "",
         metrosMax: "",
         habitaciones: "",
-        parqueaderos: "",
+        parqueaderos: " " ,
         tipo: ""
     });
 
